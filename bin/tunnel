@@ -1,0 +1,48 @@
+#! /usr/bin/env bash
+# This script must be sourced
+#
+# Set up the environment to deploy to a Riff AWS docker swarm
+# Takes 1 argument, the swarm environment name (staging, beta, etc)
+#   defaults to 'staging'
+# After this script is sourced: the python environment is activated,
+# a tunnel to an aws docker manager is created and the DOCKER_HOST points at it,
+# other production deployment environment variables are set.
+
+# Test this is being run from the root of the edu-docker repo working dir
+if [[ -e Makefile && -e bin/cloudformation.py && bin/build-vars ]]; then
+
+    if [[ "$1" == "staging" || "$1" == "betaA" || "$1" == "betaB" ]]; then
+        echo "Setting up environment to deploy to the AWS \"$1\" swarm"
+        export DEPLOY_SWARM=$1
+    else
+        echo "No swarm specified. Using 'staging'"
+        export DEPLOY_SWARM=staging
+    fi
+
+    source bin/build-vars
+    source activate
+    bin/cloudformation.py tunnel ${DEPLOY_SWARM}swarm
+    export DOCKER_HOST=localhost:2374
+
+    echo Updating docker base images and images used directly:
+    DOCKER_BASE_IMAGES=(ubuntu mysql:5.7 mongo nginx node:10 mhart/alpine-node:10)
+    echo ${DOCKER_BASE_IMAGES[@]}
+    echo ${DOCKER_BASE_IMAGES[@]} | xargs -n 1 docker pull
+
+    docker images
+    make show-env
+
+    echo
+    echo 'Run the following if the env settings are good'
+    echo '(or edit bin/build-vars and source it first):'
+    echo '  make clean build-prod'
+    echo '  make push-prod'
+    echo '  make deploy-stack'
+    echo
+
+else
+    echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
+    echo "Change to the edu-docker working directory and run:"
+    echo "  . bin/tunnel"
+    echo
+fi
