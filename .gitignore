@@ -5,6 +5,7 @@
 ########################################################
 .env
 config/local*
+edu-web/ssl/
 
 # created distribution files (e.g. compiled typescript) #
 #########################################################
