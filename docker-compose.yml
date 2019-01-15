@@ -1,0 +1,102 @@
+---
+# Base configuration for the services that are required to run the riffedu mattermost app
+# - the image names are set for deploying to a registry service running on a local swarm
+# - the defaults in this file are set for doing development
+#   - uses dev Dockerfile for riff-server & signalmaster from local working directories
+#     use these env vars to override local directory locations:
+#     - RIFF_SERVER_PATH
+#     - SIGNALMASTER_PATH
+#     - MM_SERVER_PATH
+#     - MM_WEBAPP_PATH
+#   - binds local working directories of riff-server & signalmaster
+#   - tags edu-mm, edu-riffdata, edu-signalmaster images w/ "dev"
+#     use these env vars to override:
+#     - EDU_MM_TAG
+#     - RIFF_SERVER_TAG
+#     - SIGNALMASTER_TAG
+version: '3.6'
+services:
+  edu-mm:
+    image: '127.0.0.1:5000/rifflearning/edu-mm:${EDU_MM_TAG-dev}'
+    build:
+      context: edu-mm
+      dockerfile: Dockerfile-dev
+      args:
+        UBUNTU_VER: latest
+        NODE_VER: 10
+        GOLANG_VER: 1.11.5
+        MM_SERVER_REF: develop
+        MM_WEBAPP_REF: develop
+    depends_on:
+      - edu-mm-db
+
+  edu-riffdata:
+    image: '127.0.0.1:5000/rifflearning/edu-riffdata:${RIFF_SERVER_TAG-dev}'
+    build:
+      context: ${RIFF_SERVER_PATH-../riff-server}/docker
+      dockerfile: Dockerfile-dev
+      args:
+        NODE_VER: 10
+        PORT: 3000
+        AUTH_ON: 'true'
+        AUTH_TOKEN_EXPIRESIN: 1000d
+        AUTH_TOKEN_SECRET: my-secret
+        CRYPTO_KEY: "'your-key-here'"
+        DEFAULT_USER_EMAIL: default-user-email
+        DEFAULT_USER_PASSWORD: default-user-password
+        MONGODB_URI: mongodb://edu-riffdata-db/riff-test
+        MONGO_CERT: some-fake-cert
+        REPORT_EMAIL_FROM: "'MM Reports' <email@address.com>"
+        REPORT_EMAIL_HOST: "smtp server here"
+        REPORT_EMAIL_LOGIN: email@address.com
+        REPORT_EMAIL_PASSWORD: emailpassword
+        REPORT_EMAIL_SUBJECT: "Your Group Discussion Report"
+        REPORT_EMAIL_TEXT: "See attached for a visual report of your recent group discussion!"
+        SEND_REPORT: 'false'
+        END_MEETING_AFTER_MINUTES: 10
+    depends_on:
+      - edu-riffdata-db
+
+  edu-web:
+    image: '127.0.0.1:5000/rifflearning/edu-web:latest'
+    build:
+      context:  edu-web
+      dockerfile: Dockerfile
+      args:
+        NGINX_VER: latest
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - edu-mm
+      - edu-riffdata
+      - edu-signalmaster
+
+  edu-signalmaster:
+    image: '127.0.0.1:5000/rifflearning/edu-signalmaster:${SIGNALMASTER_TAG-dev}'
+    build:
+      context: ${SIGNALMASTER_PATH-../signalmaster}/docker
+      dockerfile: Dockerfile-dev
+
+  edu-riffdata-db:
+    image: mongo:${MONGO_VER-latest}
+    volumes:
+      - edu-riffdata-db-data:/data/db
+      - edu-riffdata-db-configdb:/data/configdb
+
+  edu-mm-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: mostest
+      MYSQL_USER: mmuser
+      MYSQL_PASSWORD: mostest
+      MYSQL_DATABASE: mattermost_test
+    expose:
+      - 3306
+    volumes:
+      - edu-mm-db-data:/var/lib/mysql
+
+volumes:
+  edu-riffdata-db-data:
+  edu-riffdata-db-configdb:
+  edu-mm-db-data:

@@ -1,0 +1,37 @@
+---
+# override/additions to docker-compose.yml for production
+# - the image names are set for deploying to a registry service running
+#   on a local swarm (or tunneled into a swarm manager in the cloud)
+# - the defaults in this file should be overridden to more strictly define
+#   what is built and deployed, but are reasonable values.
+#   - uses prod Dockerfile for riff-server & signalmaster from a ref in the github repo
+#     use these env vars to override the git ref (ie use a specific version
+#     instead of master):
+#     - RIFF_SERVER_REF
+#     - SIGNALMASTER_REF
+#   - riff-server has all files needed copied to the image
+#   - mongodb data is stored on a named volume
+#   - tags edu-mm, edu-riffdata & edu-signalmaster images w/ "latest"
+#     use these env vars to override:
+#     - EDU_MM_TAG
+#     - RIFF_SERVER_TAG
+#     - SIGNALMASTER_TAG
+version: '3.6'
+services:
+  edu-mm:
+    image: '127.0.0.1:5000/rifflearning/edu-mm:${EDU_MM_TAG-latest}'
+    build:
+      context: edu-mm
+      dockerfile: Dockerfile
+
+  edu-riffdata:
+    image: '127.0.0.1:5000/rifflearning/edu-riffdata:${RIFF_SERVER_TAG-latest}'
+    build:
+      context: https://github.com/rifflearning/riff-server.git#${RIFF_SERVER_REF-master}
+      dockerfile: Dockerfile
+
+  edu-signalmaster:
+    image: '127.0.0.1:5000/rifflearning/signalmaster:${SIGNALMASTER_TAG-latest}'
+    build:
+      context: https://github.com/rifflearning/signalmaster.git#${SIGNALMASTER_REF-master}
+      dockerfile: Dockerfile

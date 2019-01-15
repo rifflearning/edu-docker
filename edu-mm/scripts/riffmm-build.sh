@@ -9,7 +9,7 @@ generate_salt() {
   tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 48 | head -n 1
 }
 
-DB_DOMAIN=${DB_DOMAIN:-mm-mysql}
+DB_DOMAIN=${DB_DOMAIN:-edu-mm-db}
 DB_PORT=${DB_PORT:-3306}
 
 MM_USER="${MM_USER:-mmuser}"
