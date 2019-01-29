@@ -57,12 +57,18 @@ cp -RL i18n ${DIST_PATH}
 # NOTE: these are development settings, we probably want to change them for
 # production. IE for production set:
 #   SiteURL = ???
+#   AllowCorsFrom = ???
 #   ListenAddress = :8000
 #   EnableConsole = false
 #   ConsoleLevel = INFO
 #   ...other stuff? maybe use a different DB (postgres)?
 MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://dev.riffedu.com"'          \
                '|' '.ServiceSettings.ListenAddress |= ":8065"'                      \
+               '|' '.ServiceSettings.AllowCorsFrom |= "*"'                          \
+               '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
+               '|' '.TeamSettings.MaxUsersPerTeam |= 50'                            \
+               '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
+               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["course-support", "coding-help", "random"]' \
                '|' '.LogSettings.EnableConsole |= true'                             \
                '|' '.LogSettings.ConsoleLevel |= "DEBUG"'                           \
                '|' '.FileSettings.Directory |= "'"${DIST_ROOT}/data/"'"'            \
