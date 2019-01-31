@@ -8,12 +8,12 @@
 # Specify the github rifflearning/mattermost-server and mattermost-webapp git
 # commit references and the image tag for the docker image built w/ those commits
 export EDU_MM_TAG=1.0.0-dev.1
-export MM_WEBAPP_REF=1.0.0-dev.4
-export MM_SERVER_REF=1.0.0-dev.1
+export MM_WEBAPP_REF=1.0.0-dev.9
+export MM_SERVER_REF=1.0.0-dev.4
 
 # Specify the github rifflearning/riff-server git commit reference for the
 # production riff-server docker image
-export RIFF_SERVER_REF=0.4.0-dev.8
+export RIFF_SERVER_REF=0.4.0-dev.9
 export RIFF_SERVER_TAG=$RIFF_SERVER_REF
 
 # Specify the github rifflearning/signalmaster git commit reference for the
