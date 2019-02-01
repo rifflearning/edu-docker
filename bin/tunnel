@@ -11,7 +11,7 @@
 # Test this is being run from the root of the edu-docker repo working dir
 if [[ -e Makefile && -e bin/cloudformation.py && bin/build-vars ]]; then
 
-    if [[ "$1" == "staging" || "$1" == "betaA" || "$1" == "betaB" ]]; then
+    if [[ "$1" == "staging" || "$1" == "betaA" || "$1" == "betaB" || "$1" == "dev" ]]; then
         echo "Setting up environment to deploy to the AWS \"$1\" swarm"
         export DEPLOY_SWARM=$1
     else
@@ -21,7 +21,7 @@ if [[ -e Makefile && -e bin/cloudformation.py && bin/build-vars ]]; then
 
     source bin/build-vars
     source activate
-    bin/cloudformation.py tunnel ${DEPLOY_SWARM}swarm
+    bin/cloudformation.py tunnel ${DEPLOY_SWARM}Eswarm
     export DOCKER_HOST=localhost:2374
 
     echo Updating docker base images and images used directly:

@@ -147,7 +147,7 @@ push-prod :
 deploy-stack :
 # require that the DEPLOY_SWARM be explicitly defined.
 	$(call ndef,DEPLOY_SWARM)
-	docker stack deploy $(STACK_CONF_DEPLOY) -c docker-stack.$(DEPLOY_SWARM).yml riff-stack
+	docker stack deploy $(STACK_CONF_DEPLOY) -c docker-stack.$(DEPLOY_SWARM).yml edu-stack
 
 pull-images :
 	echo $(BASE_IMAGES) | xargs -n 1 docker pull

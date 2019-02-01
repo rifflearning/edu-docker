@@ -1,0 +1,30 @@
+---
+# support stack (private registry and visualizer services)
+# $ docker stack deploy -c docker-stack.support.yml support-stack
+version: '3.6'
+services:
+  # The visualizer service is only needed when running in a swarm stack
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  # The registry service is only needed when running in a swarm stack
+  registry:
+    image: registry:2
+    ports:
+      - "5000:5000"
+    volumes:
+      - "registry-data:/var/lib/registry"
+    deploy:
+      placement:
+        constraints: [node.labels.registry == true]
+
+volumes:
+  registry-data:

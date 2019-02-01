@@ -1,0 +1,84 @@
+---
+# override/additions to docker-compose.yml for deploying to a docker swarm
+# $ docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml -c docker-stack.yml STACK_NAME
+# better to use make deploy-stack
+# labels used by constraints:
+# - mmapp
+# - mmdb
+# - riffapi
+# - web
+# Labeling suggestion w/ 2 nodes in swarm:
+#   node 1: mmapp web
+#   node 2: mmdb riffapi web
+version: '3.6'
+services:
+  edu-mm:
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.labels.mmapp == true]
+
+  edu-riffdata:
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.labels.riffapi == true]
+
+  edu-web:
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.labels.web == true]
+
+  edu-signalmaster:
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    configs:
+      - source: signalmaster.local-production.yml.1
+        target: /app/config/local-production.yml
+
+  edu-riffdata-db:
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.labels.riffapi == true]
+
+  edu-mm-db:
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.labels.mmdb == true]
+
+configs:
+  signalmaster.local-production.yml.1:
+    external: true
