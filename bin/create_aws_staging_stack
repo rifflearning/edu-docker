@@ -7,6 +7,13 @@
 # Test this is likely being run from the root of the edu-docker repo working dir
 if [[ -e Makefile && -e bin/cloudformation.py && -e bin/build-vars ]]; then
 
+    if [[ ! -e activate ]]; then
+        echo "The activate script must exist in the CWD, is the python3 virtual environment"
+        echo "configured (docs/python-setup.md)?"
+        echo
+        return
+    fi
+
     source activate
 
     # Sadly t3 instances are not supported by the docker for aws cloudformation template at this time (2019-01-28)
@@ -25,6 +32,7 @@ if [[ -e Makefile && -e bin/cloudformation.py && -e bin/build-vars ]]; then
     echo
     echo bin/cloudformation.py create-docker-stack -s $WKR_NODE_INSTANCE_CNT -i $WKR_NODE_INSTANCE_TYPE -m $MGR_NODE_INSTANCE_CNT -I $MGR_NODE_INSTANCE_TYPE $DOCKER_STACK_NAME $AWS_KEYPAIR
     bin/cloudformation.py create-docker-stack -s $WKR_NODE_INSTANCE_CNT -i $WKR_NODE_INSTANCE_TYPE -m $MGR_NODE_INSTANCE_CNT -I $MGR_NODE_INSTANCE_TYPE $DOCKER_STACK_NAME $AWS_KEYPAIR
+    date
 
     echo
     echo You can monitor the creation status of your swarm using:
