@@ -23,6 +23,11 @@ services:
     build:
       context: edu-mm
       dockerfile: Dockerfile
+    environment:
+      SIGNALMASTER_URL: /
+      SIGNALMASTER_PATH: /api/signalmaster
+      RIFF_SERVER_URL: /
+      RIFF_SERVER_PATH: /api/videodata
     volumes:
       - edu-mm-data:/home/mmuser/riffedu/data
       - edu-mm-logs:/home/mmuser/riffedu/logs
