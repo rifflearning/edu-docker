@@ -65,6 +65,7 @@ cp -RL i18n ${DIST_PATH}
 MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://dev.riffedu.com"'          \
                '|' '.ServiceSettings.ListenAddress |= ":8065"'                      \
                '|' '.ServiceSettings.AllowCorsFrom |= "*"'                          \
+               '|' '.ServiceSettings.EnableTutorial |= false'                       \
                '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
                '|' '.TeamSettings.MaxUsersPerTeam |= 50'                            \
                '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
