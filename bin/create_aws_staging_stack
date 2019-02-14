@@ -12,7 +12,7 @@ if [[ -e Makefile && -e bin/cloudformation.py && -e bin/build-vars ]]; then
     # Sadly t3 instances are not supported by the docker for aws cloudformation template at this time (2019-01-28)
     export DEPLOY_SWARM=staging
     # Swarm stack name suffix is 'E' for Edu, and 'swarm'
-    DOCKER_STACK_NAME=${DEPLOY_SWARM}Eswarm
+    DOCKER_STACK_NAME=${DEPLOY_SWARM}-Eswarm
     MGR_NODE_INSTANCE_TYPE=t2.small
     MGR_NODE_INSTANCE_CNT=1
     WKR_NODE_INSTANCE_TYPE=t2.small
