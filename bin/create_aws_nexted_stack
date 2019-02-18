@@ -7,16 +7,16 @@
 if [[ ! -e bin/internal/create_aws_stack_w_args ]]; then
     echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
     echo "Change to the edu-docker working directory and run:"
-    echo "  . bin/create_aws_staging_stack"
+    echo "  . bin/create_aws_nexted_stack"
     echo
     return
 fi
 
 # Sadly t3 instances are not supported by the docker for aws cloudformation template at this time (2019-01-28)
-export DEPLOY_SWARM=staging
-MGR_NODE_INSTANCE_TYPE=t2.small
+export DEPLOY_SWARM=nexted
+MGR_NODE_INSTANCE_TYPE=t2.medium
 MGR_NODE_INSTANCE_CNT=1
-WKR_NODE_INSTANCE_TYPE=t2.small
+WKR_NODE_INSTANCE_TYPE=t2.micro
 WKR_NODE_INSTANCE_CNT=1
 AWS_KEYPAIR=riffswarm_useast2_key
 
