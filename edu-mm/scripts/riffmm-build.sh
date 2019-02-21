@@ -62,9 +62,17 @@ cp -RL i18n ${DIST_PATH}
 #   EnableConsole = false
 #   ConsoleLevel = INFO
 #   ...other stuff? maybe use a different DB (postgres)?
-MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://dev.riffedu.com"'          \
+#
+# Email SMTP setting are defined for using AWS SES, but the user/pswd are confidential
+# and must be added to the config after the service is running.
+# The config is in a docker named volume so redeploying WILL NOT update these values
+# unless you decide to delete that volume first, in which case it will be re-initialized
+# with these values but will lose any values set after deployment or via the console.
+MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'       \
                '|' '.ServiceSettings.ListenAddress |= ":8065"'                      \
                '|' '.ServiceSettings.AllowCorsFrom |= "*"'                          \
+               '|' '.ServiceSettings.EnablePreviewFeatures |= false'                \
+               '|' '.ServiceSettings.EnableDeveloper |= false'                      \
                '|' '.ServiceSettings.EnableTutorial |= false'                       \
                '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
                '|' '.TeamSettings.MaxUsersPerTeam |= 50'                            \
@@ -76,16 +84,33 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://dev.riffedu.com"'      
                '|' '.FileSettings.EnablePublicLink |= true'                         \
                '|' '.FileSettings.PublicLinkSalt |= "'$(generate_salt)'"'           \
                '|' '.EmailSettings.SendEmailNotifications |= false'                 \
-               '|' '.EmailSettings.FeedbackEmail |= ""'                             \
-               '|' '.EmailSettings.SMTPServer |= ""'                                \
-               '|' '.EmailSettings.SMTPPort |= ""'                                  \
+               '|' '.EmailSettings.FeedbackEmail |= "support@rifflearning.com"'     \
+               '|' '.EmailSettings.FeedbackOrganization |= "© Riff Learning, Inc., Boston MA"' \
+               '|' '.EmailSettings.SMTPServer |= "email-smtp.us-east-1.amazonaws.com"' \
+               '|' '.EmailSettings.SMTPPort |= "465"'                               \
+               '|' '.EmailSettings.SMTPUsername |= ""'                              \
+               '|' '.EmailSettings.SMTPPassword |= ""'                              \
+               '|' '.EmailSettings.EnableSMTPAuth |= true'                          \
+               '|' '.EmailSettings.ConnectionSecurity |= "TLS"'                     \
+               '|' '.EmailSettings.EnableEmailBatching |= true'                     \
+               '|' '.EmailSettings.EmailBatchingBufferSize |= 256'                  \
+               '|' '.EmailSettings.EmailBatchingInterval |= 30'                     \
+               '|' '.EmailSettings.SkipServerCertificateVerification |= true'       \
+               '|' '.EmailSettings.EmailNotificationContentsType |= "full"'         \
                '|' '.EmailSettings.InviteSalt |= "'$(generate_salt)'"'              \
                '|' '.EmailSettings.PasswordResetSalt |= "'$(generate_salt)'"'       \
+               '|' '.SupportSettings.TermsOfServiceLink |= "https://www.rifflearning.com/terms/"' \
+               '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.rifflearning.com/privacy/"' \
+               '|' '.SupportSettings.SupportEmail |= "support@rifflearning.com"'    \
                '|' '.RateLimitSettings.Enable |= true'                              \
                '|' '.SqlSettings.DriverName |= "mysql"'                             \
                '|' '.SqlSettings.DataSource |= "'"mmuser:mostest@tcp(${DB_DOMAIN}:${DB_PORT})/mattermost_test?charset=utf8mb4,utf8\\u0026readTimeout=30s\\u0026writeTimeout=30s"'"' \
                '|' '.SqlSettings.AtRestEncryptKey |= "'$(generate_salt)'"'          \
-               '|' '.PluginSettings.Directory |= "'"${DIST_ROOT}/plugins/"'"'       \
+               '|' '.PluginSettings.Directory |= "'"${DIST_ROOT}/plugins"'"'        \
+               '|' '.PluginSettings.ClientDirectory |= "'"${DIST_ROOT}/client/plugins"'"' \
+               '|' '.LTISettings.Enable |= true'                                    \
+               '|' '.LTISettings.EnableSignatureValidation |= true'                 \
+               '|' '.LTISettings.LMSs |= []'                                        \
                  )
 
 # Use the dev config (until we figure out something better) as the initial config
