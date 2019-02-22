@@ -84,6 +84,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.FileSettings.EnablePublicLink |= true'                         \
                '|' '.FileSettings.PublicLinkSalt |= "'$(generate_salt)'"'           \
                '|' '.EmailSettings.SendEmailNotifications |= false'                 \
+               '|' '.EmailSettings.FeedbackName |= "Riff Edu Support"'              \
                '|' '.EmailSettings.FeedbackEmail |= "support@rifflearning.com"'     \
                '|' '.EmailSettings.FeedbackOrganization |= "© Riff Learning, Inc., Boston MA"' \
                '|' '.EmailSettings.SMTPServer |= "email-smtp.us-east-1.amazonaws.com"' \
@@ -99,8 +100,8 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.EmailSettings.EmailNotificationContentsType |= "full"'         \
                '|' '.EmailSettings.InviteSalt |= "'$(generate_salt)'"'              \
                '|' '.EmailSettings.PasswordResetSalt |= "'$(generate_salt)'"'       \
-               '|' '.SupportSettings.TermsOfServiceLink |= "https://www.rifflearning.com/terms/"' \
-               '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.rifflearning.com/privacy/"' \
+               '|' '.SupportSettings.TermsOfServiceLink |= "https://www.rifflearning.com/terms-of-service"' \
+               '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.rifflearning.com/privacy-policy"' \
                '|' '.SupportSettings.SupportEmail |= "support@rifflearning.com"'    \
                '|' '.RateLimitSettings.Enable |= true'                              \
                '|' '.SqlSettings.DriverName |= "mysql"'                             \
