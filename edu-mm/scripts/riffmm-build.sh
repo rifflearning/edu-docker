@@ -75,7 +75,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.ServiceSettings.EnableDeveloper |= false'                      \
                '|' '.ServiceSettings.EnableTutorial |= false'                       \
                '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
-               '|' '.TeamSettings.MaxUsersPerTeam |= 50'                            \
+               '|' '.TeamSettings.MaxUsersPerTeam |= 200'                           \
                '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
                '|' '.TeamSettings.ExperimentalDefaultChannels |= ["course-support", "coding-help", "business-help", "off-topic"]' \
                '|' '.LogSettings.EnableConsole |= true'                             \
@@ -86,7 +86,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.EmailSettings.SendEmailNotifications |= false'                 \
                '|' '.EmailSettings.FeedbackName |= "Riff Edu Support"'              \
                '|' '.EmailSettings.FeedbackEmail |= "support@rifflearning.com"'     \
-               '|' '.EmailSettings.FeedbackOrganization |= "© Riff Learning, Inc., Boston MA"' \
+               '|' '.EmailSettings.FeedbackOrganization |= "© Riff Learning, Inc., Newton MA"' \
                '|' '.EmailSettings.SMTPServer |= "email-smtp.us-east-1.amazonaws.com"' \
                '|' '.EmailSettings.SMTPPort |= "465"'                               \
                '|' '.EmailSettings.SMTPUsername |= ""'                              \
