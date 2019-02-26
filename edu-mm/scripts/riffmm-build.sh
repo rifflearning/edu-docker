@@ -77,7 +77,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
                '|' '.TeamSettings.MaxUsersPerTeam |= 50'                            \
                '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
-               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["course-support", "coding-help", "random"]' \
+               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["course-support", "coding-help", "business-help", "off-topic"]' \
                '|' '.LogSettings.EnableConsole |= true'                             \
                '|' '.LogSettings.ConsoleLevel |= "DEBUG"'                           \
                '|' '.FileSettings.Directory |= "'"${DIST_ROOT}/data/"'"'            \
@@ -100,6 +100,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.EmailSettings.EmailNotificationContentsType |= "full"'         \
                '|' '.EmailSettings.InviteSalt |= "'$(generate_salt)'"'              \
                '|' '.EmailSettings.PasswordResetSalt |= "'$(generate_salt)'"'       \
+               '|' '.EmailSettings.EnablePreviewModeBanner |= false'                \
                '|' '.SupportSettings.TermsOfServiceLink |= "https://www.rifflearning.com/terms-of-service"' \
                '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.rifflearning.com/privacy-policy"' \
                '|' '.SupportSettings.SupportEmail |= "support@rifflearning.com"'    \
