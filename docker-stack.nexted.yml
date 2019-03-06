@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the nexted swarm
+version: '3.6'
+services:
+  edu-web:
+    secrets:
+      - source: nexted.riffedu.com.key.1
+        target: site.key
+      - source: nexted.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2019-05-19 (nexted key.1 & crt.1)
+secrets:
+  nexted.riffedu.com.key.1:
+    external: true
+  nexted.riffedu.com.crt.1:
+    external: true
