@@ -1,0 +1,43 @@
+#! /usr/bin/env bash
+# AWS CloudFormation stack variables for RiffEdu
+
+# CloudFormation stack names are the DEPLOY_SWARM name appended with this suffix
+# Swarm stack name suffix is 'E' for Edu, and 'swarm'
+CF_STACK_SUFFIX=-Eswarm
+
+# Valid swarm names (should have an entry for each of these in AWS_REGION and AWS_KEYPAIR below
+SWARM_NAMES=( dev staging nexted )
+
+# AWS_REGION is an associative array of valid swarm names to the AWS region where the swarm is/should be created
+declare -A AWS_REGION
+AWS_REGION=( [dev]=us-east-1
+             [staging]=us-east-1
+             [nexted]=us-east-2
+           )
+
+# AWS_KEYPAIR is an associative array of valid swarm names to the AWS keypair that should be used to ssh to the swarm
+declare -A AWS_KEYPAIR
+AWS_KEYPAIR=( [dev]=riffswarm_1_useast1_key
+              [staging]=riffswarm_1_useast1_key
+              [nexted]=riffswarm_useast2_key
+            )
+
+# If we were given a swarm name as an argument, make sure that all the derived parameters are
+# unset in case it is invalid, but leave them alone if no argument was given.
+if [[ ! -z "$1" ]]
+then
+    unset DEPLOY_SWARM
+    unset AWS_CF_STACK_NAME
+    unset AWS_STACK_REGION
+    unset AWS_STACK_KEYPAIR
+fi
+
+# If we were given a valid swarm name as an argument, use it to populate some useful parameters
+# TODO: Should we export all of these? I'm on the fence which is why I'm not exporting all of them now. -mjl
+if [[ -v AWS_REGION[$1] ]]
+then
+    export DEPLOY_SWARM=$1
+    AWS_CF_STACK_NAME=${DEPLOY_SWARM}${CF_STACK_SUFFIX}
+    AWS_STACK_REGION=${AWS_REGION[$DEPLOY_SWARM]}
+    AWS_STACK_KEYPAIR=${AWS_KEYPAIR[$DEPLOY_SWARM]}
+fi

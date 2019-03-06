@@ -35,6 +35,12 @@ BASE_IMAGES := \
 	nginx:latest \
 	ubuntu:latest
 
+# The pull-support-images target is a helper to update the support docker images used
+# by the support stack services. This is a list of those images.
+SUPPORT_IMAGES := \
+	registry:2 \
+	dockersamples/visualizer:stable
+
 
 # These environment variables are used as build arguments by the docker-compose
 # and docker-stack configuration files.
@@ -214,8 +220,11 @@ dev-swarm-labels :
 
 # The support stack includes the registry which is needed to deploy any locally built images
 # and the visualizer to show what's running on the nodes of the swarm
-deploy-support-stack :
+deploy-support-stack : pull-support-images
 	docker stack deploy -c docker-stack.support.yml support-stack
+
+pull-support-images :
+	echo $(SUPPORT_IMAGES) | xargs -n 1 docker pull
 
 $(SSL_DIR)/certs :
 $(SSL_DIR)/private :
