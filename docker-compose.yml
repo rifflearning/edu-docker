@@ -25,7 +25,7 @@ services:
       args:
         UBUNTU_VER: latest
         NODE_VER: 10
-        GOLANG_VER: 1.11.5
+        GOLANG_VER: 1.12.1
         MM_SERVER_REF: develop
         MM_WEBAPP_REF: develop
     depends_on:
