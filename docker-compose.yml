@@ -20,7 +20,8 @@ services:
     image: '127.0.0.1:5000/rifflearning/edu-mm:${EDU_MM_TAG-dev}'
     build:
       context: edu-mm
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile
+      target: dev
       args:
         UBUNTU_VER: latest
         NODE_VER: 10

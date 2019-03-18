@@ -1,0 +1,19 @@
+---
+# override/additions to docker-compose.yml for development
+# because these setting need to not exist for production they
+# have to be defined here and not in the base docker-compose.yml.
+# which is otherwise mostly set up for creating development containers.
+version: '3.6'
+services:
+  edu-mm:
+    volumes:
+      - ${MM_SERVER_PATH-../mattermost-server}:/home/mmuser/go/src/github.com/mattermost/mattermost-server
+      - ${MM_WEBAPP_PATH-../mattermost-webapp}:/home/mmuser/go/src/github.com/mattermost/mattermost-webapp
+
+  edu-riffdata:
+    volumes:
+      - ${RIFF_SERVER_PATH-../riff-server}:/app
+
+  edu-signalmaster:
+    volumes:
+        - ${SIGNALMASTER_PATH-../signalmaster}:/app

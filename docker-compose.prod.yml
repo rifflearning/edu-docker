@@ -9,9 +9,8 @@
 #     instead of master):
 #     - RIFF_SERVER_REF
 #     - SIGNALMASTER_REF
-#   - riff-server has all files needed copied to the image
-#   - mongodb data is stored on a named volume
-#   - tags edu-mm, edu-riffdata & edu-signalmaster images w/ "latest"
+#   - edu-riffdata (riff-server) has all files needed copied to the image
+#   - tags edu-mm, edu-riffdata & edu-signalmaster images w/ "latest" by default,
 #     use these env vars to override:
 #     - EDU_MM_TAG
 #     - RIFF_SERVER_TAG
@@ -23,11 +22,7 @@ services:
     build:
       context: edu-mm
       dockerfile: Dockerfile
-    environment:
-      SIGNALMASTER_URL: /
-      SIGNALMASTER_PATH: /api/signalmaster
-      RIFF_SERVER_URL: /
-      RIFF_SERVER_PATH: /api/videodata
+      target: prod
     volumes:
       - edu-mm-data:/home/mmuser/riffedu/data
       - edu-mm-logs:/home/mmuser/riffedu/logs
