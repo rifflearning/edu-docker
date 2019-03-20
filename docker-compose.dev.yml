@@ -6,6 +6,8 @@
 version: '3.6'
 services:
   edu-mm:
+    environment:
+      RIFF_LOGLEVEL: debug
     volumes:
       - ${MM_SERVER_PATH-../mattermost-server}:/home/mmuser/go/src/github.com/mattermost/mattermost-server
       - ${MM_WEBAPP_PATH-../mattermost-webapp}:/home/mmuser/go/src/github.com/mattermost/mattermost-webapp
