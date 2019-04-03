@@ -24,6 +24,10 @@ WKR_NODE_INSTANCE_CNT=1
 
 # internal script uses the above bash parameters
 source bin/internal/create_aws_stack_w_args
+RC=$?
+if [[ $RC -ne 0 ]]; then
+    return $RC
+fi
 
 # The cloudformation stack should be created and we should have an open
 # tunnel to it, with DOCKER_HOST exported, and the bash array parameters
