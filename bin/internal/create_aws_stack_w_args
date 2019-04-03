@@ -37,8 +37,15 @@ echo Creating the $DEPLOY_SWARM swarm in AWS${AWS_STACK_REGION:+" ($AWS_STACK_RE
 echo "  with $MGR_NODE_INSTANCE_CNT $MGR_NODE_INSTANCE_TYPE Manager "'node(s)'" and $WKR_NODE_INSTANCE_CNT $WKR_NODE_INSTANCE_TYPE Worker "'node(s)'
 echo "  using the $AWS_STACK_KEYPAIR key pair for ssh access"
 echo
+read -rsp $'Press any key to continue or Ctrl-C to abort\n' -n1 key
+
 echo bin/docker-swarm.py create -w $WKR_NODE_INSTANCE_CNT -i $WKR_NODE_INSTANCE_TYPE -m $MGR_NODE_INSTANCE_CNT -I $MGR_NODE_INSTANCE_TYPE --key=$AWS_STACK_KEYPAIR $REGION_OPT $AWS_CF_STACK_NAME
 bin/docker-swarm.py create -w $WKR_NODE_INSTANCE_CNT -i $WKR_NODE_INSTANCE_TYPE -m $MGR_NODE_INSTANCE_CNT -I $MGR_NODE_INSTANCE_TYPE --key=$AWS_STACK_KEYPAIR $REGION_OPT $AWS_CF_STACK_NAME
+RC=$?
+if [[ $RC -ne 0 ]]; then
+    return 3
+fi
+
 date
 
 echo

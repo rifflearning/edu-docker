@@ -208,26 +208,30 @@ def create(stack_name, region, key_name, manager_count, manager_type, worker_cou
                        mgr_cnt=manager_count, mgr_type=manager_type,
                        wkr_cnt=worker_count, wkr_type=worker_type))
 
-    response = cloudformation.create_stack(
-        StackName=stack_name,
-        TemplateURL=template_url,
-        Parameters=[
-            { 'ParameterKey': 'KeyName',                'ParameterValue': key_name },
-            { 'ParameterKey': 'ManagerSize',            'ParameterValue': str(manager_count) },
-            { 'ParameterKey': 'ManagerInstanceType',    'ParameterValue': manager_type },
-            { 'ParameterKey': 'ClusterSize',            'ParameterValue': str(worker_count) },
-            { 'ParameterKey': 'InstanceType',           'ParameterValue': worker_type },
-            { 'ParameterKey': 'ManagerDiskSize',        'ParameterValue': '20' },
-            { 'ParameterKey': 'ManagerDiskType',        'ParameterValue': 'standard' },
-            { 'ParameterKey': 'WorkerDiskSize',         'ParameterValue': '20' },
-            { 'ParameterKey': 'WorkerDiskType',         'ParameterValue': 'standard' },
-            { 'ParameterKey': 'EnableCloudWatchLogs',   'ParameterValue': 'yes' },
-            { 'ParameterKey': 'EnableSystemPrune',      'ParameterValue': 'no' },
-        ],
-        TimeoutInMinutes=40,
-        Capabilities=[ 'CAPABILITY_IAM' ],
-        OnFailure='ROLLBACK'
-    )
+    try:
+        response = cloudformation.create_stack(
+            StackName=stack_name,
+            TemplateURL=template_url,
+            Parameters=[
+                { 'ParameterKey': 'KeyName',                'ParameterValue': key_name },
+                { 'ParameterKey': 'ManagerSize',            'ParameterValue': str(manager_count) },
+                { 'ParameterKey': 'ManagerInstanceType',    'ParameterValue': manager_type },
+                { 'ParameterKey': 'ClusterSize',            'ParameterValue': str(worker_count) },
+                { 'ParameterKey': 'InstanceType',           'ParameterValue': worker_type },
+                { 'ParameterKey': 'ManagerDiskSize',        'ParameterValue': '20' },
+                { 'ParameterKey': 'ManagerDiskType',        'ParameterValue': 'standard' },
+                { 'ParameterKey': 'WorkerDiskSize',         'ParameterValue': '20' },
+                { 'ParameterKey': 'WorkerDiskType',         'ParameterValue': 'standard' },
+                { 'ParameterKey': 'EnableCloudWatchLogs',   'ParameterValue': 'yes' },
+                { 'ParameterKey': 'EnableSystemPrune',      'ParameterValue': 'no' },
+            ],
+            TimeoutInMinutes=40,
+            Capabilities=[ 'CAPABILITY_IAM' ],
+            OnFailure='ROLLBACK'
+        )
+    except ClientError as e:
+        _highlight('{code}: {msg}'.format(code=e.response['Error']['Code'], msg=e.response['Error']['Message']), fg='red')
+        sys.exit(1)
 
     # This seems more debugging, not sure what a failure would look like, but I'm guessing
     # there's some exceptions that need catching (this code should be updated when that is
