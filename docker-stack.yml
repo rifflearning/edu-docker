@@ -33,6 +33,9 @@ services:
         condition: on-failure
       placement:
         constraints: [node.labels.riffapi == true]
+    configs:
+      - source: riffdata.local-production.yml.1
+        target: /app/config/local-production.yml
 
   edu-web:
     deploy:
@@ -54,7 +57,7 @@ services:
       restart_policy:
         condition: on-failure
     configs:
-      - source: signalmaster.local-production.yml.1
+      - source: signalmaster.local-production.yml.2
         target: /app/config/local-production.yml
 
   edu-riffdata-db:
@@ -80,5 +83,7 @@ services:
         constraints: [node.labels.mmdb == true]
 
 configs:
-  signalmaster.local-production.yml.1:
+  riffdata.local-production.yml.1:
+    external: true
+  signalmaster.local-production.yml.2:
     external: true
