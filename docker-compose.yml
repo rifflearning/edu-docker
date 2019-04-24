@@ -77,8 +77,6 @@ services:
       MYSQL_USER: mmuser
       MYSQL_PASSWORD: mostest
       MYSQL_DATABASE: mattermost_test
-    expose:
-      - 3306
     volumes:
       - edu-mm-db-data:/var/lib/mysql
 
