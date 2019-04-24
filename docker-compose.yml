@@ -25,7 +25,7 @@ services:
       args:
         UBUNTU_VER: latest
         NODE_VER: 10
-        GOLANG_VER: 1.12.1
+        GOLANG_VER: 1.12.4
         MM_SERVER_REF: develop
         MM_WEBAPP_REF: develop
     depends_on:
@@ -40,22 +40,6 @@ services:
       args:
         NODE_VER: 10
         PORT: 3000
-        AUTH_ON: 'true'
-        AUTH_TOKEN_EXPIRESIN: 1000d
-        AUTH_TOKEN_SECRET: my-secret
-        CRYPTO_KEY: "'your-key-here'"
-        DEFAULT_USER_EMAIL: default-user-email
-        DEFAULT_USER_PASSWORD: default-user-password
-        MONGODB_URI: mongodb://edu-riffdata-db/riff-test
-        MONGO_CERT: some-fake-cert
-        REPORT_EMAIL_FROM: "'MM Reports' <email@address.com>"
-        REPORT_EMAIL_HOST: "smtp server here"
-        REPORT_EMAIL_LOGIN: email@address.com
-        REPORT_EMAIL_PASSWORD: emailpassword
-        REPORT_EMAIL_SUBJECT: "Your Group Discussion Report"
-        REPORT_EMAIL_TEXT: "See attached for a visual report of your recent group discussion!"
-        SEND_REPORT: 'false'
-        END_MEETING_AFTER_MINUTES: 10
     depends_on:
       - edu-riffdata-db
 
