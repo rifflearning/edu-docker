@@ -19,3 +19,11 @@ services:
   edu-signalmaster:
     volumes:
         - ${SIGNALMASTER_PATH-../signalmaster}:/app
+
+  edu-riffdata-db:
+    ports:
+      - '27017:27017'
+
+  edu-mm-db:
+    ports:
+      - '3306:3306'
