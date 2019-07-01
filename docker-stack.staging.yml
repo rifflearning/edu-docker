@@ -4,14 +4,14 @@ version: '3.6'
 services:
   edu-web:
     secrets:
-      - source: staging.riffedu.com.key.2
+      - source: staging.riffedu.com.key.3
         target: site.key
-      - source: staging.riffedu.com.crt.2
+      - source: staging.riffedu.com.crt.3
         target: site.crt
 
-# Your cert will expire on 2019-07-23 (staging key.2 & crt.2)
+# Your cert will expire on 2019-09-29 (staging key.3 & crt.3)
 secrets:
-  staging.riffedu.com.key.2:
+  staging.riffedu.com.key.3:
     external: true
-  staging.riffedu.com.crt.2:
+  staging.riffedu.com.crt.3:
     external: true
