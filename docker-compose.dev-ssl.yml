@@ -1,0 +1,10 @@
+---
+# override/additions to docker-compose.dev.yml for development deployment
+# currently only used in one place so not committed.
+# I have locally copied the letsencrypt certificates into edu-web/secrets
+# for the domain where this is deployed.
+version: '3.7'
+services:
+  edu-web:
+    volumes:
+      - ./edu-web/secrets:/run/secrets

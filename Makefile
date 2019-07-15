@@ -17,7 +17,7 @@ SSL_DIR := edu-web/ssl
 # the riff services using either docker-compose or docker stack
 # for development, production or deployment in a docker swarm
 CONF_BASE   := docker-compose.yml
-CONF_DEV    := $(CONF_BASE) docker-compose.dev.yml
+CONF_DEV    := $(CONF_BASE) docker-compose.dev.yml docker-compose.dev-ssl.yml
 CONF_PROD   := $(CONF_BASE) docker-compose.prod.yml
 CONF_DEPLOY := $(CONF_PROD) docker-stack.yml
 
