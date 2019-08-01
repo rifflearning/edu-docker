@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the nsf swarm
+version: '3.6'
+services:
+  edu-web:
+    secrets:
+      - source: nsf.riffedu.com.key.1
+        target: site.key
+      - source: nsf.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2019-10-30 (nsf key.1 & crt.1)
+secrets:
+  nsf.riffedu.com.key.1:
+    external: true
+  nsf.riffedu.com.crt.1:
+    external: true

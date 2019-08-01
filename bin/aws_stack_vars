@@ -6,13 +6,14 @@
 CF_STACK_SUFFIX=-Eswarm
 
 # Valid swarm names (should have an entry for each of these in AWS_REGION and AWS_KEYPAIR below
-SWARM_NAMES=( dev staging nexted )
+SWARM_NAMES=( dev staging nexted nsf )
 
 # AWS_REGION is an associative array of valid swarm names to the AWS region where the swarm is/should be created
 declare -A AWS_REGION
 AWS_REGION=( [dev]=us-east-1
              [staging]=us-east-1
              [nexted]=us-east-2
+             [nsf]=us-west-2
            )
 
 # AWS_KEYPAIR is an associative array of valid swarm names to the AWS keypair that should be used to ssh to the swarm
@@ -20,6 +21,7 @@ declare -A AWS_KEYPAIR
 AWS_KEYPAIR=( [dev]=riffswarm_1_useast1_key
               [staging]=riffswarm_1_useast1_key
               [nexted]=riffswarm_useast2_key
+              [nsf]=riffdev_1_uswest2_key
             )
 
 # If we were given a swarm name as an argument, make sure that all the derived parameters are
