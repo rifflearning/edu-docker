@@ -48,7 +48,13 @@ make deploy-support-stack
 echo
 echo "Create the configs (after decrypting them in the config directory)"
 pushd config
-SWARM_CONFIGS=( signalmaster.local-production.yml.1 )
+SWARM_CONFIGS=( signalmaster.local-production.yml.2
+                riffdata.local-production.yml.1 )
+
+# sound the terminal bell (your terminal may need to be configured to make noise)
+# because you may not have noticed we got to this point and will need input
+# to decrypt the config files (and the pswd request can time out)
+echo -n $'\a'
 
 for config in "${SWARM_CONFIGS[@]}"
 do
