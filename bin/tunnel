@@ -9,40 +9,50 @@
 # other production deployment environment variables are set.
 
 # Test this is being run from the root of the edu-docker repo working dir
-if [[ -e Makefile && -e bin/cloudformation.py && bin/build-vars ]]; then
-
-    if [[ "$1" == "staging" || "$1" == "betaA" || "$1" == "betaB" || "$1" == "dev" || "$1" == "nexted" ]]; then
-        echo "Setting up environment to deploy to the AWS \"$1\" swarm"
-        export DEPLOY_SWARM=$1
-    else
-        echo "No swarm specified. Using 'staging'"
-        export DEPLOY_SWARM=staging
-    fi
-
-    source bin/build-vars
-    source activate
-    bin/cloudformation.py tunnel ${DEPLOY_SWARM}-Eswarm
-    export DOCKER_HOST=localhost:2374
-
-    echo Updating docker base images and images used directly:
-    DOCKER_BASE_IMAGES=(ubuntu mysql:5.7 mongo nginx node:10 mhart/alpine-node:10)
-    echo ${DOCKER_BASE_IMAGES[@]}
-    echo ${DOCKER_BASE_IMAGES[@]} | xargs -n 1 docker pull
-
-    docker images
-    make show-env
-
-    echo
-    echo 'Run the following if the env settings are good'
-    echo '(or edit bin/build-vars and source it first):'
-    echo '  make clean build-prod'
-    echo '  make push-prod'
-    echo '  make deploy-stack'
-    echo
-
-else
+if [[ ! ( -e Makefile && -e bin/docker-swarm.py && -e bin/build-vars ) ]]; then
     echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
     echo "Change to the edu-docker working directory and run:"
     echo "  . bin/tunnel"
     echo
+    return
 fi
+
+# Set the AWS stack variables (the stack suffix and the region, keypair maps) and the
+# derived variables for '$1' (DEPLOY_SWARM, AWS_CF_STACK_NAME, AWS_STACK_REGION, AWS_STACK_KEYPAIR)
+source bin/aws_stack_vars ${1:-staging}
+
+# if $1 was invalid DEPLOY_SWARM won't be set
+if [[ ! -v DEPLOY_SWARM ]]
+then
+    echo "$1 is not a valid swarm name."
+    echo "The swarm name must be one of: ${SWARM_NAMES[@]}"
+    return
+fi
+
+echo "Environment is set up to deploy to the AWS \"${1:-staging}\" swarm"
+
+REGION_OPT=${AWS_STACK_REGION:+"--region=$AWS_STACK_REGION"}
+
+source bin/build-vars
+source activate
+bin/docker-swarm.py tunnel $REGION_OPT ${AWS_CF_STACK_NAME}
+export DOCKER_HOST=localhost:2374
+
+echo Updating docker base images and images used directly:
+make pull-images
+
+# this works but the Makefile is more up-to-date so the above pull-images is better
+#DOCKER_BASE_IMAGES=(ubuntu mysql:5.7 mongo nginx node:10 mhart/alpine-node:10)
+#echo ${DOCKER_BASE_IMAGES[@]}
+#echo ${DOCKER_BASE_IMAGES[@]} | xargs -n 1 docker pull
+#docker images
+
+make show-env
+
+echo
+echo 'Run the following if the env settings are good'
+echo '(or edit bin/build-vars and source it first):'
+echo '  make clean build-prod'
+echo '  make push-prod'
+echo '  make deploy-stack'
+echo

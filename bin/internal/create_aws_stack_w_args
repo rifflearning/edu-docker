@@ -1,15 +1,19 @@
 #! /usr/bin/env bash
 # This is an internal script which is expected to be sourced from another script
 # and expects the following parameters to be defined (values below are only examples):
+# CF_STACK_SUFFIX=-Eswarm
 # DEPLOY_SWARM=nexted
+# AWS_CF_STACK_NAME=${DEPLOY_SWARM}${CF_STACK_SUFFIX}
 # MGR_NODE_INSTANCE_TYPE=t2.medium
 # MGR_NODE_INSTANCE_CNT=1
 # WKR_NODE_INSTANCE_TYPE=t2.micro
 # WKR_NODE_INSTANCE_CNT=1
-# AWS_KEYPAIR=riffswarm_useast2_key
+# AWS_STACK_KEYPAIR=riffswarm_1_useast1_key
+# optional will use the default defined by docker-swarm.py
+# AWS_STACK_REGION=us-east-1
 
 # Test this is likely being run from the root of the edu-docker repo working dir
-if [[ ! ( -e Makefile && -e bin/cloudformation.py && -e bin/build-vars ) ]]; then
+if [[ ! ( -e Makefile && -e bin/docker-swarm.py && -e bin/build-vars ) ]]; then
     echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
     echo "Change to the edu-docker working directory and run:"
     echo "  . bin/create_aws_${DEPLOY_SWARM}_stack"
@@ -27,40 +31,86 @@ fi
 
 source activate
 
-# Swarm stack name suffix is 'E' for Edu, and 'swarm'
-DOCKER_STACK_NAME=${DEPLOY_SWARM}-Eswarm
+REGION_OPT=${AWS_STACK_REGION:+"--region=$AWS_STACK_REGION"}
 
-echo Creating the $DEPLOY_SWARM swarm in AWS:
+echo Creating the $DEPLOY_SWARM swarm in AWS${AWS_STACK_REGION:+" ($AWS_STACK_REGION)"}:
 echo "  with $MGR_NODE_INSTANCE_CNT $MGR_NODE_INSTANCE_TYPE Manager "'node(s)'" and $WKR_NODE_INSTANCE_CNT $WKR_NODE_INSTANCE_TYPE Worker "'node(s)'
-echo "  using the $AWS_KEYPAIR key pair for ssh access"
+echo "  using the $AWS_STACK_KEYPAIR key pair for ssh access"
 echo
-echo bin/cloudformation.py create-docker-stack -s $WKR_NODE_INSTANCE_CNT -i $WKR_NODE_INSTANCE_TYPE -m $MGR_NODE_INSTANCE_CNT -I $MGR_NODE_INSTANCE_TYPE $DOCKER_STACK_NAME $AWS_KEYPAIR
-bin/cloudformation.py create-docker-stack -s $WKR_NODE_INSTANCE_CNT -i $WKR_NODE_INSTANCE_TYPE -m $MGR_NODE_INSTANCE_CNT -I $MGR_NODE_INSTANCE_TYPE $DOCKER_STACK_NAME $AWS_KEYPAIR
+read -rsp $'Press any key to continue or Ctrl-C to abort\n' -n1 key
+
+echo bin/docker-swarm.py create -w $WKR_NODE_INSTANCE_CNT -i $WKR_NODE_INSTANCE_TYPE -m $MGR_NODE_INSTANCE_CNT -I $MGR_NODE_INSTANCE_TYPE --key=$AWS_STACK_KEYPAIR $REGION_OPT $AWS_CF_STACK_NAME
+bin/docker-swarm.py create -w $WKR_NODE_INSTANCE_CNT -i $WKR_NODE_INSTANCE_TYPE -m $MGR_NODE_INSTANCE_CNT -I $MGR_NODE_INSTANCE_TYPE --key=$AWS_STACK_KEYPAIR $REGION_OPT $AWS_CF_STACK_NAME
+RC=$?
+if [[ $RC -ne 0 ]]; then
+    return 3
+fi
+
 date
 
 echo
-echo You can monitor the creation status of your swarm using:
-echo "  bin/cloudformation.py stack-status $DOCKER_STACK_NAME"
+echo "Wait for the creation of the CloudFormation stack to complete."
+echo "The status will be checked and reported every minute until it is"
+echo "complete (10-20 min) at which time setting up the newly completed"
+echo "docker swarm will continue."
+echo "  - add an entry to ~/.ssh/config for the 1st swarm manager (s/b checked)"
+echo "  - create a tunnel to that 1st swarm manager"
+echo "  - add labels to the swarm nodes as needed"
+echo "  - deploy the support services (registry and visualizer)"
+echo "  - create configs"
 echo
-echo It will output CREATE_IN_PROGRESS while the stack is being created, and CREATE_COMPLETE
-echo once it is done '(approx. 10-15 min)', at which point you can continue setting up the swarm
-echo '  - add labels to the nodes'
-echo '  - deploy the support services (registry and visualizer)'
-echo '  - create configs and secrets'
-echo '  - build, push and deploy the riffplatform services'
-echo '  - restore the riff-server mongo DB so it has some data to start'
+echo "Then the following will have to be done manually:"
+echo "  - create secrets"
+echo "  - build, push and deploy the desired swarm services"
+echo "  - possibly restore data (e.g. riff-server mongo DB)"
+echo "  - make sure that the AWS Route 53 Hosted Zone (e.g. riffplatform.com"
+echo "    or riffedu.com) has an A record alias pointing at the"
+echo "    $AWS_CF_STACK_NAME just created above."
 echo
-echo bin/cloudformation.py stack-status $DOCKER_STACK_NAME
-bin/cloudformation.py stack-status $DOCKER_STACK_NAME
+echo bin/docker-swarm.py wait-for-complete $REGION_OPT $AWS_CF_STACK_NAME
+bin/docker-swarm.py wait-for-complete $REGION_OPT $AWS_CF_STACK_NAME
 
 echo
+
+MGR_IP=$(bin/docker-swarm.py get-stack-manager-ip -i 0 $REGION_OPT $AWS_CF_STACK_NAME)
+
+echo "Adding an entry for the 1st manager ($MGR_IP) of $AWS_CF_STACK_NAME to ~/.ssh/config"
+cat << EOF >> ~/.ssh/config
+
+# Riff Learning Amazon Web Services (aws) $AWS_CF_STACK_NAME stack docker swarm manager 0
+Host $AWS_CF_STACK_NAME $MGR_IP
+  HostName $MGR_IP
+  User docker
+  IdentityFile ~/.ssh/${AWS_STACK_KEYPAIR}.pem
+  IdentitiesOnly yes
+  ForwardAgent yes
+EOF
+
+echo "Adding the manager's fingerprint to ~/.ssh/known_hosts"
+ssh-keyscan $MGR_IP >> ~/.ssh/known_hosts
+
+echo
+echo Tunneling to a manager of the new swarm
+bin/docker-swarm.py tunnel $REGION_OPT $AWS_CF_STACK_NAME
+
+echo Setting and exporting DOCKER_HOST
+export DOCKER_HOST=localhost:2374
+
+MGR_NODE_ID=( $(docker node ls --filter="role=manager" --format="{{.ID}}") )
+WKR_NODE_ID=( $(docker node ls --filter="role=worker" --format="{{.ID}}") )
+
+# labeling the nodes will depend on the number and instance type of the
+# nodes created for the stack, so that should be done by the caller who
+# defined the *_INSTANCE_TYPE and CNT parameters
+
+
 # Next steps for initializing the docker swarm (rough draft)
 #
 # # Make sure that AWS Route 53 riffplatform.com Hosted Zone has an
-# # A record alias pointing at the $DOCKER_STACK_NAME just created above.
+# # A record alias pointing at the $AWS_CF_STACK_NAME just created above.
 #
 # # find a manager ip and add a section to ~/.ssh/config
-# bin/cloudformation.py get-stack-manager-ip $DOCKER_STACK_NAME
+# bin/docker-swarm.py get-stack-manager-ips $REGION_OPT $AWS_CF_STACK_NAME
 #
 # # tunnel to the docker swarm we just created
 # source bin/tunnel $DEPLOY_SWARM

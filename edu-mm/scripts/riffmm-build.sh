@@ -108,6 +108,8 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.SqlSettings.DriverName |= "mysql"'                             \
                '|' '.SqlSettings.DataSource |= "'"mmuser:mostest@tcp(${DB_DOMAIN}:${DB_PORT})/mattermost_test?charset=utf8mb4,utf8\\u0026readTimeout=30s\\u0026writeTimeout=30s"'"' \
                '|' '.SqlSettings.AtRestEncryptKey |= "'$(generate_salt)'"'          \
+               '|' '.PluginSettings.Enable |= true'                                 \
+               '|' '.PluginSettings.EnableUploads |= true'                          \
                '|' '.PluginSettings.Directory |= "'"${DIST_ROOT}/plugins"'"'        \
                '|' '.PluginSettings.ClientDirectory |= "'"${DIST_ROOT}/client/plugins"'"' \
                '|' '.LTISettings.Enable |= true'                                    \

@@ -1,0 +1,27 @@
+#! /usr/bin/env bash
+# This script must be sourced
+#
+# Kill any existing tunnel to an AWS docker swarm
+
+# Test this is being run from the root of the edu-docker repo working dir
+if [[ ! ( -e Makefile && -e activate && -e bin/docker-swarm.py && -e bin/build-vars ) ]]; then
+    echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
+    echo "Change to the edu-docker working directory and run:"
+    echo "  . bin/kill-tunnel"
+    echo
+    return
+fi
+
+if [[ ! -v VIRTUAL_ENV ]]
+then
+    source activate
+fi
+
+if bin/docker-swarm.py kill-tunnel
+then
+    echo "unsetting DOCKER_HOST"
+    unset DOCKER_HOST
+
+    echo "clearing build-vars"
+    source bin/nobuild-vars
+fi

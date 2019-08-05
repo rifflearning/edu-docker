@@ -1,7 +1,7 @@
 # Args for FROM directives
 ARG UBUNTU_VER=latest
 
-#
+# -------------------------
 # ---- Base Node image ----
 FROM ubuntu:${UBUNTU_VER} AS base
 
@@ -19,11 +19,11 @@ RUN chmod +x /setupfiles/*.sh \
 WORKDIR /home/${MM_USER}
 USER ${MM_USER}
 
-#
+# ----------------------------------------------------------
 # ---- Build environment (go and node and related pkgs) ----
 FROM base as buildenv
 ARG NODE_VER=10
-ARG GOLANG_VER=1.11.5
+ARG GOLANG_VER=1.12.7
 
 # Copy the build environment install script to the image
 COPY scripts/riffmm-buildenv.sh /setupfiles/
@@ -33,7 +33,44 @@ USER root
 RUN chmod +x /setupfiles/*.sh \
     && /setupfiles/riffmm-buildenv.sh
 
-#
+# ---------------------
+# ---- Development ----
+
+# This is extraneous when doing a production build, but it is a minimal
+# addition to the buildenv stage and won't take much time, and it is
+# advantageous to keep the dev image close to the prod image.
+FROM buildenv AS dev
+LABEL Description="dev: This image runs the mattermost-server and webpack watch of mattermost-webapp"
+
+# This is the development image, set NODE_ENV to reflect that
+ENV NODE_ENV=development
+
+# expose port that the mattermost server listens to
+EXPOSE 8065
+
+# set the GOPATH and the PATH to find the go executables
+ARG MM_USER=mmuser
+ENV GOPATH /home/${MM_USER}/go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+
+# Copy the development entrypoint script to the image
+COPY --chown=mmuser:mmuser scripts/dev-entrypoint.sh /home/${MM_USER}/
+RUN chmod +x ./dev-entrypoint.sh
+
+USER ${MM_USER}
+
+# Set the default command to run when the container is started
+CMD ["./dev-entrypoint.sh"]
+
+# when a container is started w/ this image the mattermost-webapp repository working
+# directory must be bound at /home/mmuser/go/src/github.com/mattermost/mattermost-webapp
+# and all dependent packages installed AND the mattermost-server repository working
+# directory must be bound at /home/mmuser/go/src/github.com/mattermost/mattermost-server
+# for the default command (dev-entrypoint) to correctly start the mattermost-webapp
+VOLUME ["/home/mmuser/go/src/github.com/mattermost/mattermost-server", \
+        "/home/mmuser/go/src/github.com/mattermost/mattermost-webapp"]
+
+# ---------------------------------
 # ---- Build server and webapp ----
 FROM buildenv AS build
 
@@ -54,17 +91,17 @@ USER ${MM_USER}
 RUN chmod +x ./riffmm-build.sh \
     && ./riffmm-build.sh
 
-#
-# ---- Staging ----
-FROM base AS staging
-LABEL Description="staging: This image runs the RiffEdu mattermost application"
+# --------------------
+# ---- Production ----
+FROM base AS prod
+LABEL Description="prod: This image runs the RiffEdu mattermost application"
 
 # Copy the built app
 ARG MM_USER=mmuser
 COPY --from=build --chown=mmuser:mmuser /home/${MM_USER}/riffedu/ riffedu/
 
-# This is the staging image, set NODE_ENV to reflect that
-ENV NODE_ENV=staging
+# This is the production image, set NODE_ENV to reflect that
+ENV NODE_ENV=production
 
 # expose port that the mattermost server listens to
 EXPOSE 8065

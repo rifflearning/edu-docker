@@ -12,6 +12,7 @@ fi
 
 declare -a RECIPIENTS=(
         mike@rifflearning.com\
+        john@rifflearning.com\
         dan@dcalacci.net\
     )
 

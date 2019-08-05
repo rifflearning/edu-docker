@@ -12,13 +12,122 @@ if [[ ! -e bin/internal/create_aws_stack_w_args ]]; then
     return
 fi
 
+# Set the AWS stack variables (the stack suffix and the region, keypair maps) and the
+# derived variables for 'staging' (DEPLOY_SWARM, AWS_CF_STACK_NAME, AWS_STACK_REGION, AWS_STACK_KEYPAIR)
+source bin/aws_stack_vars staging
+
 # Sadly t3 instances are not supported by the docker for aws cloudformation template at this time (2019-01-28)
-export DEPLOY_SWARM=staging
-MGR_NODE_INSTANCE_TYPE=t2.small
+MGR_NODE_INSTANCE_TYPE=t2.medium
 MGR_NODE_INSTANCE_CNT=1
-WKR_NODE_INSTANCE_TYPE=t2.small
+WKR_NODE_INSTANCE_TYPE=t2.micro
 WKR_NODE_INSTANCE_CNT=1
-AWS_KEYPAIR=riffswarm_useast2_key
 
 # internal script uses the above bash parameters
 source bin/internal/create_aws_stack_w_args
+RC=$?
+if [[ $RC -ne 0 ]]; then
+    return $RC
+fi
+
+# The cloudformation stack should be created and we should have an open
+# tunnel to it, with DOCKER_HOST exported, and the bash array parameters
+# MGR_NODE_ID and WKR_NODE_ID defined.
+
+# how we want to label the nodes depends on how many and what instance type the
+# nodes are so that must be done here, not in create_aws_stack_w_args
+
+echo
+echo Setting the labels on the docker nodes
+docker node update '--label-add='{riffapi=true,web=true} ${MGR_NODE_ID[0]}
+docker node update '--label-add='{mmapp=true,mmdb=true,registry=true} ${WKR_NODE_ID[0]}
+
+echo
+echo "Deploying the support stack (docker registry and visualizer)"
+make deploy-support-stack
+
+echo
+echo "Create the configs (after decrypting them in the config directory)"
+pushd config
+SWARM_CONFIGS=( signalmaster.local-production.yml.2
+                riffdata.local-production.yml.1 )
+
+# sound the terminal bell (your terminal may need to be configured to make noise)
+# because you may not have noticed we got to this point and will need input
+# to decrypt the config files (and the pswd request can time out)
+echo -n $'\a'
+
+for config in "${SWARM_CONFIGS[@]}"
+do
+    gpg2 --decrypt --output $config --yes ${config}.gpg
+    docker config create $config $config
+    # Do we want to delete the decrypted file after creating the config?
+done
+
+cd secret
+echo "-------- MANUAL Steps -------- "
+echo
+echo "Next create the SSL certificate secrets for this swarm:"
+echo "Use the following commands after setting the latest tar file:"
+echo "  LETSENCRYPT_TAR=letsencrypt-riffsites-20190201.tar.gz"
+echo '  gpg2 --decrypt --output ${LETSENCRYPT_TAR} ${LETSENCRYPT_TAR}.gpg'
+echo '  tar -xvzf ${LETSENCRYPT_TAR}'
+echo "  docker secret create staging.riffedu.com.key.1 ./etc/letsencrypt/archive/staging.riffedu.com/privkey1.pem"
+echo "  docker secret create staging.riffedu.com.crt.1 ./etc/letsencrypt/archive/staging.riffedu.com/fullchain1.pem"
+echo "  popd"
+echo
+echo "------------------------------ "
+echo
+
+# Next steps for initializing the docker swarm (rough draft)
+#
+# # Make sure that AWS Route 53 riffplatform.com Hosted Zone has an
+# # A record alias pointing at the $DOCKER_STACK_NAME just created above.
+#
+# # Check the new section for the Manager IP that was appended to your
+# # ~/.ssh/config file.
+#
+# # create the secrets (after decrypting and expanding the letsencrypt tar file)
+# cd secret
+# gpg2 --decrypt --output letsencrypt-riffsites-20190201.tar.gz letsencrypt-riffsites-20190201.tar.gz.gpg
+# tar -xvzf letsencrypt-riffsites-20190201.tar.gz
+# docker secret create nexted.riffedu.com.key.1 nexted.riffedu.com.key.1
+# docker secret create nexted.riffedu.com.crt.1 nexted.riffedu.com.crt.1
+# popd
+#
+# # Standard build, push and deploy
+# . bin/build-vars
+# make pull-images
+# make show-env
+# make clean build-prod
+# make push-prod
+# make deploy-stack
+#
+##### TODO: Work in progress, just wanted to note these pieces now, but this
+#####       needs more work to be clear. -mjl
+# # connect to the edu-server config and edit it:
+# # ssh to the node running the edu-mm service
+# docker pull ubuntu
+# docker run -it --name edit-config -v edu-stack_edu-mm-config:/root/config ubuntu bash
+# apt update
+# apt install vim jq
+# cd /root/config
+# vim config.json
+# # or
+# exit
+# docker start edit-config
+# docker cp tmp/staging_mm-server-config_LTI-LMSs.jq edit-config:/root/config/staging_mm-server-config_LTI-LMSs.jq
+# docker attach edit-config
+# jq -f staging_mm-server-config_LTI-LMSs.jq config.json > config.json.new
+# # set correct values for ServiceSettings.SiteURL, EmailSettings.SMTPUsername, EmailSettings.SMTPPassword
+# vim config.json.new
+# cp config.json.new config.json
+# rm config.json.new
+# exit
+#
+# # Optionally restore a mongo backup to give the staging site some initial data for testing
+# # purposes
+# docker cp /home/mjl/tmp/mongodb_riff-test.staging.backup-20190125185253.gz riff-stack_mongo-server.1.0q8064g1l5e2s5ay6eo7uskge:/data/
+# docker exec -t riff-stack_mongo-server.1.0q8064g1l5e2s5ay6eo7uskge mongorestore --db=riff-test --gzip --archive=/data/mongodb_riff-test.staging.backup-20190125185253.gz
+# docker exec -t riff-stack_mongo-server.1.0q8064g1l5e2s5ay6eo7uskge rm /data/mongodb_riff-test.staging.backup-20190125185253.gz
+#
+# # Optionally restore a mysql backup (I haven't figured out how to make a backup OR restore it yet!)
