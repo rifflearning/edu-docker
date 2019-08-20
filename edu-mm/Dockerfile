@@ -42,6 +42,10 @@ RUN chmod +x /setupfiles/*.sh \
 FROM buildenv AS dev
 LABEL Description="dev: This image runs the mattermost-server and webpack watch of mattermost-webapp"
 
+# The mm-server Makefile has a todo target that uses 'ag' so install it for dev
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends silversearcher-ag
+
 # This is the development image, set NODE_ENV to reflect that
 ENV NODE_ENV=development
 
