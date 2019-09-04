@@ -77,7 +77,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
                '|' '.TeamSettings.MaxUsersPerTeam |= 200'                           \
                '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
-               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["course-support", "coding-help", "business-help", "off-topic"]' \
+               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["coding-help", "course-support", "feedback", "links-fun", "weekly-updates"]' \
                '|' '.LogSettings.EnableConsole |= true'                             \
                '|' '.LogSettings.ConsoleLevel |= "DEBUG"'                           \
                '|' '.FileSettings.Directory |= "'"${DIST_ROOT}/data/"'"'            \

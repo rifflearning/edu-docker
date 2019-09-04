@@ -37,7 +37,7 @@ services:
       dockerfile: Dockerfile
 
   edu-signalmaster:
-    image: '127.0.0.1:5000/rifflearning/signalmaster:${SIGNALMASTER_TAG-latest}'
+    image: '127.0.0.1:5000/rifflearning/edu-signalmaster:${SIGNALMASTER_TAG-latest}'
     build:
       context: https://github.com/rifflearning/signalmaster.git#${SIGNALMASTER_REF-master}
       dockerfile: Dockerfile
