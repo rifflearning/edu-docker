@@ -104,14 +104,15 @@ help :
 	echo "- build-prod   : (re)build the prod images pulling the latest base images"   ; \
 	echo "- push-prod    : push the prod images to the localhost registry"             ; \
 	echo "- deploy-stack : deploy the riff-stack that was last pushed"                 ; \
-	echo "- dev-mm		 : start a dev container for the mm webapp & server"           ; \
+	echo "- dev-mm       : start a dev container for the mm webapp & server"           ; \
 	echo "- dev-server   : start a dev container for the riff-server"                  ; \
-	echo "- dev-sm		 : start a dev container for the signalmaster"                 ; \
+	echo "- dev-sm       : start a dev container for the signalmaster"                 ; \
 	echo "- build-init-image  : build the initialization image used by init-signalmaster and init-server" ; \
 	echo "- init-server       : initialize the riff-server repo using the init-image to run 'make init'"  ; \
 	echo "- init-signalmaster : initialize the signalmaster repo using the init-image to run 'make init'" ; \
 	echo "- dev-swarm-labels  : add all constraint labels to single swarm node"        ; \
 	echo "- deploy-support-stack : deploy the support stack needed for deploying other local images" ; \
+	echo "- show-help    : show the help generated from the target comments" ; \
 	echo ""
 
 up : up-dev ## run docker-compose up (w/ dev config)
@@ -133,6 +134,9 @@ logs : ## run docker-compose logs
 
 clean : ## remove all build artifacts (including the tracking files for created images)
 	-rm $(IMAGE_DIR)/*
+
+clean-dev-images : down ## remove dev docker images
+	docker rmi 127.0.0.1:5000/rifflearning/{edu-mm:dev,edu-riffdata:dev,edu-signalmaster:dev,edu-web:latest}
 
 show-env : ## displays the env var values used for building
 	@echo ""                                          ; \
