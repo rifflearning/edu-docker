@@ -28,8 +28,8 @@ STACK_CONF_DEPLOY := $(patsubst %,-c %,$(CONF_DEPLOY))
 # The pull-images target is a helper to update the base docker images used
 # by the edu stack services. This is a list of those base images.
 BASE_IMAGES := \
-	node:10 \
-	mhart/alpine-node:10 \
+	node:12 \
+	node:12-alpine \
 	mysql:5.7 \
 	mongo:latest \
 	nginx:latest \

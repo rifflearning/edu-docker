@@ -24,8 +24,8 @@ services:
       target: dev
       args:
         UBUNTU_VER: latest
-        NODE_VER: 10
-        GOLANG_VER: 1.13
+        NODE_VER: 12
+        GOLANG_VER: 1.13.3
         MM_SERVER_REF: develop
         MM_WEBAPP_REF: develop
     depends_on:
@@ -38,7 +38,7 @@ services:
       context: ${RIFF_SERVER_PATH-../riff-server}/docker
       dockerfile: Dockerfile-dev
       args:
-        NODE_VER: 10
+        NODE_VER: 12
         PORT: 3000
     depends_on:
       - edu-riffdata-db
