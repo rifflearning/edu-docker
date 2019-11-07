@@ -11,10 +11,10 @@ if [ $# -gt 0 ]
 fi
 
 declare -a RECIPIENTS=(
+        beth@rifflearning.com\
         mike@rifflearning.com\
         jordan@rifflearning.com\
         john@rifflearning.com\
-        dan@dcalacci.net\
     )
 
 # Turn the recipient array into a recipient options string
