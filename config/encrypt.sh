@@ -5,15 +5,16 @@
 # of recipients.
 
 glob='*'
-if [ $# -eq 1 ]
+if [ $# -gt 0 ]
   then
-    glob=$1
+    glob=$@
 fi
 
 declare -a RECIPIENTS=(
+        beth@rifflearning.com\
         mike@rifflearning.com\
+        jordan@rifflearning.com\
         john@rifflearning.com\
-        dan@dcalacci.net\
     )
 
 # Turn the recipient array into a recipient options string

@@ -18,11 +18,11 @@ echo "SETUP: Update apt and install packages ..."
 apt-get update
 apt-get install -y --no-install-recommends "${INSTALL_PKGS[@]}" "${MM_PKGS[@]}" "${DEV_PKGS[@]}"
 
-# Install node --set up the apt repository to get the latest node ver 10
+# Install node --set up the apt repository to get the latest node ver 12
 # (for production we may want to "lock it down" and use a different way of installing node.
 #  such as: https://nodejs.org/dist/v10.13.0/node-v10.13.0-linux-x64.tar.xz)
-echo "SETUP: Installing node 10.x ..."
-curl -sL https://deb.nodesource.com/setup_10.x | bash -
+echo "SETUP: Installing node 12.x ..."
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
 apt-get install -y --no-install-recommends nodejs
 npm install -g npm
 
