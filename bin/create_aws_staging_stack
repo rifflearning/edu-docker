@@ -4,6 +4,15 @@
 # All stack parameters are defined in this file so the values used are saved when this
 # file is committed to the source repository.
 
+# Quick test to see if this script is being sourced
+# https://stackoverflow.com/a/28776166/2184226
+(return 0 2>/dev/null) && sourced=1 || sourced=0
+if [[ $sourced -ne 1 ]]
+then
+    echo "Source this script!"
+    return 100
+fi
+
 if [[ ! -e bin/internal/create_aws_stack_w_args ]]; then
     echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
     echo "Change to the edu-docker working directory and run:"
@@ -90,8 +99,8 @@ echo
 # cd secret
 # gpg2 --decrypt --output letsencrypt-riffsites-20190201.tar.gz letsencrypt-riffsites-20190201.tar.gz.gpg
 # tar -xvzf letsencrypt-riffsites-20190201.tar.gz
-# docker secret create nexted.riffedu.com.key.1 nexted.riffedu.com.key.1
-# docker secret create nexted.riffedu.com.crt.1 nexted.riffedu.com.crt.1
+# docker secret create staging.riffedu.com.key.1 staging.riffedu.com.key.1
+# docker secret create staging.riffedu.com.crt.1 staging.riffedu.com.crt.1
 # popd
 #
 # # Standard build, push and deploy
