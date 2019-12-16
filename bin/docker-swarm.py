@@ -17,7 +17,12 @@ from botocore.exceptions import ClientError, ParamValidationError
 import click
 import psutil
 
-click_region_option = click.option('--region', type=click.Choice(['us-east-1', 'us-east-2', 'us-west-1', 'us-west-2']),
+click_region_option = click.option('--region', type=click.Choice(['us-east-1',
+                                                                  'us-east-2',
+                                                                  'us-west-1',
+                                                                  'us-west-2',
+                                                                  'eu-west-1',
+                                                                  'eu-west-2']),
                                    default='us-east-2', show_default=True,
                                    help='The AWS region name where the docker swarm will be deployed.')
 
