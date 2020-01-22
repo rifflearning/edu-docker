@@ -4,14 +4,14 @@ version: '3.6'
 services:
   edu-web:
     secrets:
-      - source: nexted.riffedu.com.key.3
+      - source: nexted.riffedu.com.key.5
         target: site.key
-      - source: nexted.riffedu.com.crt.3
+      - source: nexted.riffedu.com.crt.5
         target: site.crt
 
-# Your cert will expire on 2019-10-30 (nexted key.3 & crt.3)
+# Your cert will expire on 2020-04-21 (nexted key.5 & crt.5)
 secrets:
-  nexted.riffedu.com.key.3:
+  nexted.riffedu.com.key.5:
     external: true
-  nexted.riffedu.com.crt.3:
+  nexted.riffedu.com.crt.5:
     external: true
