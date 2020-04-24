@@ -1,7 +1,7 @@
 ---
 # support stack (private registry and visualizer services)
 # $ docker stack deploy -c docker-stack.support.yml support-stack
-version: '3.6'
+version: '3.7'
 services:
   # The visualizer service is only needed when running in a swarm stack
   visualizer:

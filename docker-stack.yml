@@ -10,7 +10,7 @@
 # Labeling suggestion w/ 2 nodes in swarm:
 #   node 1: mmapp web
 #   node 2: mmdb riffapi web
-version: '3.6'
+version: '3.7'
 services:
   edu-mm:
     deploy:

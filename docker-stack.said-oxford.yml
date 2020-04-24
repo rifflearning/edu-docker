@@ -1,6 +1,6 @@
 ---
 # override/additions to docker-stack.yml for deploying to the said-oxford swarm
-version: '3.6'
+version: '3.7'
 services:
   edu-web:
     secrets:
