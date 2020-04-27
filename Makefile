@@ -111,7 +111,8 @@ clean : ## remove all build artifacts (including the tracking files for created 
 	-rm $(IMAGE_DIR)/*
 
 clean-dev-images : down ## remove dev docker images
-	docker rmi 127.0.0.1:5000/rifflearning/{edu-mm:dev,edu-riffdata:dev,edu-signalmaster:dev,edu-web:latest}
+	docker rmi rifflearning/{riffmm:dev,riffdata:dev,signalmaster:dev} \
+               docker.pkg.github.com/rifflearning/edu-docker/edu-web:latest
 
 show-env : ## displays the env var values used for building
 	@echo ""                                          ; \
