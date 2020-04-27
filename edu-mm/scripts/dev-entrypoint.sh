@@ -8,7 +8,7 @@ RESET=`tput -Txterm sgr0`
 
 echo "${RED}run.sh${RESET} Starting up riff mattermost ..."
 cd ~/go/src/github.com/mattermost/mattermost-server
-make run-in-container
+make run
 
 echo "${RED}run.sh${RESET} Sleeping until terminated..."
 # Spin until we receive a SIGTERM (e.g. from `docker stop`)

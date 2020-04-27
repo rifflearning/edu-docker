@@ -49,6 +49,9 @@ RUN apt-get update \
 # This is the development image, set NODE_ENV to reflect that
 ENV NODE_ENV=development
 
+# Don't start docker inside the docker container (MM local docker dev support in Makefile)
+ENV MM_NO_DOCKER=true
+
 # expose port that the mattermost server listens to
 EXPOSE 8065
 
