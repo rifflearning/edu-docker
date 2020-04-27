@@ -17,11 +17,11 @@
 version: '3.7'
 services:
   edu-mm:
-    image: '127.0.0.1:5000/rifflearning/edu-mm:${EDU_MM_TAG-dev}'
+    image: 'docker.pkg.github.com/rifflearning/edu-docker/riffmm:${EDU_MM_TAG-latest}'
     build:
       context: edu-mm
       dockerfile: Dockerfile
-      target: dev
+      target: prod
       args:
         UBUNTU_VER: latest
         NODE_VER: 12
@@ -32,19 +32,13 @@ services:
       - edu-mm-db
 
   edu-riffdata:
+    image: 'docker.pkg.github.com/rifflearning/riff-server/riffdata:${RIFF_SERVER_TAG-latest}'
     hostname: edu-riffdata
-    image: '127.0.0.1:5000/rifflearning/edu-riffdata:${RIFF_SERVER_TAG-dev}'
-    build:
-      context: ${RIFF_SERVER_PATH-../riff-server}/docker
-      dockerfile: Dockerfile-dev
-      args:
-        NODE_VER: 12
-        PORT: 3000
     depends_on:
       - edu-riffdata-db
 
   edu-web:
-    image: '127.0.0.1:5000/rifflearning/edu-web:latest'
+    image: 'docker.pkg.github.com/rifflearning/edu-docker/edu-web:latest'
     build:
       context:  edu-web
       dockerfile: Dockerfile
@@ -59,10 +53,7 @@ services:
       - edu-signalmaster
 
   edu-signalmaster:
-    image: '127.0.0.1:5000/rifflearning/edu-signalmaster:${SIGNALMASTER_TAG-dev}'
-    build:
-      context: ${SIGNALMASTER_PATH-../signalmaster}/docker
-      dockerfile: Dockerfile-dev
+    image: 'docker.pkg.github.com/rifflearning/signalmaster/signalmaster:2.1.0'
 
   edu-riffdata-db:
     image: mongo:${MONGO_VER-latest}

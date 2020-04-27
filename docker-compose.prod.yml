@@ -18,29 +18,12 @@
 version: '3.7'
 services:
   edu-mm:
-    image: '127.0.0.1:5000/rifflearning/edu-mm:${EDU_MM_TAG-latest}'
-    build:
-      context: edu-mm
-      dockerfile: Dockerfile
-      target: prod
     volumes:
       - edu-mm-data:/home/mmuser/riffedu/data
       - edu-mm-logs:/home/mmuser/riffedu/logs
       - edu-mm-config:/home/mmuser/riffedu/config
       - edu-mm-plugins:/home/mmuser/riffedu/plugins
       - edu-mm-client-plugins:/home/mmuser/riffedu/client/plugins
-
-  edu-riffdata:
-    image: '127.0.0.1:5000/rifflearning/edu-riffdata:${RIFF_SERVER_TAG-latest}'
-    build:
-      context: https://github.com/rifflearning/riff-server.git#${RIFF_SERVER_REF-master}
-      dockerfile: Dockerfile
-
-  edu-signalmaster:
-    image: '127.0.0.1:5000/rifflearning/edu-signalmaster:${SIGNALMASTER_TAG-latest}'
-    build:
-      context: https://github.com/rifflearning/signalmaster.git#${SIGNALMASTER_REF-master}
-      dockerfile: Dockerfile
 
 volumes:
   edu-mm-data:

@@ -6,6 +6,11 @@
 version: '3.7'
 services:
   edu-mm:
+    image: 'rifflearning/riffmm:dev'
+    build:
+      context: edu-mm
+      dockerfile: Dockerfile
+      target: dev
     environment:
       RIFF_LOGLEVEL: debug
     volumes:
@@ -13,10 +18,23 @@ services:
       - ${MM_WEBAPP_PATH-../mattermost-webapp}:/home/mmuser/go/src/github.com/mattermost/mattermost-webapp
 
   edu-riffdata:
+    image: 'rifflearning/riffdata:dev'
+    build:
+      context: ${RIFF_SERVER_PATH-../riff-server}/docker
+      dockerfile: Dockerfile-dev
+      args:
+        NODE_VER: 12
+        PORT: 3000
+    ports:
+      - '3000:3000'
     volumes:
       - ${RIFF_SERVER_PATH-../riff-server}:/app
 
   edu-signalmaster:
+    image: 'rifflearning/signalmaster:dev'
+    build:
+      context: ${SIGNALMASTER_PATH-../signalmaster}/docker
+      dockerfile: Dockerfile-dev
     volumes:
         - ${SIGNALMASTER_PATH-../signalmaster}:/app
 
