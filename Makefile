@@ -83,37 +83,12 @@ SSL_FILES := \
 	$(SSL_DIR)/certs/dhparam.pem \
 
 
+.DEFAULT_GOAL := help
 .DELETE_ON_ERROR :
 .PHONY : help up down stop up-dev up-prod clean dev-server dev-sm
 .PHONY : logs logs-mm logs-server logs-web logs-mongo
 .PHONY : build-init-image init-server init-signalmaster
 .PHONY : show-env build-dev build-prod push-prod
-
-help :
-	@echo ""                                                                           ; \
-	echo "Useful targets in this riff-docker Makefile:"                                ; \
-	echo "- up           : run docker-compose up (w/ dev config)"                      ; \
-	echo "- up-prod      : run docker-compose up (w/ prod config)"                     ; \
-	echo "- down         : run docker-compose down"                                    ; \
-	echo "- stop         : run docker-compose stop"                                    ; \
-	echo "- logs         : run docker-compose logs"                                    ; \
-	echo "- logs-mm      : run docker-compose logs for the riff-mm service"            ; \
-	echo "- logs-web     : run docker-compose logs for the web-server service"         ; \
-	echo "- show-env     : displays the env var values used for building"              ; \
-	echo "- build-dev    : (re)build the dev images pulling the latest base images"    ; \
-	echo "- build-prod   : (re)build the prod images pulling the latest base images"   ; \
-	echo "- push-prod    : push the prod images to the localhost registry"             ; \
-	echo "- deploy-stack : deploy the riff-stack that was last pushed"                 ; \
-	echo "- dev-mm       : start a dev container for the mm webapp & server"           ; \
-	echo "- dev-server   : start a dev container for the riff-server"                  ; \
-	echo "- dev-sm       : start a dev container for the signalmaster"                 ; \
-	echo "- build-init-image  : build the initialization image used by init-signalmaster and init-server" ; \
-	echo "- init-server       : initialize the riff-server repo using the init-image to run 'make init'"  ; \
-	echo "- init-signalmaster : initialize the signalmaster repo using the init-image to run 'make init'" ; \
-	echo "- dev-swarm-labels  : add all constraint labels to single swarm node"        ; \
-	echo "- deploy-support-stack : deploy the support stack needed for deploying other local images" ; \
-	echo "- show-help    : show the help generated from the target comments" ; \
-	echo ""
 
 up : up-dev ## run docker-compose up (w/ dev config)
 
@@ -148,7 +123,7 @@ show-ps : ## Show all docker containers w/ limited fields
 	docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}'
 
 build-dev : $(SSL_FILES) ## (re)build the dev images pulling the latest base images
-	docker-compose build --pull $(OPTS) $(SERVICE_NAME)
+	docker-compose $(COMPOSE_CONF_DEV) build --pull $(OPTS) $(SERVICE_NAME)
 
 build-prod : ## (re)build the prod images pulling the latest base images
 build-prod : BUILD_ARG_OPTIONS := $(patsubst %,--build-arg %,$(filter-out %=,$(foreach var,$(BUILD_ARGS),$(var)=$($(var)))))
@@ -253,12 +228,12 @@ $(IMAGE_DIR) :
 	@mkdir -p $(IMAGE_DIR)
 
 $(IMAGE_DIR)/nodeapp-init.latest : | $(IMAGE_DIR)
-	set -o pipefail ; docker build --rm --force-rm --pull -t rifflearning/nodeapp-init:latest nodeapp-init 2>&1 | tee $(DOCKER_LOG).$(notdir $@)
+	set -o pipefail ; docker build $(OPTS) --rm --force-rm --pull -t rifflearning/nodeapp-init:latest nodeapp-init 2>&1 | tee $(DOCKER_LOG).$(notdir $@)
 	@touch $@
 
-## Help documentation à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
-## if you want the help sorted rather than in the order of occurrence, pipe the grep to sort and pipe that to awk
-show-help :
+# Help documentation à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
+# if you want the help sorted rather than in the order of occurrence, pipe the grep to sort and pipe that to awk
+help : ## this help documentation (extracted from comments on the targets)
 	@echo ""                                            ; \
 	echo "Useful targets in this riff-docker Makefile:" ; \
 	(grep -E '^[a-zA-Z_-]+ ?:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = " ?:.*?## "}; {printf "\033[36m%-20s\033[0m : %s\n", $$1, $$2}') ; \
