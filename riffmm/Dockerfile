@@ -42,10 +42,6 @@ RUN chmod +x /setupfiles/*.sh \
 FROM buildenv AS dev
 LABEL Description="dev: This image runs the mattermost-server and webpack watch of mattermost-webapp"
 
-# The mm-server Makefile has a todo target that uses 'ag' so install it for dev
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends silversearcher-ag
-
 # This is the development image, set NODE_ENV to reflect that
 ENV NODE_ENV=development
 
@@ -63,6 +59,22 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 # Copy the development entrypoint script to the image
 COPY --chown=mmuser:mmuser scripts/dev-entrypoint.sh /home/${MM_USER}/
 RUN chmod +x ./dev-entrypoint.sh
+
+# The mm-server Makefile has a todo target that uses 'ag' so install it for dev
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends silversearcher-ag
+
+# 'make check-style' requires that golangci-lint be installed, this is the command from
+# the page referenced when it is missing:
+ARG GOCI_LINT_VER=1.25.1
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
+    | sh -s -- -b $(go env GOPATH)/bin v${GOCI_LINT_VER}
+
+# 'make vet' requires that mattermost-govet be installed. This is the command specified in the Makefile
+RUN GO111MODULE=off GOBIN=$(go env GOPATH)/src/github.com/mattermost/mattermost-server/bin \
+    go get -u github.com/mattermost/mattermost-govet
+
+RUN chown -R ${MM_USER}:${MM_USER} .
 
 USER ${MM_USER}
 
