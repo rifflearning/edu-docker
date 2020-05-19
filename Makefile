@@ -42,21 +42,12 @@ SUPPORT_IMAGES := \
 	dockersamples/visualizer:stable
 
 
-# These environment variables are used as build arguments by the docker-compose
+# These environment variables are used as deploy arguments by the docker-compose
 # and docker-stack configuration files.
-# The BUILD_ARG_OPTIONS build-prod target-specific variable contains a --build-arg
-# option for each of these BUILD_ARGS which has a non-empty value.
-# NOTE: spaces in the values of these environment variables will cause problems.
-#       If spaces are needed in these values additional work will be needed to
-#       support them.
-BUILD_ARGS := \
-	EDU_MM_TAG \
-	MM_SERVER_REF \
-	MM_WEBAPP_REF \
-	RIFF_SERVER_REF \
-	RIFF_SERVER_TAG \
-	SIGNALMASTER_TAG \
-	SIGNALMASTER_REF \
+DEPLOY_ARGS := \
+	RIFFMM_TAG \
+	RIFFDATA_TAG \
+	DEPLOY_SWARM \
 
 # Not sure listing the other env vars that are used by the compose files
 # and maybe by the Dockerfiles is useful here, so this is currently an
@@ -67,10 +58,9 @@ OTHER_ENV_ARGS := \
 	GOLANG_VER \
 	MONGO_VER \
 	NGINX_VER \
-	DEPLOY_SWARM \
 
-# command string which displays the values of all BUILD_ARGS
-SHOW_ENV = $(patsubst %,echo '%';,$(foreach var,$(BUILD_ARGS) $(OTHER_ENV_ARGS),$(var)=$($(var))))
+# command string which displays the values of all DEPLOY_ARGS
+SHOW_ENV = $(patsubst %,echo '%';,$(foreach var,$(DEPLOY_ARGS),$(var)=$($(var))))
 
 
 # Test if a variable has a value, callable from a recipe
@@ -126,20 +116,12 @@ show-ps : ## Show all docker containers w/ limited fields
 build-dev : $(SSL_FILES) ## (re)build the dev images pulling the latest base images
 	docker-compose $(COMPOSE_CONF_DEV) build --pull $(OPTS) $(SERVICE_NAME)
 
-build-prod : ## (re)build the prod images pulling the latest base images
-build-prod : BUILD_ARG_OPTIONS := $(patsubst %,--build-arg %,$(filter-out %=,$(foreach var,$(BUILD_ARGS),$(var)=$($(var)))))
-build-prod : $(SSL_FILES)
-	docker-compose $(COMPOSE_CONF_PROD) build $(BUILD_ARG_OPTIONS) $(SERVICE_NAME)
-
-push-prod : ## push the prod images to the localhost registry
-	docker-compose $(COMPOSE_CONF_PROD) push $(SERVICE_NAME)
-
-deploy-stack : ## deploy the riff-stack that was last pushed
+deploy-stack : ## deploy the edu-stk stack defined by compose/stack config and env var tags
 # require that the DEPLOY_SWARM be explicitly defined.
 	$(call ndef,DEPLOY_SWARM)
-	docker stack deploy $(STACK_CONF_DEPLOY) -c docker-stack.$(DEPLOY_SWARM).yml edu-stack
+	docker stack deploy $(STACK_CONF_DEPLOY) -c docker-stack.$(DEPLOY_SWARM).yml --with-registry-auth edu-stk
 
-pull-images :
+pull-images : ## Update base docker images
 	echo $(BASE_IMAGES) | xargs -n 1 docker pull
 	docker images
 

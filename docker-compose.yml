@@ -1,49 +1,28 @@
 ---
 # Base configuration for the services that are required to run the riffedu mattermost app
-# - the image names are set for deploying to a registry service running on a local swarm
-# - the defaults in this file are set for doing development
-#   - uses dev Dockerfile for riff-server & signalmaster from local working directories
-#     use these env vars to override local directory locations:
-#     - RIFF_SERVER_PATH
-#     - SIGNALMASTER_PATH
-#     - MM_SERVER_PATH
-#     - MM_WEBAPP_PATH
-#   - binds local working directories of riff-server & signalmaster
-#   - tags edu-mm, edu-riffdata, edu-signalmaster images w/ "dev"
-#     use these env vars to override:
-#     - EDU_MM_TAG
-#     - RIFF_SERVER_TAG
-#     - SIGNALMASTER_TAG
+# - the image names are the production images that will be retrieved from the rifflearning
+#   github docker package repository.
+# - there are volumes defined in docker-compose.prod.yml that are not defined here because
+#   they do not apply to the development services which modify these settings
+#   and are defined in docker-compose.dev.yml
+# - use these env vars to specify the tags for the production images to be deployed:
+#     - RIFFMM_TAG
+#     - RIFFDATA_TAG
 version: '3.7'
 services:
   edu-mm:
-    image: 'docker.pkg.github.com/rifflearning/edu-docker/riffmm:${EDU_MM_TAG-latest}'
-    build:
-      context: riffmm
-      dockerfile: Dockerfile
-      target: prod
-      args:
-        UBUNTU_VER: latest
-        NODE_VER: 12
-        GOLANG_VER: 1.14.3
-        MM_SERVER_REF: develop
-        MM_WEBAPP_REF: develop
+    image: 'docker.pkg.github.com/rifflearning/edu-docker/riffmm:${RIFFMM_TAG-latest}'
     depends_on:
       - edu-mm-db
 
   edu-riffdata:
-    image: 'docker.pkg.github.com/rifflearning/riff-server/riffdata:${RIFF_SERVER_TAG-latest}'
+    image: 'docker.pkg.github.com/rifflearning/riff-server/riffdata:${RIFFDATA_TAG-latest}'
     hostname: edu-riffdata
     depends_on:
       - edu-riffdata-db
 
   edu-web:
     image: 'docker.pkg.github.com/rifflearning/edu-docker/edu-web:latest'
-    build:
-      context:  edu-web
-      dockerfile: Dockerfile
-      args:
-        NGINX_VER: latest
     ports:
       - '80:80'
       - '443:443'

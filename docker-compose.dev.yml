@@ -1,8 +1,8 @@
 ---
 # override/additions to docker-compose.yml for development
-# because these setting need to not exist for production they
-# have to be defined here and not in the base docker-compose.yml.
-# which is otherwise mostly set up for creating development containers.
+# This defines dev image names and how to build them
+# as well as development port mapping and volume binding
+# to local repository working directories
 version: '3.7'
 services:
   edu-mm:
@@ -29,6 +29,15 @@ services:
       - '3000:3000'
     volumes:
       - ${RIFF_SERVER_PATH-../riff-server}:/app
+
+  # The dev edu-web is the same as the production edu-web so we leave the prod image name
+  edu-web:
+    image: 'docker.pkg.github.com/rifflearning/edu-docker/edu-web:latest'
+    build:
+      context:  edu-web
+      dockerfile: Dockerfile
+      args:
+        NGINX_VER: latest
 
   edu-signalmaster:
     image: 'rifflearning/signalmaster:dev'
