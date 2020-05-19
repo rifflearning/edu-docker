@@ -8,7 +8,7 @@ services:
   edu-mm:
     image: 'rifflearning/riffmm:dev'
     build:
-      context: edu-mm
+      context: riffmm
       dockerfile: Dockerfile
       target: dev
     environment:

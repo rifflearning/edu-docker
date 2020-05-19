@@ -19,7 +19,7 @@ services:
   edu-mm:
     image: 'docker.pkg.github.com/rifflearning/edu-docker/riffmm:${EDU_MM_TAG-latest}'
     build:
-      context: edu-mm
+      context: riffmm
       dockerfile: Dockerfile
       target: prod
       args:
