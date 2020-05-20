@@ -9,7 +9,7 @@
 # other production deployment environment variables are set.
 
 # Test this is being run from the root of the edu-docker repo working dir
-if [[ ! ( -e Makefile && -e bin/docker-swarm.py && -e bin/build-vars ) ]]; then
+if [[ ! ( -e Makefile && -e bin/docker-swarm.py && -e bin/deploy-vars ) ]]; then
     echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
     echo "Change to the edu-docker working directory and run:"
     echo "  . bin/tunnel"
@@ -33,7 +33,7 @@ echo "Environment is set up to deploy to the AWS \"${1:-staging}\" swarm"
 
 REGION_OPT=${AWS_STACK_REGION:+"--region=$AWS_STACK_REGION"}
 
-source bin/build-vars
+source bin/deploy-vars
 source activate
 bin/docker-swarm.py tunnel $REGION_OPT ${AWS_CF_STACK_NAME}
 export DOCKER_HOST=localhost:2374
@@ -51,7 +51,7 @@ make show-env
 
 echo
 echo 'Run the following if the env settings are good'
-echo '(or edit bin/build-vars and source it first):'
+echo '(or edit bin/deploy-vars and source it first):'
 echo '  make clean build-prod'
 echo '  make push-prod'
 echo '  make deploy-stack'

@@ -1,0 +1,84 @@
+#! /usr/bin/env bash
+# Deployment variables for riffedu AWS instances
+
+################################################################################
+# Variables that define the valid deployments of RiffEdu and what version of   #
+# the software is deployed there.                                              #
+################################################################################
+
+# Valid swarm names (used to index IMAGE_VERS)
+# keep alphabetical after 'riffai'
+DEPLOY_NAMES=( staging
+               nexted
+               said-oxford
+             )
+
+# IMAGE_VERS is an associative array of the DEPLOY_NAMES image versions deployed on that instance
+declare -A IMAGE_VERS
+IMAGE_VERS=( [staging.riffmm]="1.0.0-dev.21"
+             [staging.riffdata]="1.0.0"
+             [nexted.riffmm]="1.0.0-dev.20"
+             [nexted.riffdata]="0.4.0-dev.15"
+             [said-oxford.riffmm]="1.0.0-dev.22"
+             [said-oxford.riffdata]="1.0.0"
+           )
+
+################################################################################
+# InArray                                                                      #
+#   Test if $1 is in an indexed array named $2                                 #
+#   May produce false positives if any members of the array contain spaces     #
+################################################################################
+InArray()
+{
+    local _array_ref_=$2[*]
+    [[ " ${!_array_ref_} " =~ " $1 " ]]
+}
+
+################################################################################
+# ClearDeployVars                                                              #
+################################################################################
+ClearDeployVars()
+{
+    unset DEPLOY_SWARM
+    unset RIFFMM_TAG
+    unset RIFFDATA_TAG
+}
+
+################################################################################
+################################################################################
+# Main program                                                                 #
+################################################################################
+################################################################################
+
+# The clear option says just unset ALL variables
+if [ "$1" == "--clear" ]
+then
+    ClearDeployVars
+    return
+fi
+
+# If we were given a swarm name as an argument, make sure that all the derived parameters are
+# unset in case it is invalid, but leave them alone if no argument was given.
+if [[ -n "$1" ]]
+then
+    if ! InArray "$1" DEPLOY_NAMES
+    then
+        echo "'$1' is not a valid deployment name, it must be one of: '${DEPLOY_NAMES[*]}'"
+        echo "--- Aborting! ---"
+        echo
+    fi
+
+    REQ_DEPLOY=$1
+    ClearDeployVars
+else
+    REQ_DEPLOY=$DEPLOY_SWARM
+fi
+
+# If we were given a valid swarm name as an argument, use it to populate the deployment environment vars
+if [[ -v IMAGE_VERS[$REQ_DEPLOY.riffmm] ]]
+then
+    export DEPLOY_SWARM=$REQ_DEPLOY
+    # The docker-compose.yml file uses these values to determine which image to deploy to the swarm
+    export RIFFMM_TAG=${IMAGE_VERS[$DEPLOY_SWARM.riffmm]}
+    export RIFFDATA_TAG=${IMAGE_VERS[$DEPLOY_SWARM.riffdata]}
+fi
