@@ -7,9 +7,11 @@
 # mongo container or w/ an active tunnel to that node.
 #  Note: It seems that the ancestor image must be local for it to be recognized ???
 #        so I've replaced the ancestor filter: --filter="ancestor=mongo"
-#        with the volume filter: --filter="volume=pfm-stk_pfm-riffdata-db-data"
+#        with the volume filter: --filter="volume=edu-stk_edu-riffdata-db-data"
 
-MONGO_CONTAINER=$(docker ps --filter="volume=pfm-stk_pfm-riffdata-db-data" --filter="status=running" --format={{.Names}})
+VOLUME_FILTER_PROD="volume=edu-stk_edu-riffdata-db-data"
+VOLUME_FILTER_DEV="volume=edu-docker_edu-riffdata-db-data"
+MONGO_CONTAINER=$(docker ps --filter=$VOLUME_FILTER_PROD --filter="status=running" --format={{.Names}})
 DATABASE_NAME="riff-test"
 ARCHIVE_PATH=~/tmp
 ARCHIVE_NAME=$1
