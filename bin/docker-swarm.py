@@ -108,6 +108,71 @@ def _get_stack_status(stack_name, region):
     return stack['StackStatus']
 
 
+def _start_docker_tunnel(ip, user=None, key_name=None):
+    """Start an ssh tunnel to a network location (IP) running docker.
+
+    This function exists so that it can be used by the tunnel command which
+    tunnels to a manager of a docker swarm running on an AWS Cloudformation stack
+    as well as by the start-docker-tunnel command which can tunnel to an arbitrary
+    docker machine.
+
+    The given ip may be an alias defined in the ~/.ssh/config file which specifies
+    the host user and actual ip address.
+    """
+    port = 2374
+
+    # check if we have existing ssh tunnel processes
+    kill_tunnels, tunnel_cnt = _kill_existing_tunnels(port, prompt='Do you want to kill the existing tunnel(s)\n'
+                                                                   'and create a new one to {ip}? (y/n)'.format(ip=ip))
+
+    if tunnel_cnt > 0:
+        if not kill_tunnels:
+            _highlight('Leaving existing tunnels and aborting creating the tunnel to {ip}.'.format(ip=ip))
+            if 'DOCKER_HOST' in os.environ:
+                _highlight('\nYou have DOCKER_HOST exported in your environment:\n  DOCKER_HOST={}'.format(os.environ['DOCKER_HOST']))
+            else:
+                _highlight('\nYou don\'t have DOCKER_HOST exported in your environment you should:\n'
+                           '  export DOCKER_HOST=localhost:{}'.format(port))
+
+            return
+
+    # create the tunnel
+
+    remote_ip = ip
+    if user is not None:
+        remote_ip = '{user}@{ip}'.format(user=user, ip=ip)
+
+    tunnel_cmd = ['ssh', '-f',
+                         '-NL', 'localhost:{port}:/var/run/docker.sock'.format(port=port),
+                         '{remote_ip}'.format(remote_ip=remote_ip)]
+
+    # if a key was supplied add it to the command
+    if key_name is not None:
+        tunnel_cmd[2:2] = ['-i', '{}'.format(key_name)]
+
+    click.echo('Creating the tunnel to {ip} using cmd:\n  {cmd}'.format(cmd=click.style(' '.join(tunnel_cmd), fg='green'), ip=ip))
+    ps = subprocess.Popen(tunnel_cmd, start_new_session=True,
+                          stdin=subprocess.DEVNULL,
+                          stdout=subprocess.DEVNULL,
+                          stderr=subprocess.DEVNULL)
+
+    # ps.pid won't be the tunnel process's pid because ssh -f forks
+    # see https://stackoverflow.com/questions/4996311/python-subprocess-popen-get-pid-of-the-process-that-forks-a-process
+    # which also lets us wait for it to exit so we can check the returncode
+    ssh_retcode = ps.wait()
+
+    # if retcode is 0 all is good, otherwise (likely 255) creating the tunnel failed
+    if ssh_retcode != 0:
+        sys.exit('Creating the tunnel failed (ssh cmd returned {})'.format(ssh_retcode))
+
+    click.echo('\n'.join(
+        [
+            '\nTo use this tunnel w/ your local docker you will need DOCKER_HOST set',
+            'appropriately in your environment. Set it with the command:',
+            click.style('  export DOCKER_HOST=localhost:{port}\n'.format(port=port), fg='cyan'),
+        ]))
+
+
 def _get_tunnel_info(port):
     """Get info on any running ssh tunnel processes using the given local port
 
@@ -116,7 +181,7 @@ def _get_tunnel_info(port):
     # [bind_address:]port:remote_socket
     bind_re = re.compile('(?P<bind_address>.*):(?P<port>.*):(?P<remote_socket>.*)')
     # remote_user@remote_ip
-    user_ip_re = re.compile('(?P<remote_user>.*)@(?P<remote_ip>.*)')
+    user_ip_re = re.compile('(?:(?P<remote_user>.*)@)?(?P<remote_ip>.*)')
 
     # This is an example of what the tunnel process(es) info from psutil look like:
     # {'name': 'ssh',
@@ -403,7 +468,6 @@ def tunnel(stack_name, region, key_name):
     # There's no need at this time to allow the user or tunnel port to be configurable
     # so they are hardcoded here. This makes them easily configurable in the future if desired.
     user = 'docker'
-    port = 2374
 
     # Check that the stack exists and that create has completed
     try:
@@ -434,52 +498,9 @@ def tunnel(stack_name, region, key_name):
         else:
             mgr_ip = mgr_instances[sel - 1]['ip']
 
-    # check if we have existing ssh tunnel processes (check after selecting mgr so user sees the mgr IPs)
-    kill_tunnels, tunnel_cnt = _kill_existing_tunnels(port, prompt='Do you want to kill the existing tunnel(s)\n'
-                                                                   'and create a new one to {ip}? (y/n)'.format(ip=mgr_ip))
-
-    if tunnel_cnt > 0:
-        if not kill_tunnels:
-            _highlight('Leaving existing tunnels and aborting creating the tunnel to {ip}.'.format(ip=mgr_ip))
-            if 'DOCKER_HOST' in os.environ:
-                _highlight('\nYou have DOCKER_HOST exported in your environment:\n  DOCKER_HOST={}'.format(os.environ['DOCKER_HOST']))
-            else:
-                _highlight('\nYou don\'t have DOCKER_HOST exported in your environment you should:\n'
-                           '  export DOCKER_HOST=localhost:{}'.format(port))
-
-            return
-
-    # create the tunnel
-
-    tunnel_cmd = ['ssh', '-f',
-                         '-NL', 'localhost:{port}:/var/run/docker.sock'.format(port=port),
-                         '{user}@{remote_ip}'.format(user=user, remote_ip=mgr_ip)]
-
-    # if a key was supplied add it to the command
-    if key_name is not None:
-        tunnel_cmd[2:2] = ['-i', '{}'.format(key_name)]
-
-    click.echo('Creating the tunnel to {ip} using cmd:\n  {cmd}'.format(cmd=click.style(' '.join(tunnel_cmd), fg='green'), ip=mgr_ip))
-    ps = subprocess.Popen(tunnel_cmd, start_new_session=True,
-                          stdin=subprocess.DEVNULL,
-                          stdout=subprocess.DEVNULL,
-                          stderr=subprocess.DEVNULL)
-
-    # ps.pid won't be the tunnel process's pid because ssh -f forks
-    # see https://stackoverflow.com/questions/4996311/python-subprocess-popen-get-pid-of-the-process-that-forks-a-process
-    # which also lets us wait for it to exit so we can check the returncode
-    ssh_retcode = ps.wait()
-
-    # if retcode is 0 all is good, otherwise (likely 255) creating the tunnel failed
-    if ssh_retcode != 0:
-        sys.exit('Creating the tunnel failed (ssh cmd returned {})'.format(ssh_retcode))
-
-    click.echo('\n'.join(
-        [
-            '\nTo use this tunnel w/ your local docker you will need DOCKER_HOST set',
-            'appropriately in your environment. Set it with the command:',
-            click.style('  export DOCKER_HOST=localhost:{port}\n'.format(port=port), fg='cyan'),
-        ]))
+    # create the tunnel (will check for existing ssh tunnel processes which we want to
+    # happen after selecting the mgr so the user can see the mgr IPs)
+    _start_docker_tunnel(mgr_ip, user=user, key_name=key_name)
 
 
 @click.command()
@@ -498,6 +519,21 @@ def kill_tunnel():
     else:
         # did not kill a tunnel
         sys.exit(1)
+
+
+@click.command()
+@click.option('--key', 'key_name',
+              help='The full path to the AWS key file for the docker swarm. If unspecified, '
+                   'the key must be associated with the node\'s IP address in ~/.ssh/config')
+@click.option('--user', '-u', help='The username for the shell on the remote IP if different from the ssh default')
+@click.argument("ip", required=True)
+def start_docker_tunnel(ip, user, key_name):
+    """Start an ssh tunnel to a network location (IP) running docker.
+
+    The given ip may be an alias defined in the ~/.ssh/config file which specifies
+    the host user and actual ip address.
+    """
+    _start_docker_tunnel(ip, user=user, key_name=key_name)
 
 
 @click.group()
@@ -526,6 +562,7 @@ cli.add_command(status)
 cli.add_command(wait_for_complete)
 cli.add_command(tunnel)
 cli.add_command(kill_tunnel)
+cli.add_command(start_docker_tunnel)
 cli.add_command(get_stack_dns)
 cli.add_command(get_stack_manager_ips)
 cli.add_command(get_stack_manager_dns)
