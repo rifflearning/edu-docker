@@ -20,7 +20,7 @@ IMAGE_VERS=( [staging.riffmm]="1.0.0-dev.22"
              [nexted.riffmm]="1.0.0-dev.20"
              [nexted.riffdata]="0.4.0-dev.15"
              [said-oxford.riffmm]="1.0.0-dev.22"
-             [said-oxford.riffdata]="1.0.0"
+             [said-oxford.riffdata]="2.0.0-dev.6"
            )
 
 ################################################################################
