@@ -1,0 +1,96 @@
+#! /usr/bin/env bash
+# This script must be sourced
+#
+# Set up the environment to execute local docker commands to a remote
+# docker instance.
+# Takes 1 argument, the IP that describes the remote machine's network address.
+# After this script is sourced: the python environment is activated,
+# a tunnel to a remote machine running docker is created and the DOCKER_HOST points at it.
+
+# Quick test to see if this script is being sourced
+# https://stackoverflow.com/a/28776166/2184226
+(return 0 2>/dev/null) && sourced=1 || sourced=0
+
+if [[ $sourced -ne 1 ]]
+then
+    echo "This script must be sourced!"
+    exit 1
+fi
+
+# Test this is being run from the root of the riff-docker repo working dir
+if [[ ! ( -e Makefile && -e bin/docker-swarm.py ) ]]; then
+    echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
+    echo "Change to the riff-docker working directory and run:"
+    echo "  . bin/docker-tunnel <IP>"
+    echo
+    return -1
+fi
+
+################################################################################
+# Help                                                                         #
+################################################################################
+Help()
+{
+    # Display Help
+    echo "Start an ssh tunnel for issuing remote docker commands locally"
+    echo
+    echo "Syntax: . $0 [-h] <Riff Edu deployment name>"
+    echo "options:"
+    echo "h     Print this Help."
+    echo
+    echo "The Riff Edu deployment name must have an alias in ~/.ssh/config which"
+    echo "is that name with the prefix 'RE-'"
+    echo
+    echo "DOCKER_SWARM will be set to the Riff Edu deployment name and the"
+    echo "deploy-vars script will then be sourced."
+    echo
+}
+
+################################################################################
+################################################################################
+# Process the input options, validate arguments.                               #
+################################################################################
+# Get the options (note in a sourced script we need to ensure OPTIND is not yet set)
+unset OPTIND
+while getopts ":h" option; do
+    echo option: $option
+    case $option in
+        h) # display Help
+            Help
+            return -1
+            ;;
+        \?) # incorrect option
+            echo "Error: Invalid option"
+            return -1
+            ;;
+    esac
+done
+
+# Remove the getopts processed options
+shift $((OPTIND - 1))
+unset OPTIND
+
+if [ $# -ne 1 ]; then
+    echo "Error: One and only one argument is required."
+    echo
+    Help
+    return -1
+fi
+
+bin/docker-tunnel.sh "RE-$1"
+export DOCKER_HOST=localhost:2374
+
+export DEPLOY_SWARM=$1
+source bin/deploy-vars
+
+make show-env
+
+# Check that login credentials exist to access the registry where we store the images
+# Note that when tunneling the credentials will be local, as opposed to remote logging
+# in when the credentials must exist on the remote system.
+IMAGE_REGISTRY=docker.pkg.github.com
+if ! bin/docker-login-check.sh -q "$IMAGE_REGISTRY"; then
+    echo "!!! You will have to provide docker login credentials for the $IMAGE_REGISTRY registry"
+    echo "    before you will be able to deploy."
+    echo
+fi
