@@ -14,6 +14,7 @@ fi
 
 if [[ ! -v VIRTUAL_ENV ]]
 then
+    VENV_ACTIVATED=1
     source activate
 fi
 
@@ -23,5 +24,11 @@ then
     unset DOCKER_HOST
 
     echo "clearing deploy-vars"
-    source bin/deploy-vars --clear
+    source bin/nodeploy-vars
+fi
+
+if [[ -v VENV_ACTIVATED ]]
+then
+    unset VENV_ACTIVATED
+    deactivate
 fi
