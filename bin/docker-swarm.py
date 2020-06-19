@@ -517,8 +517,9 @@ def kill_tunnel():
                        'You can remove it using:\n'
                        '  unset DOCKER_HOST\n'.format(os.environ['DOCKER_HOST']))
     else:
-        # did not kill a tunnel
-        sys.exit(1)
+        # did not kill existing tunnel (ie replied no to prompt)
+        if tunnel_cnt > 0:
+            sys.exit(1)
 
 
 @click.command()
