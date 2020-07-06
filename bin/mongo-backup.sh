@@ -8,8 +8,8 @@
 #        so instead of --filter="ancestor=mongo"
 #        so also try --filter="volume=edu-stack_edu-riffdata-db-data"
 
-DEPLOY_SWARM=${DEPLOY_SWARM:-nexted}
-MONGO_CONTAINER=$(docker ps --filter="volume=edu-stack_edu-riffdata-db-data" --filter="status=running" --format={{.Names}})
+DEPLOY_SWARM=${DEPLOY_SWARM:-UNKNOWN}
+MONGO_CONTAINER=$(docker ps --filter="volume=edu-stk_edu-riffdata-db-data" --filter="status=running" --format={{.Names}})
 DATABASE_NAME="riff-test"
 TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 ARCHIVE_NAME=mongodb_${DATABASE_NAME}.edu.${DEPLOY_SWARM}.backup-${TIMESTAMP}.gz

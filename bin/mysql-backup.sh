@@ -8,9 +8,9 @@
 
 # Backup the database of a mattermost mysql database container
 
-DEPLOY_SWARM=${DEPLOY_SWARM:-nexted}
+DEPLOY_SWARM=${DEPLOY_SWARM:-UNKNOWN}
 # MYSQL_CNTR=edu-stack_edu-mm-db.1.jxno77rp82lq53v574keg8kv7
-MYSQL_CNTR=$(docker ps --filter="volume=edu-stack_edu-mm-db-data" --filter="status=running" --format={{.Names}})
+MYSQL_CNTR=$(docker ps --filter="volume=edu-stk_edu-mm-db-data" --filter="status=running" --format={{.Names}})
 TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 ARCHIVE_NAME=mysql.edu.${DEPLOY_SWARM}.mm.backup-${TIMESTAMP}.sql
 
