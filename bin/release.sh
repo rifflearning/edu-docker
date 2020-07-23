@@ -40,6 +40,9 @@ Help()
     echo "        image is built using the ./riffmm directory as the docker context"
     echo "      - edu-web: use -r to set the image tag. In general this should be 'latest'."
     echo "        The image is built using the ./edu-web directory as the docker context"
+    echo "      - riffrtc: builds and pushes 2 images. Those images are based on an intermediate"
+    echo "        prebuild image. The riffrtc-web final image uses the ./pfm-web directory"
+    echo "        as its docker context"
     echo
 }
 
