@@ -51,7 +51,13 @@ RIFFMM_VERSIONS=( [1.0.0-dev.1.web]="1.0.0-dev.16"
                   [1.0.0-dev.23.server]="1.0.0-dev.11"
                   [1.0.0-dev.24.web]="1.0.0-dev.41"
                   [1.0.0-dev.24.server]="1.0.0-dev.11"
+                  [5.25.0-riff.0.web]="v5.25.0-riff.0"
+                  [5.25.0-riff.0.server]="v5.25.0-riff.0"
                 )
+
+# Note: We will also want more general tags that get moved, e.g. a tag 5.25-riff which
+# is always on the latest 5.25 riff patch
+# I haven't figured out a good way to define, move and push those general tags yet. -mjl
 
 ################################################################################
 # GetRiffMMWebRef                                                              #
