@@ -32,6 +32,11 @@ git clone --depth 1 --branch $MM_WEBAPP_REF https://github.com/rifflearning/matt
 
 # Build the server and client
 pushd mattermost-server
+
+# Set by the mattermost-server Makefile, used in build/release.mk and needed here
+# for the packaging steps extracted from release.mk
+export GOBIN=${PWD}/bin
+
 make build-linux build-client
 
 # These steps are derived from the mattermost-server/build/release.mk package target
@@ -49,7 +54,10 @@ mkdir -p ${DIST_PATH}/logs
 mkdir -p ${DIST_PATH}/prepackaged_plugins
 
 # Resource directories
-cp -RL config ${DIST_PATH}
+mkdir -p ${DIST_PATH}/config
+cp -L config/{README.md,config-dev.json} ${DIST_PATH}/config
+## We set the initial config below by modifying config-dev.json instead of the following:
+## OUTPUT_CONFIG=${PWD}/${DIST_PATH}/config/config.json go generate ./config
 cp -RL fonts ${DIST_PATH}
 cp -RL templates ${DIST_PATH}
 cp -RL i18n ${DIST_PATH}
@@ -68,7 +76,7 @@ cp -RL i18n ${DIST_PATH}
 # The config is in a docker named volume so redeploying WILL NOT update these values
 # unless you decide to delete that volume first, in which case it will be re-initialized
 # with these values but will lose any values set after deployment or via the console.
-MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'       \
+MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://said-oxford.riffedu.com"'  \
                '|' '.ServiceSettings.ListenAddress |= ":8065"'                      \
                '|' '.ServiceSettings.AllowCorsFrom |= "*"'                          \
                '|' '.ServiceSettings.EnablePreviewFeatures |= false'                \
@@ -77,7 +85,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
                '|' '.TeamSettings.MaxUsersPerTeam |= 200'                           \
                '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
-               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["coding-help", "course-support", "feedback", "links-fun", "weekly-updates"]' \
+               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["programme-support", "weekly-updates", "current-events", "case-studies"]' \
                '|' '.LogSettings.EnableConsole |= true'                             \
                '|' '.LogSettings.ConsoleLevel |= "DEBUG"'                           \
                '|' '.FileSettings.Directory |= "'"${DIST_ROOT}/data/"'"'            \
@@ -85,8 +93,9 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.FileSettings.PublicLinkSalt |= "'$(generate_salt)'"'           \
                '|' '.EmailSettings.SendEmailNotifications |= false'                 \
                '|' '.EmailSettings.FeedbackName |= "Riff Edu Support"'              \
-               '|' '.EmailSettings.FeedbackEmail |= "support@rifflearning.com"'     \
-               '|' '.EmailSettings.FeedbackOrganization |= "© Riff Learning, Inc., Newton MA"' \
+               '|' '.EmailSettings.FeedbackEmail |= "support@riffanalytics.ai"'     \
+               '|' '.EmailSettings.FeedbackOrganization |= "© Riff Analytics, Newton MA"' \
+               '|' '.EmailSettings.ReplyToAddress |= "support@riffanalytics.ai"'    \
                '|' '.EmailSettings.SMTPServer |= "email-smtp.us-east-1.amazonaws.com"' \
                '|' '.EmailSettings.SMTPPort |= "465"'                               \
                '|' '.EmailSettings.SMTPUsername |= ""'                              \
@@ -101,9 +110,9 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://nexted.riffedu.com"'   
                '|' '.EmailSettings.InviteSalt |= "'$(generate_salt)'"'              \
                '|' '.EmailSettings.PasswordResetSalt |= "'$(generate_salt)'"'       \
                '|' '.EmailSettings.EnablePreviewModeBanner |= false'                \
-               '|' '.SupportSettings.TermsOfServiceLink |= "https://www.rifflearning.com/terms-of-service"' \
-               '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.rifflearning.com/privacy-policy"' \
-               '|' '.SupportSettings.SupportEmail |= "support@rifflearning.com"'    \
+               '|' '.SupportSettings.TermsOfServiceLink |= "https://www.riffanalytics.ai/terms-of-service"' \
+               '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.riffanalytics.ai/privacy-policy"' \
+               '|' '.SupportSettings.SupportEmail |= "support@riffanalytics.ai"'    \
                '|' '.RateLimitSettings.Enable |= true'                              \
                '|' '.SqlSettings.DriverName |= "mysql"'                             \
                '|' '.SqlSettings.DataSource |= "'"mmuser:mostest@tcp(${DB_DOMAIN}:${DB_PORT})/mattermost_test?charset=utf8mb4,utf8\\u0026readTimeout=30s\\u0026writeTimeout=30s"'"' \
@@ -131,4 +140,4 @@ cp -RL ${BUILD_WEBAPP_DIR}/dist/* ${DIST_PATH}/client
 
 # Copy linux binary
 echo Copying over the server executable file...
-cp ${GOPATH}/bin/mattermost ${DIST_PATH}/bin # from native bin dir, not cross-compiled
+cp ${GOBIN}/mattermost ${DIST_PATH}/bin # from native bin dir, not cross-compiled
