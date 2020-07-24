@@ -24,7 +24,7 @@ then
     unset DOCKER_HOST
 
     echo "clearing deploy-vars"
-    source bin/nodeploy-vars
+    source bin/deploy-vars --clear
 fi
 
 if [[ -v VENV_ACTIVATED ]]

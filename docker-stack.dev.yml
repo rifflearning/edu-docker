@@ -1,0 +1,20 @@
+---
+# THIS IS NOT USED FOR local development! It is for deploying to an AWS
+# instance whose DNS is dev.riffedu.com
+#
+# override/additions to docker-stack.yml for deploying to the dev swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: dev.riffedu.com.key.8
+        target: site.key
+      - source: dev.riffedu.com.crt.8
+        target: site.crt
+
+# Your cert will expire on 2020-09-20 (dev key.8 & crt.8)
+secrets:
+  dev.riffedu.com.key.8:
+    external: true
+  dev.riffedu.com.crt.8:
+    external: true

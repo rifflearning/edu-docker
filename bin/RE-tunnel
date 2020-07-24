@@ -17,7 +17,7 @@ then
     exit 1
 fi
 
-# Test this is being run from the root of the riff-docker repo working dir
+# Test this is being run from the root of the edu-docker repo working dir
 if [[ ! ( -e Makefile && -e bin/docker-swarm.py ) ]]; then
     echo "You do not seem to have sourced this script from the root of the edu-docker working directory."
     echo "Change to the riff-docker working directory and run:"
