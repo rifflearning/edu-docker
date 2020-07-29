@@ -19,6 +19,17 @@ services:
     volumes:
       - ${MM_SERVER_PATH-../mattermost-server}:/home/mmuser/go/src/github.com/mattermost/mattermost-server
       - ${MM_WEBAPP_PATH-../mattermost-webapp}:/home/mmuser/go/src/github.com/mattermost/mattermost-webapp
+      # For doing development inside the container:
+      # ~/.npmrc is bound to allow private npm registries
+      #     see https://docs.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-npm-for-use-with-github-packages
+      #     e.g. npm login --scope=@rifflearning --registry=https://npm.pkg.github.com
+      # ~/.netrc is bound to allow private go modules
+      #     see https://golang.org/doc/faq#git_https
+      - ~/.npmrc:/home/mmuser/.npmrc
+      - ~/.netrc:/home/mmuser/.netrc
+      # for doing development on the riff plugins:
+      - ${MM_PLUGIN_SURVEY_PATH-../mattermost-plugin-riff-survey}:/home/mmuser/riff/mattermost-plugin-riff-survey
+      - ${MM_PLUGIN_CORE_PATH-../mattermost-plugin-riff-core}:/home/mmuser/riff/mattermost-plugin-riff-core
 
   edu-riffdata:
     image: 'rifflearning/riffdata:dev'
