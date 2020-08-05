@@ -15,7 +15,7 @@ DEPLOY_NAMES=( dev
 
 # IMAGE_VERS is an associative array of the DEPLOY_NAMES image versions deployed on that instance
 declare -A IMAGE_VERS
-IMAGE_VERS=( [dev.riffmm]="5.25.0-riff.0"
+IMAGE_VERS=( [dev.riffmm]="5.25.0-riff.1"
              [dev.riffdata]="2.0.0-dev.6"
              [staging.riffmm]="1.0.0-dev.24"
              [staging.riffdata]="2.0.0-dev.6"
