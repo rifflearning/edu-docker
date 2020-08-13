@@ -150,6 +150,7 @@ BuildImage()
                          [UBUNTU_VER]=latest
                          [NODE_VER]=12
                          [GOLANG_VER]=1.14.6
+                         [BUILD_NUMBER]=${TAG}
                          [MM_SERVER_REF]="$(GetRiffMMServerRef ${TAG})"
                          [MM_WEBAPP_REF]="$(GetRiffMMWebRef ${TAG})"
                        )

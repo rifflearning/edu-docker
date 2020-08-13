@@ -103,6 +103,8 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 COPY --chown=mmuser:mmuser scripts/riffmm-build.sh /home/${MM_USER}/
 RUN chown -R ${MM_USER}:${MM_USER} .
 
+# if the build number is given use it, otherwise let the mattermost build default stand
+ARG BUILD_NUMBER=
 ARG MM_SERVER_REF=develop
 ARG MM_WEBAPP_REF=develop
 
