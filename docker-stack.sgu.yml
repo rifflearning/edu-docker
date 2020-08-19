@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the sgu swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: sgu.riffedu.com.key.1
+        target: site.key
+      - source: sgu.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2020-11-17 (sgu key.1 & crt.1)
+secrets:
+  sgu.riffedu.com.key.1:
+    external: true
+  sgu.riffedu.com.crt.1:
+    external: true
