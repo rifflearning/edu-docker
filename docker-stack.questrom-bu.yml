@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the questrom-bu swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: questrom-bu.riffedu.com.key.1
+        target: site.key
+      - source: questrom-bu.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2020-11-26 (questrom-bu key.1 & crt.1)
+secrets:
+  questrom-bu.riffedu.com.key.1:
+    external: true
+  questrom-bu.riffedu.com.crt.1:
+    external: true

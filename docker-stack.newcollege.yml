@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the newcollege swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: newcollege.riffedu.com.key.1
+        target: site.key
+      - source: newcollege.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2020-11-26 (newcollege key.1 & crt.1)
+secrets:
+  newcollege.riffedu.com.key.1:
+    external: true
+  newcollege.riffedu.com.crt.1:
+    external: true

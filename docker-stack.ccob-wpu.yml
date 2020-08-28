@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the ccob-wpu swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: ccob-wpu.riffedu.com.key.1
+        target: site.key
+      - source: ccob-wpu.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2020-11-26 (ccob-wpu key.1 & crt.1)
+secrets:
+  ccob-wpu.riffedu.com.key.1:
+    external: true
+  ccob-wpu.riffedu.com.crt.1:
+    external: true

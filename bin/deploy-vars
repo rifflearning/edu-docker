@@ -9,6 +9,9 @@
 # Valid swarm names (used to index IMAGE_VERS)
 # keep alphabetical after 'riffai'
 DEPLOY_NAMES=( dev
+               ccob-wpu
+               newcollege
+               questrom-bu
                sgu
                staging
                said-oxford
@@ -22,6 +25,12 @@ IMAGE_VERS=( [dev.riffmm]="5.25.2-riff.0"
              [staging.riffdata]="2.0.0-dev.6"
              [nexted.riffmm]="1.0.0-dev.20"
              [nexted.riffdata]="0.4.0-dev.15"
+             [ccob-wpu.riffmm]="5.25.2-riff.0"
+             [ccob-wpu.riffdata]="2.0.0-dev.6"
+             [newcollege.riffmm]="5.25.2-riff.0"
+             [newcollege.riffdata]="2.0.0-dev.6"
+             [questrom-bu.riffmm]="5.25.2-riff.0"
+             [questrom-bu.riffdata]="2.0.0-dev.6"
              [sgu.riffmm]="5.25.2-riff.0"
              [sgu.riffdata]="2.0.0-dev.6"
              [said-oxford.riffmm]="1.0.0-dev.24"
