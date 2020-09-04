@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the cliffcollege swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: cliffcollege.riffedu.com.key.1
+        target: site.key
+      - source: cliffcollege.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2020-12-03 (cliffcollege key.1 & crt.1)
+secrets:
+  cliffcollege.riffedu.com.key.1:
+    external: true
+  cliffcollege.riffedu.com.crt.1:
+    external: true

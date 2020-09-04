@@ -10,6 +10,7 @@
 # keep alphabetical after 'riffai'
 DEPLOY_NAMES=( dev
                ccob-wpu
+               cliffcollege
                gv-mit
                newcollege
                questrom-bu
@@ -28,6 +29,8 @@ IMAGE_VERS=( [dev.riffmm]="5.25.2-riff.0"
              [nexted.riffdata]="0.4.0-dev.15"
              [ccob-wpu.riffmm]="5.25.2-riff.0"
              [ccob-wpu.riffdata]="2.0.0-dev.6"
+             [cliffcollege.riffmm]="5.25.2-riff.0"
+             [cliffcollege.riffdata]="2.0.0-dev.6"
              [gv-mit.riffmm]="5.25.2-riff.0"
              [gv-mit.riffdata]="2.0.0-dev.6"
              [newcollege.riffmm]="5.25.2-riff.0"
