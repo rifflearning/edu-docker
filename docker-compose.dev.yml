@@ -31,18 +31,26 @@ services:
       - ${MM_PLUGIN_SURVEY_PATH-../mattermost-plugin-riff-survey}:/home/mmuser/riff/mattermost-plugin-riff-survey
       - ${MM_PLUGIN_CORE_PATH-../mattermost-plugin-riff-core}:/home/mmuser/riff/mattermost-plugin-riff-core
 
+
   edu-riffdata:
-    image: 'rifflearning/riffdata:dev'
-    build:
-      context: ${RIFF_SERVER_PATH-../riff-server}/docker
-      dockerfile: Dockerfile-dev
-      args:
-        NODE_VER: 12
-        PORT: 3000
+    image: 'docker.pkg.github.com/rifflearning/riff-server/riffdata:${RIFFDATA_TAG-2.0.0-dev.6}'
     ports:
       - '3000:3000'
-    volumes:
-      - ${RIFF_SERVER_PATH-../riff-server}:/app
+
+#  The following is just in case you need to be doing development on the riffdata server in
+#  conjunction w/ edu. This would be unusual.
+#  edu-riffdata:
+#    image: 'rifflearning/riffdata:dev'
+#    build:
+#      context: ${RIFF_SERVER_PATH-../riff-server}/docker
+#      dockerfile: Dockerfile-dev
+#      args:
+#        NODE_VER: 12
+#        PORT: 3000
+#    ports:
+#      - '3000:3000'
+#    volumes:
+#      - ${RIFF_SERVER_PATH-../riff-server}:/app
 
   # Although the dev edu-web is the same as the production edu-web built w/ the release script
   # we give it a dev image name and tag
@@ -54,13 +62,15 @@ services:
       args:
         NGINX_VER: latest
 
-  edu-signalmaster:
-    image: 'rifflearning/signalmaster:dev'
-    build:
-      context: ${SIGNALMASTER_PATH-../signalmaster}/docker
-      dockerfile: Dockerfile-dev
-    volumes:
-        - ${SIGNALMASTER_PATH-../signalmaster}:/app
+#  The following is just in case you need to be doing development on the signalmaster in
+#  conjunction w/ edu. This would be unusual.
+#  edu-signalmaster:
+#    image: 'rifflearning/signalmaster:dev'
+#    build:
+#      context: ${SIGNALMASTER_PATH-../signalmaster}/docker
+#      dockerfile: Dockerfile-dev
+#    volumes:
+#        - ${SIGNALMASTER_PATH-../signalmaster}:/app
 
   edu-riffdata-db:
     ports:
