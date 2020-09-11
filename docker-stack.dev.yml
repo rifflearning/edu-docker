@@ -7,14 +7,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: dev.riffedu.com.key.8
+      - source: dev.riffedu.com.key.9
         target: site.key
-      - source: dev.riffedu.com.crt.8
+      - source: dev.riffedu.com.crt.9
         target: site.crt
 
-# Your cert will expire on 2020-09-20 (dev key.8 & crt.8)
+# Your cert will expire on 2020-12-03 (dev key.9 & crt.9)
 secrets:
-  dev.riffedu.com.key.8:
+  dev.riffedu.com.key.9:
     external: true
-  dev.riffedu.com.crt.8:
+  dev.riffedu.com.crt.9:
     external: true
