@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the esme-learning swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: esme-learning.riffedu.com.key.1
+        target: site.key
+      - source: esme-learning.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2021-01-03 (esme-learning key.1 & crt.1)
+secrets:
+  esme-learning.riffedu.com.key.1:
+    external: true
+  esme-learning.riffedu.com.crt.1:
+    external: true
