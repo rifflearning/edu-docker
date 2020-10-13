@@ -42,8 +42,8 @@ IMAGE_VERS=( [dev.riffmm]="5.25.2-riff.1"
              [questrom-bu.riffdata]="2.0.0-dev.6"
              [sgu.riffmm]="5.25.2-riff.0"
              [sgu.riffdata]="2.0.0-dev.6"
-             [said-oxford.riffmm]="1.0.0-dev.24"
-             [said-oxford.riffdata]="2.0.0-dev.6"
+             [said-oxford.riffmm]="5.25.2-riff.1"
+             [said-oxford.riffdata]="2.0.0-dev.7"
            )
 
 ################################################################################
