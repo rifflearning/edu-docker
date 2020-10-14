@@ -76,23 +76,24 @@ cp -RL i18n ${DIST_PATH}
 # The config is in a docker named volume so redeploying WILL NOT update these values
 # unless you decide to delete that volume first, in which case it will be re-initialized
 # with these values but will lose any values set after deployment or via the console.
-MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://said-oxford.riffedu.com"'  \
+MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"'   \
                '|' '.ServiceSettings.ListenAddress |= ":8065"'                      \
                '|' '.ServiceSettings.AllowCorsFrom |= "*"'                          \
                '|' '.ServiceSettings.EnablePreviewFeatures |= false'                \
                '|' '.ServiceSettings.EnableDeveloper |= false'                      \
                '|' '.ServiceSettings.EnableTutorial |= false'                       \
                '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
+               '|' '.TeamSettings.EnableTeamCreation |= false'                      \
                '|' '.TeamSettings.MaxUsersPerTeam |= 200'                           \
                '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
-               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["programme-support", "weekly-updates", "current-events", "case-studies"]' \
+               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["programme-support", "tutors-corner"]' \
                '|' '.LogSettings.EnableConsole |= true'                             \
-               '|' '.LogSettings.ConsoleLevel |= "DEBUG"'                           \
+               '|' '.LogSettings.ConsoleLevel |= "ERROR"'                           \
                '|' '.FileSettings.Directory |= "'"${DIST_ROOT}/data/"'"'            \
                '|' '.FileSettings.EnablePublicLink |= true'                         \
                '|' '.FileSettings.PublicLinkSalt |= "'$(generate_salt)'"'           \
                '|' '.EmailSettings.SendEmailNotifications |= false'                 \
-               '|' '.EmailSettings.FeedbackName |= "Riff Edu Support"'              \
+               '|' '.EmailSettings.FeedbackName |= "Riff Edu Support (SITE NAME)"'  \
                '|' '.EmailSettings.FeedbackEmail |= "support@riffanalytics.ai"'     \
                '|' '.EmailSettings.FeedbackOrganization |= "© Riff Analytics, Newton MA"' \
                '|' '.EmailSettings.ReplyToAddress |= "support@riffanalytics.ai"'    \
@@ -121,9 +122,26 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://said-oxford.riffedu.com
                '|' '.PluginSettings.EnableUploads |= true'                          \
                '|' '.PluginSettings.Directory |= "'"${DIST_ROOT}/plugins"'"'        \
                '|' '.PluginSettings.ClientDirectory |= "'"${DIST_ROOT}/client/plugins"'"' \
-               '|' '.LTISettings.Enable |= true'                                    \
+               '|' '.LTISettings.Enable |= false'                                   \
                '|' '.LTISettings.EnableSignatureValidation |= true'                 \
-               '|' '.LTISettings.LMSs |= []'                                        \
+               '|' '.LTISettings.LMSs |= ['                                         \
+                        '{'                                                         \
+                            '"Name": "Sample Client Name",'                         \
+                            '"Type": "edx",'                                        \
+                            '"OAuthConsumerKey": "sample_client_1234",'             \
+                            '"OAuthConsumerSecret": "00112233445566778899aabbccddeeff",'                                                \
+                            '"Teams": {'                                            \
+                                '"lms_lti-context_id-field_value": "team-slug"'     \
+                            '},'                                                    \
+                            '"PersonalChannels": {'                                 \
+                                '"Type": "custom-properties",'                      \
+                                '"ChannelList": {'                                  \
+				                    '"capstone": {"IdProperty": "custom_team_id", "NameProperty": "custom_team_name"},' \
+				                    '"plg": {"IdProperty": "custom_cohort_id", "NameProperty": "custom_cohort_name"}' \
+                                '}'                                                 \
+                            '}'                                                     \
+                        '}'                                                         \
+                    ']'                                                             \
                  )
 
 # Use the dev config (until we figure out something better) as the initial config
