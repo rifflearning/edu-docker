@@ -18,8 +18,6 @@ services:
       update_config:
         parallelism: 1
         delay: 10s
-      restart_policy:
-        condition: unless-stopped
       placement:
         constraints: [node.labels.mmapp == true]
 
@@ -29,8 +27,6 @@ services:
       update_config:
         parallelism: 1
         delay: 10s
-      restart_policy:
-        condition: unless-stopped
       placement:
         constraints: [node.labels.riffapi == true]
     configs:
@@ -43,8 +39,6 @@ services:
       update_config:
         parallelism: 1
         delay: 10s
-      restart_policy:
-        condition: unless-stopped
       placement:
         constraints: [node.labels.web == true]
 
@@ -54,8 +48,6 @@ services:
       update_config:
         parallelism: 1
         delay: 10s
-      restart_policy:
-        condition: unless-stopped
     configs:
       - source: signalmaster.local-production.yml.2
         target: /app/config/local-production.yml
@@ -66,8 +58,6 @@ services:
       update_config:
         parallelism: 1
         delay: 10s
-      restart_policy:
-        condition: unless-stopped
       placement:
         constraints: [node.labels.riffapi == true]
 
@@ -77,8 +67,6 @@ services:
       update_config:
         parallelism: 1
         delay: 10s
-      restart_policy:
-        condition: unless-stopped
       placement:
         constraints: [node.labels.mmdb == true]
 
