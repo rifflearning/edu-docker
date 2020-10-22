@@ -114,7 +114,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"
                '|' '.SupportSettings.TermsOfServiceLink |= "https://www.riffanalytics.ai/terms-of-service"' \
                '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.riffanalytics.ai/privacy-policy"' \
                '|' '.SupportSettings.SupportEmail |= "support@riffanalytics.ai"'    \
-               '|' '.RateLimitSettings.Enable |= true'                              \
+               '|' '.RateLimitSettings.Enable |= false'                             \
                '|' '.SqlSettings.DriverName |= "mysql"'                             \
                '|' '.SqlSettings.DataSource |= "'"mmuser:mostest@tcp(${DB_DOMAIN}:${DB_PORT})/mattermost_test?charset=utf8mb4,utf8\\u0026readTimeout=30s\\u0026writeTimeout=30s"'"' \
                '|' '.SqlSettings.AtRestEncryptKey |= "'$(generate_salt)'"'          \
