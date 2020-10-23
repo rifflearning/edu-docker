@@ -20,7 +20,7 @@ echo "  Archive file name: $ARCHIVE_NAME"
 read -rsp $'Press any key to continue or Ctrl-C to abort\n' -n1 key
 
 echo
-docker exec $MYSQL_CNTR /usr/bin/mysqldump --user=mmuser --password=mostest --databases mattermost_test > ~/tmp/$ARCHIVE_NAME
+docker exec $MYSQL_CNTR /usr/bin/mysqldump --user=mmuser --password=mostest --no-tablespaces --databases mattermost_test > ~/tmp/$ARCHIVE_NAME
 gzip -9 ~/tmp/$ARCHIVE_NAME
 
 echo "Backup was created in ~/tmp"
