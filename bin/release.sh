@@ -149,7 +149,7 @@ BuildImage()
             BUILD_ARGS=( [NGINX_VER]=latest
                          [UBUNTU_VER]=latest
                          [NODE_VER]=12
-                         [GOLANG_VER]=1.15.3
+                         [GOLANG_VER]=1.15.4
                          [BUILD_NUMBER]=${TAG}
                          [MM_SERVER_REF]="$(GetRiffMMServerRef ${TAG})"
                          [MM_WEBAPP_REF]="$(GetRiffMMWebRef ${TAG})"

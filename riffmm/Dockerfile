@@ -23,7 +23,7 @@ USER ${MM_USER}
 # ---- Build environment (go and node and related pkgs) ----
 FROM base as buildenv
 ARG NODE_VER=12
-ARG GOLANG_VER=1.15.3
+ARG GOLANG_VER=1.15.4
 
 # Copy the build environment install script to the image
 COPY scripts/riffmm-buildenv.sh /setupfiles/
