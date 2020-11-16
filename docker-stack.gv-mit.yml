@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: gv-mit.riffedu.com.key.1
+      - source: gv-mit.riffedu.com.key.2
         target: site.key
-      - source: gv-mit.riffedu.com.crt.1
+      - source: gv-mit.riffedu.com.crt.2
         target: site.crt
 
-# Your cert will expire on 2020-12-03 (gv-mit key.1 & crt.1)
+# Your cert will expire on 2021-02-13 (gv-mit key.2 & crt.2)
 secrets:
-  gv-mit.riffedu.com.key.1:
+  gv-mit.riffedu.com.key.2:
     external: true
-  gv-mit.riffedu.com.crt.1:
+  gv-mit.riffedu.com.crt.2:
     external: true

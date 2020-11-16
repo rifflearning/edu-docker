@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: newcollege.riffedu.com.key.1
+      - source: newcollege.riffedu.com.key.2
         target: site.key
-      - source: newcollege.riffedu.com.crt.1
+      - source: newcollege.riffedu.com.crt.2
         target: site.crt
 
-# Your cert will expire on 2020-11-26 (newcollege key.1 & crt.1)
+# Your cert will expire on 2021-02-13 (newcollege key.2 & crt.2)
 secrets:
-  newcollege.riffedu.com.key.1:
+  newcollege.riffedu.com.key.2:
     external: true
-  newcollege.riffedu.com.crt.1:
+  newcollege.riffedu.com.crt.2:
     external: true
