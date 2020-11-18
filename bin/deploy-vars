@@ -11,6 +11,7 @@
 DEPLOY_NAMES=( dev
                ccob-wpu
                cliffcollege
+               demo
                esme-learning
                gv-mit
                newcollege
@@ -24,14 +25,14 @@ DEPLOY_NAMES=( dev
 declare -A IMAGE_VERS
 IMAGE_VERS=( [dev.riffmm]="5.25.2-riff.1"
              [dev.riffdata]="2.0.0-dev.9"
-             [staging.riffmm]="5.25.2-riff.1"
-             [staging.riffdata]="2.0.0-dev.9"
              [nexted.riffmm]="1.0.0-dev.20"
              [nexted.riffdata]="0.4.0-dev.15"
              [ccob-wpu.riffmm]="5.25.2-riff.1"
              [ccob-wpu.riffdata]="2.0.0-dev.9"
              [cliffcollege.riffmm]="5.25.2-riff.1"
              [cliffcollege.riffdata]="2.0.0-dev.9"
+             [demo.riffmm]="5.25.2-riff.1"
+             [demo.riffdata]="2.0.0-dev.9"
              [esme-learning.riffmm]="5.25.2-riff.1"
              [esme-learning.riffdata]="2.0.0-dev.7"
              [gv-mit.riffmm]="5.25.2-riff.1"
@@ -44,6 +45,8 @@ IMAGE_VERS=( [dev.riffmm]="5.25.2-riff.1"
              [said-oxford.riffdata]="2.0.0-dev.7"
              [sgu.riffmm]="5.25.2-riff.1"
              [sgu.riffdata]="2.0.0-dev.9"
+             [staging.riffmm]="5.25.2-riff.1"
+             [staging.riffdata]="2.0.0-dev.9"
            )
 
 ################################################################################

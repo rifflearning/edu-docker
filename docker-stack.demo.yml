@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the demo swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: demo.riffedu.com.key.1
+        target: site.key
+      - source: demo.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2021-02-11 (demo key.1 & crt.1)
+secrets:
+  demo.riffedu.com.key.1:
+    external: true
+  demo.riffedu.com.crt.1:
+    external: true
