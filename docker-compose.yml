@@ -32,7 +32,7 @@ services:
       - edu-signalmaster
 
   edu-signalmaster:
-    image: 'docker.pkg.github.com/rifflearning/signalmaster/signalmaster:2.1.0'
+    image: 'docker.pkg.github.com/rifflearning/signalmaster/signalmaster:2.1.1'
 
   edu-riffdata-db:
     image: mongo:${MONGO_VER-latest}
