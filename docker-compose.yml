@@ -18,6 +18,8 @@ services:
   edu-riffdata:
     image: 'docker.pkg.github.com/rifflearning/riff-server/riffdata:${RIFFDATA_TAG-latest}'
     hostname: edu-riffdata
+    ports:
+      - '3000:3000'
     depends_on:
       - edu-riffdata-db
 
