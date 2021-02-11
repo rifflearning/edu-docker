@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: sgu.riffedu.com.key.2
+      - source: sgu.riffedu.com.key.3
         target: site.key
-      - source: sgu.riffedu.com.crt.2
+      - source: sgu.riffedu.com.crt.3
         target: site.crt
 
-# Your cert will expire on 2021-02-13 (sgu key.2 & crt.2)
+# Your cert will expire on 2021-05-12 (sgu key.3 & crt.3)
 secrets:
-  sgu.riffedu.com.key.2:
+  sgu.riffedu.com.key.3:
     external: true
-  sgu.riffedu.com.crt.2:
+  sgu.riffedu.com.crt.3:
     external: true

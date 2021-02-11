@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: ccob-wpu.riffedu.com.key.2
+      - source: ccob-wpu.riffedu.com.key.3
         target: site.key
-      - source: ccob-wpu.riffedu.com.crt.2
+      - source: ccob-wpu.riffedu.com.crt.3
         target: site.crt
 
-# Your cert will expire on 2021-02-13 (ccob-wpu key.2 & crt.2)
+# Your cert will expire on 2021-05-12 (ccob-wpu key.3 & crt.3)
 secrets:
-  ccob-wpu.riffedu.com.key.2:
+  ccob-wpu.riffedu.com.key.3:
     external: true
-  ccob-wpu.riffedu.com.crt.2:
+  ccob-wpu.riffedu.com.crt.3:
     external: true
