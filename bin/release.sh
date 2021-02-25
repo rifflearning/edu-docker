@@ -115,7 +115,7 @@ BuildImage()
         riffdata)
             CONTEXT="https://${TOKEN}:@github.com/rifflearning/riff-server.git#${REF}"
             DOCKERFILE="Dockerfile"
-            BUILD_ARGS=( [NODE_VER]=12
+            BUILD_ARGS=( [NODE_VER]=14
                          [PORT]=3000
                        )
             ;;
@@ -123,13 +123,13 @@ BuildImage()
             CONTEXT="https://${TOKEN}:@github.com/rifflearning/riff-rtc.git#${REF}"
             DOCKERFILE="Dockerfile"
             BUILD_STAGE=build
-            BUILD_ARGS=( [NODE_VER]=12
+            BUILD_ARGS=( [NODE_VER]=14
                        )
             ;;
         riffrtc-server)
             CONTEXT="https://${TOKEN}:@github.com/rifflearning/riff-rtc.git#${REF}"
             DOCKERFILE="docker/Dockerfile-prod-server"
-            BUILD_ARGS=( [NODE_VER]=12
+            BUILD_ARGS=( [NODE_VER]=14
                          [RTC_BUILD_TAG]=${TAG}
                          [PORT]=3001
                        )
@@ -148,8 +148,8 @@ BuildImage()
             source bin/riffmm-versions
             BUILD_ARGS=( [NGINX_VER]=latest
                          [UBUNTU_VER]=latest
-                         [NODE_VER]=12
-                         [GOLANG_VER]=1.15.6
+                         [NODE_VER]=14
+                         [GOLANG_VER]=1.16
                          [BUILD_NUMBER]=${TAG}
                          [MM_SERVER_REF]="$(GetRiffMMServerRef ${TAG})"
                          [MM_WEBAPP_REF]="$(GetRiffMMWebRef ${TAG})"
