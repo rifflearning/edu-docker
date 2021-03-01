@@ -45,8 +45,8 @@ IMAGE_VERS=( [dev.riffmm]="5.29.1-riff.0"
              [said-oxford.riffdata]="2.0.0-dev.9"
              [sgu.riffmm]="5.29.1-riff.0"
              [sgu.riffdata]="2.0.0-dev.9"
-             [staging.riffmm]="5.29.1-riff.0"
-             [staging.riffdata]="2.0.0-dev.9"
+             [staging.riffmm]="5.29.1-riff.1"
+             [staging.riffdata]="2.0.0-dev.10"
            )
 
 ################################################################################
