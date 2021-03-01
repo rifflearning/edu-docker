@@ -24,7 +24,7 @@ apt-get install -y --no-install-recommends "${INSTALL_PKGS[@]}" "${MM_PKGS[@]}" 
 echo "SETUP: Installing node ${NODE_VER}.x ..."
 curl -sL https://deb.nodesource.com/setup_${NODE_VER}.x | bash -
 apt-get install -y --no-install-recommends nodejs
-npm install -g npm
+npm install -g npm@6
 
 # This has problems getting installed, so I'm going to try to install it globally
 npm install -g mozjpeg --unsafe-perm=true
