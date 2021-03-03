@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the coachdiversity swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: coachdiversity.riffedu.com.key.1
+        target: site.key
+      - source: coachdiversity.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2021-05-31 (coachdiversity key.1 & crt.1)
+secrets:
+  coachdiversity.riffedu.com.key.1:
+    external: true
+  coachdiversity.riffedu.com.crt.1:
+    external: true
