@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the udcbrazil swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: udcbrazil.riffedu.com.key.1
+        target: site.key
+      - source: udcbrazil.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2021-06-09 (udcbrazil key.1 & crt.1)
+secrets:
+  udcbrazil.riffedu.com.key.1:
+    external: true
+  udcbrazil.riffedu.com.crt.1:
+    external: true

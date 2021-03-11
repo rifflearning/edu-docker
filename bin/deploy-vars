@@ -9,6 +9,7 @@
 # Valid swarm names (used to index IMAGE_VERS)
 # keep alphabetical after 'riffai'
 DEPLOY_NAMES=( dev
+               udcbrazil
                ccob-wpu
                cliffcollege
                coachdiversity
@@ -25,9 +26,11 @@ DEPLOY_NAMES=( dev
 # IMAGE_VERS is an associative array of the DEPLOY_NAMES image versions deployed on that instance
 declare -A IMAGE_VERS
 IMAGE_VERS=( [dev.riffmm]="5.29.1-riff.1"
-             [dev.riffdata]="2.0.0-dev.10"
+             [dev.riffdata]="2.0.0-dev.11"
              [nexted.riffmm]="1.0.0-dev.20"
              [nexted.riffdata]="0.4.0-dev.15"
+             [udcbrazil.riffmm]="5.29.1-riff.1"
+             [udcbrazil.riffdata]="2.0.0-dev.11"
              [ccob-wpu.riffmm]="5.29.1-riff.0"
              [ccob-wpu.riffdata]="2.0.0-dev.9"
              [cliffcollege.riffmm]="5.29.1-riff.0"
