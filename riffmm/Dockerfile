@@ -48,6 +48,9 @@ ENV NODE_ENV=development
 # Don't start docker inside the docker container (MM local docker dev support in Makefile)
 ENV MM_NO_DOCKER=true
 
+# Enable go module support (https://developers.mattermost.com/contribute/server/dependencies/#enabling-go-modules-support-do-this-first)
+ENV GO111MODULE=on
+
 # expose port that the mattermost server listens to
 EXPOSE 8065
 
@@ -66,13 +69,16 @@ RUN apt-get update \
 
 # 'make check-style' requires that golangci-lint be installed, this is the command from
 # the page referenced when it is missing:
-ARG GOCI_LINT_VER=1.25.1
+ARG GOCI_LINT_VER=1.31.0
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
     | sh -s -- -b $(go env GOPATH)/bin v${GOCI_LINT_VER}
 
 # 'make vet' requires that mattermost-govet be installed. This is the command specified in the Makefile
+# NOTE: if the local repo is bound at .../mattermost/mattermost-server then this installation
+#       will NOT be AVAILABLE when using make dev-mm
 RUN GO111MODULE=off GOBIN=$(go env GOPATH)/src/github.com/mattermost/mattermost-server/bin \
     go get -u github.com/mattermost/mattermost-govet
+
 
 RUN chown -R ${MM_USER}:${MM_USER} .
 
