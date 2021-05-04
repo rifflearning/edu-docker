@@ -4,7 +4,7 @@
 # env variable(s) NODE_VER(unused right now) and GOLANG_VER must be set (use dockerfile ARG)
 
 # packages needed to install
-INSTALL_PKGS=( curl apt-utils gcc g++ make jq wget gnupg2 ca-certificates )
+INSTALL_PKGS=( curl apt-utils gcc g++ make jq wget gnupg2 ca-certificates dh-autoreconf )
 MM_PKGS=( build-essential libjpeg-dev libpng-dev libtiff-dev libgif-dev git )
 DEV_PKGS=( vim-tiny )
 
