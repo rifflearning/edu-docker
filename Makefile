@@ -29,7 +29,6 @@ STACK_CONF_DEPLOY := $(patsubst %,-c %,$(CONF_DEPLOY))
 # by the edu stack services. This is a list of those base images.
 BASE_IMAGES := \
 	node:14 \
-	node:14-alpine \
 	mysql:5.7 \
 	mongo:latest \
 	nginx:latest \
@@ -77,7 +76,7 @@ SSL_FILES := \
 .DELETE_ON_ERROR :
 .PHONY : help up down stop up-dev up-prod clean dev-server dev-sm
 .PHONY : logs logs-mm logs-server logs-web logs-mongo
-.PHONY : build-init-image init-server init-signalmaster
+.PHONY : build-init-image init-server
 .PHONY : show-env build-dev build-prod push-prod
 
 up : up-dev ## run docker-compose up (w/ dev config)
@@ -101,7 +100,7 @@ clean : ## remove all build artifacts (including the tracking files for created 
 	-rm $(IMAGE_DIR)/*
 
 clean-dev-images : down ## remove dev docker images
-	docker rmi rifflearning/{riffmm:dev,riffdata:dev,signalmaster:dev} \
+	docker rmi rifflearning/{riffmm:dev,riffdata:dev} \
                docker.pkg.github.com/rifflearning/edu-docker/edu-web:latest
 
 show-env : ## displays the env var values used for building
@@ -151,10 +150,6 @@ build-init-image : $(IMAGE_DIR)/nodeapp-init.latest ## build the initialization 
 init-server : ## initialize the riff-server repo using the init-image to run 'make init'
 init-server : NODEAPP_PATH = $(realpath ../riff-server)
 init-server : _nodeapp-init
-
-init-signalmaster : ## initialize the signalmaster repo using the init-image to run 'make init'
-init-signalmaster : NODEAPP_PATH = $(realpath ../signalmaster)
-init-signalmaster : _nodeapp-init
 
 .PHONY : _nodeapp-init
 _nodeapp-init : build-init-image

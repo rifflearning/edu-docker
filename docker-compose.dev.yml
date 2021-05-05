@@ -64,16 +64,6 @@ services:
       args:
         NGINX_VER: latest
 
-#  The following is just in case you need to be doing development on the signalmaster in
-#  conjunction w/ edu. This would be unusual.
-#  edu-signalmaster:
-#    image: 'rifflearning/signalmaster:dev'
-#    build:
-#      context: ${SIGNALMASTER_PATH-../signalmaster}/docker
-#      dockerfile: Dockerfile-dev
-#    volumes:
-#        - ${SIGNALMASTER_PATH-../signalmaster}:/app
-
   edu-riffdata-db:
     ports:
       - '27017:27017'
