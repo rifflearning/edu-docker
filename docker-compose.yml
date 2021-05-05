@@ -24,7 +24,7 @@ services:
       - edu-riffdata-db
 
   edu-web:
-    image: 'docker.pkg.github.com/rifflearning/edu-docker/edu-web:latest'
+    image: 'docker.pkg.github.com/rifflearning/edu-docker/edu-web:signalmaster'
     ports:
       - '80:80'
       - '443:443'
