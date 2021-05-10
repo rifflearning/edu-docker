@@ -31,7 +31,6 @@ services:
     depends_on:
       - edu-mm
       - edu-riffdata
-      - edu-signalmaster
 
   edu-riffdata-db:
     image: mongo:${MONGO_VER-latest}
