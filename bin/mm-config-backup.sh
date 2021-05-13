@@ -3,7 +3,7 @@
 # mm-config-backup.sh                                                          #
 ################################################################################
 #
-# Backup the Mattermost config.json from mm running in a docker container
+# Backup the mattermost config.json file running in a riffedu mm docker container
 #
 
 # Quick test to see if this script is being sourced
@@ -53,7 +53,7 @@ Help()
     echo "Backup the config.json from a riffedu mattermost instance running in a docker container"
     echo
     echo "The backup archive will be named:"
-    echo "  config.${YELLOW}DEPLOY_SWARM${RESET}_${YELLOW}TIMESTAMP${RESET}.json"
+    echo "  mm-config.${YELLOW}DEPLOY_SWARM${RESET}_${YELLOW}TIMESTAMP${RESET}.json"
     echo
     echo "Syntax: $0 [-h] [-d <archive directory>] [-c <container name/id>]"
     echo "options:"
@@ -74,7 +74,7 @@ ParseOptions()
 
     while getopts ":hc:d:" option; do
         case $option in
-            c) # The container name/id running mattermost to read the config from
+            c) # The container name/id running riffedu mm to read the config from
                 MM_CNTR=${OPTARG}
                 ;;
             d) # The directory where the backup archive (config.json) will be saved
@@ -111,7 +111,7 @@ shift $OPTION_ARG_CNT
 # The name of the backup archive that will be created in the ARCHIVE_PATH
 DEPLOY_SWARM=${DEPLOY_SWARM:-UNKNOWN}
 TIMESTAMP=$(date +'%Y%m%d%H%M%S')
-ARCHIVE_NAME="config.${DEPLOY_SWARM}_${TIMESTAMP}.json"
+ARCHIVE_NAME="mm-config.${DEPLOY_SWARM}_${TIMESTAMP}.json"
 
 
 ################################################################################
@@ -121,9 +121,9 @@ ARCHIVE_NAME="config.${DEPLOY_SWARM}_${TIMESTAMP}.json"
 ################################################################################
 
 echo "The backup will be created using the following:"
-echo "  ${BOLD}Mattermost container${RESET}: $MM_CNTR"
+echo "  ${BOLD}RiffEdu MM container${RESET}: $MM_CNTR"
 echo "  ${BOLD}Archive file name${RESET}: $ARCHIVE_NAME"
 read -rsp $'Press any key to continue or Ctrl-C to abort\n' -n1 key
 
 echo
-docker cp "${MM_CNTR}:/home/mmuser/riffedu/config/config.json" "${ARCHIVE_PATH}/$ARCHIVE_NAME"
+docker cp "${MM_CNTR}:/home/mmuser/riffedu/config/config.json" "${ARCHIVE_PATH}/${ARCHIVE_NAME}"
