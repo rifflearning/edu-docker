@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the mitsap swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: mitsap.riffedu.com.key.1
+        target: site.key
+      - source: mitsap.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2021-08-16 (mitsap key.1 & crt.1)
+secrets:
+  mitsap.riffedu.com.key.1:
+    external: true
+  mitsap.riffedu.com.crt.1:
+    external: true
