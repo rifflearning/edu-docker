@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: coachdiversity.riffedu.com.key.1
+      - source: coachdiversity.riffedu.com.key.2
         target: site.key
-      - source: coachdiversity.riffedu.com.crt.1
+      - source: coachdiversity.riffedu.com.crt.2
         target: site.crt
 
-# Your cert will expire on 2021-05-31 (coachdiversity key.1 & crt.1)
+# Your cert will expire on 2021-08-16 (coachdiversity key.2 & crt.2)
 secrets:
-  coachdiversity.riffedu.com.key.1:
+  coachdiversity.riffedu.com.key.2:
     external: true
-  coachdiversity.riffedu.com.crt.1:
+  coachdiversity.riffedu.com.crt.2:
     external: true
