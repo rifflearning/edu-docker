@@ -9,18 +9,14 @@
 # Valid swarm names (used to index IMAGE_VERS)
 # keep alphabetical after 'riffai'
 DEPLOY_NAMES=( dev
-               ccob-wpu
-               cliffcollege
                coachdiversity
                demo
                esme-learning
                gv-mit
                mitsap
                mitsapsloan
-               newcollege
                questrom-bu
                said-oxford
-               sgu
                staging
                udcbrazil
              )
@@ -29,12 +25,6 @@ DEPLOY_NAMES=( dev
 declare -A IMAGE_VERS
 IMAGE_VERS=( [dev.riffmm]="5.29.1-riff.1"
              [dev.riffdata]="2.0.0-dev.11"
-             [nexted.riffmm]="1.0.0-dev.20"
-             [nexted.riffdata]="0.4.0-dev.15"
-             [ccob-wpu.riffmm]="5.29.1-riff.1"
-             [ccob-wpu.riffdata]="2.0.0-dev.11"
-             [cliffcollege.riffmm]="5.29.1-riff.1"
-             [cliffcollege.riffdata]="2.0.0-dev.11"
              [coachdiversity.riffmm]="5.29.1-riff.1"
              [coachdiversity.riffdata]="2.0.0-dev.11"
              [demo.riffmm]="5.29.1-riff.1"
@@ -47,14 +37,10 @@ IMAGE_VERS=( [dev.riffmm]="5.29.1-riff.1"
              [mitsap.riffdata]="2.0.0-dev.11"
              [mitsapsloan.riffmm]="5.34.2-riff.0"
              [mitsapsloan.riffdata]="2.0.0-dev.11"
-             [newcollege.riffmm]="5.29.1-riff.1"
-             [newcollege.riffdata]="2.0.0-dev.11"
              [questrom-bu.riffmm]="5.34.2-riff.0"
              [questrom-bu.riffdata]="2.0.0-dev.11"
              [said-oxford.riffmm]="5.29.1-riff.1"
              [said-oxford.riffdata]="2.0.0-dev.11"
-             [sgu.riffmm]="5.29.1-riff.1"
-             [sgu.riffdata]="2.0.0-dev.11"
              [staging.riffmm]="5.34.2-riff.0"
              [staging.riffdata]="2.0.0-dev.11"
              [udcbrazil.riffmm]="5.29.1-riff.1"
