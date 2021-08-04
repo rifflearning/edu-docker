@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: mitsapsloan.riffedu.com.key.1
+      - source: mitsapsloan.riffedu.com.key.2
         target: site.key
-      - source: mitsapsloan.riffedu.com.crt.1
+      - source: mitsapsloan.riffedu.com.crt.2
         target: site.crt
 
-# Your cert will expire on 2021-08-16 (mitsapsloan key.1 & crt.1)
+# Your cert will expire on 2021-11-02 (mitsapsloan key.2 & crt.2)
 secrets:
-  mitsapsloan.riffedu.com.key.1:
+  mitsapsloan.riffedu.com.key.2:
     external: true
-  mitsapsloan.riffedu.com.crt.1:
+  mitsapsloan.riffedu.com.crt.2:
     external: true
