@@ -23,7 +23,7 @@ USER ${MM_USER}
 # ---- Build environment (go and node and related pkgs) ----
 FROM base as buildenv
 ARG NODE_VER=14
-ARG GOLANG_VER=1.16.5
+ARG GOLANG_VER=1.17.1
 
 # Copy the build environment install script to the image
 COPY scripts/riffmm-buildenv.sh /setupfiles/
@@ -69,7 +69,7 @@ RUN apt-get update \
 
 # 'make check-style' requires that golangci-lint be installed, this is the command from
 # the page referenced when it is missing:
-ARG GOCI_LINT_VER=1.31.0
+ARG GOCI_LINT_VER=1.42.1
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
     | sh -s -- -b $(go env GOPATH)/bin v${GOCI_LINT_VER}
 

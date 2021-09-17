@@ -13,7 +13,7 @@ services:
       target: dev
       args:
         NODE_VER: 14
-        GOLANG_VER: 1.16.5
+        GOLANG_VER: 1.17.1
     environment:
       RIFF_LOGLEVEL: debug
     volumes:
@@ -30,6 +30,7 @@ services:
       # for doing development on the riff plugins:
       - ${MM_PLUGIN_SURVEY_PATH-../mattermost-plugin-riff-survey}:/home/mmuser/riff/mattermost-plugin-riff-survey
       - ${MM_PLUGIN_CORE_PATH-../mattermost-plugin-riff-core}:/home/mmuser/riff/mattermost-plugin-riff-core
+      - ${MM_PLUGIN_LTI_PATH-../mattermost-plugin-riff-lti}:/home/mmuser/riff/mattermost-plugin-riff-lti
       - ${MM_RIFF_VIDEOCHAT_PATH-../riff-plugin-video-chat}:/home/mmuser/riff/riff-plugin-video-chat
       - ${MM_RIFF_METRICS_PATH-../riff-plugin-metrics}:/home/mmuser/riff/riff-plugin-metrics
 
