@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the cambridge swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: cambridge.riffedu.com.key.1
+        target: site.key
+      - source: cambridge.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2021-12-16 (cambridge key.1 & crt.1)
+secrets:
+  cambridge.riffedu.com.key.1:
+    external: true
+  cambridge.riffedu.com.crt.1:
+    external: true

@@ -9,10 +9,12 @@
 # Valid swarm names (used to index IMAGE_VERS)
 # keep alphabetical after 'riffai'
 DEPLOY_NAMES=( dev
+               cambridge
                coachdiversity
                demo
                esme-learning
                gv-mit
+               imperial
                mitsap
                mitsapsloan
                questrom-bu
@@ -25,6 +27,8 @@ DEPLOY_NAMES=( dev
 declare -A IMAGE_VERS
 IMAGE_VERS=( [dev.riffmm]="5.34.2-riff.2"
              [dev.riffdata]="2.2.0"
+             [cambridge.riffmm]="5.34.2-riff.2"
+             [cambridge.riffdata]="2.2.0"
              [coachdiversity.riffmm]="5.29.1-riff.1"
              [coachdiversity.riffdata]="2.2.0"
              [demo.riffmm]="5.34.2-riff.2"
@@ -33,6 +37,8 @@ IMAGE_VERS=( [dev.riffmm]="5.34.2-riff.2"
              [esme-learning.riffdata]="2.2.0"
              [gv-mit.riffmm]="5.29.1-riff.1"
              [gv-mit.riffdata]="2.0.0-dev.11"
+             [imperial.riffmm]="5.34.2-riff.2"
+             [imperial.riffdata]="2.2.0"
              [mitsap.riffmm]="5.34.2-riff.2"
              [mitsap.riffdata]="2.2.0"
              [mitsapsloan.riffmm]="5.34.2-riff.2"
