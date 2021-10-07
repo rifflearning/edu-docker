@@ -86,7 +86,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"
                '|' '.TeamSettings.EnableTeamCreation |= false'                      \
                '|' '.TeamSettings.MaxUsersPerTeam |= 200'                           \
                '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
-               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["programme-support", "tutors-corner"]' \
+               '|' '.TeamSettings.ExperimentalDefaultChannels |= ["course-support", "current-events"]' \
                '|' '.LogSettings.EnableConsole |= true'                             \
                '|' '.LogSettings.ConsoleLevel |= "ERROR"'                           \
                '|' '.FileSettings.Directory |= "'"${DIST_ROOT}/data/"'"'            \
@@ -122,9 +122,9 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"
                '|' '.PluginSettings.EnableUploads |= true'                          \
                '|' '.PluginSettings.Directory |= "'"${DIST_ROOT}/plugins"'"'        \
                '|' '.PluginSettings.ClientDirectory |= "'"${DIST_ROOT}/client/plugins"'"' \
-               '|' '.LTISettings.Enable |= false'                                   \
-               '|' '.LTISettings.EnableSignatureValidation |= true'                 \
-               '|' '.LTISettings.LMSs |= ['                                         \
+               '|' '.PluginSettings.Plugins."ai.riffanalytics.lti".enable |= false' \
+               '|' '.PluginSettings.Plugins."ai.riffanalytics.lti".enablesignaturevalidation |= true' \
+               '|' '.PluginSettings.Plugins."ai.riffanalytics.lti".lmss |= ['       \
                         '{'                                                         \
                             '"Name": "Sample Client Name",'                         \
                             '"Type": "edx",'                                        \
