@@ -13,7 +13,7 @@ services:
       target: dev
       args:
         NODE_VER: 14
-        GOLANG_VER: 1.17.1
+        GOLANG_VER: 1.17.2
     environment:
       RIFF_LOGLEVEL: debug
     volumes:
