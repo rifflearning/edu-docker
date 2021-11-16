@@ -60,6 +60,7 @@ cp -L config/{README.md,config-dev.json} ${DIST_PATH}/config
 ## OUTPUT_CONFIG=${PWD}/${DIST_PATH}/config/config.json go generate ./config
 cp -RL fonts ${DIST_PATH}
 cp -RL templates ${DIST_PATH}
+rm -rf ${DIST_PATH}/templates/*.mjml ${DIST_PATH}/templates/partials/
 cp -RL i18n ${DIST_PATH}
 
 # NOTE: these are development settings, we probably want to change them for
@@ -136,8 +137,8 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"
                             '"PersonalChannels": {'                                 \
                                 '"Type": "custom-properties",'                      \
                                 '"ChannelList": {'                                  \
-				                    '"capstone": {"IdProperty": "custom_team_id", "NameProperty": "custom_team_name"},' \
-				                    '"plg": {"IdProperty": "custom_cohort_id", "NameProperty": "custom_cohort_name"}' \
+                                    '"capstone": {"IdProperty": "custom_team_id", "NameProperty": "custom_team_name"},' \
+                                    '"plg": {"IdProperty": "custom_cohort_id", "NameProperty": "custom_cohort_name"}' \
                                 '}'                                                 \
                             '}'                                                     \
                         '}'                                                         \
@@ -155,6 +156,19 @@ cp ${DIST_PATH}/config/config.json.save ${DIST_PATH}/config/config.json
 echo Copying over the client files...
 mkdir -p ${DIST_PATH}/client/plugins
 cp -RL ${BUILD_WEBAPP_DIR}/dist/* ${DIST_PATH}/client
+
+# Download MMCTL
+echo Downloading mmctl...
+scripts/download_mmctl_release.sh "Linux" ${DIST_PATH}/bin
+
+# Help files
+echo Copying over the help files...
+cp build/MIT-COMPILED-LICENSE.md ${DIST_PATH}
+cp NOTICE.txt ${DIST_PATH}
+cp README.md ${DIST_PATH}
+if [ -f ../manifest.txt ]; then
+    cp ../manifest.txt ${DIST_PATH}
+fi
 
 # Copy linux binary
 echo Copying over the server executable file...
