@@ -127,9 +127,6 @@ pull-images : ## Update base docker images
 dev-server : SERVICE_NAME = edu-riffdata ## start a dev container for the riff-server
 dev-server : _start-dev
 
-dev-sm : SERVICE_NAME = edu-signalmaster ## start a dev container for the signalmaster
-dev-sm : _start-dev
-
 dev-mm : SERVICE_NAME = edu-mm ## start a dev container for mm webapp & server
 dev-mm : _start-dev
 
@@ -145,7 +142,7 @@ _start-dev :
 # on has been updated.
 # See the _nodeapp-init target for its use. It will run 'make init' in the directory
 # bound at /app and then exit.
-build-init-image : $(IMAGE_DIR)/nodeapp-init.latest ## build the initialization image used by init-rtc and init-server
+build-init-image : $(IMAGE_DIR)/nodeapp-init.latest ## build the initialization image used by init-server
 
 init-server : ## initialize the riff-server repo using the init-image to run 'make init'
 init-server : NODEAPP_PATH = $(realpath ../riff-server)
