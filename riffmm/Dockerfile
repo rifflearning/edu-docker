@@ -69,7 +69,7 @@ RUN apt-get update \
 
 # 'make check-style' requires that golangci-lint be installed, this is the command from
 # the page referenced when it is missing:
-ARG GOCI_LINT_VER=1.42.1
+ARG GOCI_LINT_VER=1.39.0
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
     | sh -s -- -b $(go env GOPATH)/bin v${GOCI_LINT_VER}
 
