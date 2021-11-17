@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile
       target: dev
       args:
-        NODE_VER: 14
+        NODE_VER: 16
         GOLANG_VER: 1.17.3
     environment:
       RIFF_LOGLEVEL: debug

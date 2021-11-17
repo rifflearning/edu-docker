@@ -22,7 +22,7 @@ USER ${MM_USER}
 # ----------------------------------------------------------
 # ---- Build environment (go and node and related pkgs) ----
 FROM base as buildenv
-ARG NODE_VER=14
+ARG NODE_VER=16
 ARG GOLANG_VER=1.17.3
 
 # Copy the build environment install script to the image
