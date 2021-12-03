@@ -39,7 +39,6 @@ git clone https://github.com/rifflearning/signalmaster.git
 cd edu-docker
 make pull-images
 make init-server
-make init-signalmaster
 ```
 
 Lastly you will need to create a local configuration file for mattermost-server.

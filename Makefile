@@ -137,7 +137,7 @@ _start-dev :
 	-docker-compose rm --force -v
 	-docker-compose stop
 
-# The build-init-image is a node based docker image used by the init-signalmaster and
+# The build-init-image is a node based docker image used by
 # init-server targets it only needs to be rebuilt if the node image it is based
 # on has been updated.
 # See the _nodeapp-init target for its use. It will run 'make init' in the directory
