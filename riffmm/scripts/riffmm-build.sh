@@ -80,12 +80,13 @@ cp -RL i18n ${DIST_PATH}
 MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"'   \
                '|' '.ServiceSettings.ListenAddress |= ":8065"'                      \
                '|' '.ServiceSettings.AllowCorsFrom |= "*"'                          \
-               '|' '.ServiceSettings.EnablePreviewFeatures |= false'                \
                '|' '.ServiceSettings.EnableDeveloper |= false'                      \
+               '|' '.ServiceSettings.EnablePreviewFeatures |= false'                \
                '|' '.ServiceSettings.EnableTutorial |= false'                       \
+               '|' '.ServiceSettings.EnableOnboardingFlow |= false'                 \
                '|' '.TeamSettings.SiteName |= "Riff Edu"'                           \
                '|' '.TeamSettings.EnableTeamCreation |= false'                      \
-               '|' '.TeamSettings.MaxUsersPerTeam |= 200'                           \
+               '|' '.TeamSettings.MaxUsersPerTeam |= 500'                           \
                '|' '.TeamSettings.CustomDescriptionText |= "Your course collaboration platform. Connected teams have better outcomes."' \
                '|' '.TeamSettings.ExperimentalDefaultChannels |= ["course-support", "current-events"]' \
                '|' '.LogSettings.EnableConsole |= true'                             \
@@ -112,6 +113,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"
                '|' '.EmailSettings.InviteSalt |= "'$(generate_salt)'"'              \
                '|' '.EmailSettings.PasswordResetSalt |= "'$(generate_salt)'"'       \
                '|' '.EmailSettings.EnablePreviewModeBanner |= false'                \
+               '|' '.ThemeSettings.DefaultTheme |= "riff"'                          \
                '|' '.SupportSettings.TermsOfServiceLink |= "https://www.riffanalytics.ai/terms-of-service"' \
                '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.riffanalytics.ai/privacy-policy"' \
                '|' '.SupportSettings.SupportEmail |= "support@riffanalytics.ai"'    \
