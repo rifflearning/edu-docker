@@ -17,6 +17,7 @@ DEPLOY_NAMES=( dev
                imperial
                mitsap
                mitsapsloan
+               qa
                questrom-bu
                said-oxford
                staging
@@ -43,11 +44,13 @@ IMAGE_VERS=( [dev.riffmm]="5.34.2-riff.2"
              [mitsap.riffdata]="2.2.0"
              [mitsapsloan.riffmm]="5.34.2-riff.2"
              [mitsapsloan.riffdata]="2.2.0"
+             [qa.riffmm]="6.1.0-riff.2"
+             [qa.riffdata]="2.2.0"
              [questrom-bu.riffmm]="5.34.2-riff.2"
              [questrom-bu.riffdata]="2.2.0"
              [said-oxford.riffmm]="5.34.2-riff.2"
              [said-oxford.riffdata]="2.2.0"
-             [staging.riffmm]="6.1.0-riff.1"
+             [staging.riffmm]="6.1.0-riff.2"
              [staging.riffdata]="2.2.0"
              [udcbrazil.riffmm]="5.29.1-riff.1"
              [udcbrazil.riffdata]="2.2.0"

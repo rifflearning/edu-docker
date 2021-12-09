@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the qa swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: qa.riffedu.com.key.1
+        target: site.key
+      - source: qa.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2022-03-09 (qa key.1 & crt.1)
+secrets:
+  qa.riffedu.com.key.1:
+    external: true
+  qa.riffedu.com.crt.1:
+    external: true
