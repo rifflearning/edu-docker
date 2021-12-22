@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the said-oxford-21 swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: said-oxford-21.riffedu.com.key.1
+        target: site.key
+      - source: said-oxford-21.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2022-03-22 (said-oxford-21 key.1 & crt.1)
+secrets:
+  said-oxford-21.riffedu.com.key.1:
+    external: true
+  said-oxford-21.riffedu.com.crt.1:
+    external: true

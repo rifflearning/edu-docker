@@ -20,6 +20,7 @@ DEPLOY_NAMES=( dev
                qa
                questrom-bu
                said-oxford
+               said-oxford-21
                staging
                udcbrazil
              )
@@ -40,9 +41,9 @@ IMAGE_VERS=( [dev.riffmm]="5.34.2-riff.2"
              [gv-mit.riffdata]="2.0.0-dev.11"
              [imperial.riffmm]="5.34.2-riff.2"
              [imperial.riffdata]="2.2.0"
-             [mitsap.riffmm]="5.34.2-riff.2"
+             [mitsap.riffmm]="6.1.0-riff.4"
              [mitsap.riffdata]="2.2.0"
-             [mitsapsloan.riffmm]="5.34.2-riff.2"
+             [mitsapsloan.riffmm]="6.1.0-riff.4"
              [mitsapsloan.riffdata]="2.2.0"
              [qa.riffmm]="6.1.0-riff.4"
              [qa.riffdata]="2.2.0"
@@ -50,6 +51,8 @@ IMAGE_VERS=( [dev.riffmm]="5.34.2-riff.2"
              [questrom-bu.riffdata]="2.2.0"
              [said-oxford.riffmm]="5.34.2-riff.2"
              [said-oxford.riffdata]="2.2.0"
+             [said-oxford-21.riffmm]="5.34.2-riff.2"
+             [said-oxford-21.riffdata]="2.2.0"
              [staging.riffmm]="6.1.0-riff.4"
              [staging.riffdata]="2.2.0"
              [udcbrazil.riffmm]="5.29.1-riff.1"
