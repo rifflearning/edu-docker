@@ -117,6 +117,13 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"
                '|' '.SupportSettings.TermsOfServiceLink |= "https://www.riffanalytics.ai/terms-of-service"' \
                '|' '.SupportSettings.PrivacyPolicyLink |= "https://www.riffanalytics.ai/privacy-policy"' \
                '|' '.SupportSettings.SupportEmail |= "support@riffanalytics.ai"'    \
+               '|' '.SupportSettings.EnableAskCommunityLink |= false'               \
+               '|' '.NativeAppSettings.AppDownloadLink |= ""'                       \
+               '|' '.NativeAppSettings.AndroidAppDownloadLink |= ""'                \
+               '|' '.NativeAppSettings.IosAppDownloadLink |= ""'                    \
+               '|' '.AnnouncementSettings.AdminNoticesEnabled |= false'             \
+               '|' '.AnnouncementSettings.UserNoticesEnabled |= false'              \
+               '|' '.AnnouncementSettings.NoticesURL |= ""'                         \
                '|' '.RateLimitSettings.Enable |= false'                             \
                '|' '.SqlSettings.DriverName |= "mysql"'                             \
                '|' '.SqlSettings.DataSource |= "'"mmuser:mostest@tcp(${DB_DOMAIN}:${DB_PORT})/mattermost_test?charset=utf8mb4,utf8\\u0026readTimeout=30s\\u0026writeTimeout=30s"'"' \
@@ -125,6 +132,8 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"
                '|' '.PluginSettings.EnableUploads |= true'                          \
                '|' '.PluginSettings.Directory |= "'"${DIST_ROOT}/plugins"'"'        \
                '|' '.PluginSettings.ClientDirectory |= "'"${DIST_ROOT}/client/plugins"'"' \
+               '|' '.PluginSettings.EnableMarketplace |= false'                     \
+               '|' '.PluginSettings.EnableRemoteMarketplace |= false'               \
                '|' '.PluginSettings.Plugins."ai.riffanalytics.lti".enable |= false' \
                '|' '.PluginSettings.Plugins."ai.riffanalytics.lti".enablesignaturevalidation |= true' \
                '|' '.PluginSettings.Plugins."ai.riffanalytics.lti".lmss |= ['       \
@@ -132,7 +141,7 @@ MM_CONFIG_UPDATE=( '.ServiceSettings.SiteURL |= "https://NEW-DOMAIN.riffedu.com"
                             '"Name": "Sample Client Name",'                         \
                             '"Type": "edx",'                                        \
                             '"OAuthConsumerKey": "sample_client_1234",'             \
-                            '"OAuthConsumerSecret": "00112233445566778899aabbccddeeff",'                                                \
+                            '"OAuthConsumerSecret": "00112233445566778899aabbccddeeff",' \
                             '"Teams": {'                                            \
                                 '"lms_lti-context_id-field_value": "team-slug"'     \
                             '},'                                                    \
