@@ -27,19 +27,19 @@ DEPLOY_NAMES=( dev
 
 # IMAGE_VERS is an associative array of the DEPLOY_NAMES image versions deployed on that instance
 declare -A IMAGE_VERS
-IMAGE_VERS=( [dev.riffmm]="5.34.2-riff.2"
+IMAGE_VERS=( [dev.riffmm]="6.1.0-riff.4"
              [dev.riffdata]="2.2.0"
-             [cambridge.riffmm]="5.34.2-riff.2"
+             [cambridge.riffmm]="6.1.0-riff.4"
              [cambridge.riffdata]="2.2.0"
              [coachdiversity.riffmm]="5.29.1-riff.1"
              [coachdiversity.riffdata]="2.2.0"
              [demo.riffmm]="6.1.0-riff.4"
              [demo.riffdata]="2.2.0"
-             [esme-learning.riffmm]="5.34.2-riff.2"
+             [esme-learning.riffmm]="6.1.0-riff.4"
              [esme-learning.riffdata]="2.2.0"
              [gv-mit.riffmm]="5.29.1-riff.1"
              [gv-mit.riffdata]="2.0.0-dev.11"
-             [imperial.riffmm]="5.34.2-riff.2"
+             [imperial.riffmm]="6.1.0-riff.4"
              [imperial.riffdata]="2.2.0"
              [mitsap.riffmm]="6.1.0-riff.4"
              [mitsap.riffdata]="2.2.0"
