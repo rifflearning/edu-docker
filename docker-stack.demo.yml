@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: demo.riffedu.com.key.5
+      - source: demo.riffedu.com.key.6
         target: site.key
-      - source: demo.riffedu.com.crt.5
+      - source: demo.riffedu.com.crt.6
         target: site.crt
 
-# Your cert will expire on 2022-01-05 (demo key.5 & crt.5)
+# Your cert will expire on 2022-04-03 (demo key.6 & crt.6)
 secrets:
-  demo.riffedu.com.key.5:
+  demo.riffedu.com.key.6:
     external: true
-  demo.riffedu.com.crt.5:
+  demo.riffedu.com.crt.6:
     external: true
