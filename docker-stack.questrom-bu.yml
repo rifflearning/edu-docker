@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: questrom-bu.riffedu.com.key.6
+      - source: questrom-bu.riffedu.com.key.7
         target: site.key
-      - source: questrom-bu.riffedu.com.crt.6
+      - source: questrom-bu.riffedu.com.crt.7
         target: site.crt
 
-# Your cert will expire on 2022-01-23 (questrom-bu key.6 & crt.6)
+# Your cert will expire on 2022-04-22 (questrom-bu key.7 & crt.7)
 secrets:
-  questrom-bu.riffedu.com.key.6:
+  questrom-bu.riffedu.com.key.7:
     external: true
-  questrom-bu.riffedu.com.crt.6:
+  questrom-bu.riffedu.com.crt.7:
     external: true
