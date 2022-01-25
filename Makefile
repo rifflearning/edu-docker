@@ -169,6 +169,14 @@ logs-server : logs
 logs-mongo : SERVICE_NAME = edu-riffdata-db ## run docker-compose logs for the edu-riffdata-db service
 logs-mongo : logs
 
+install-venv : VER ?= 3
+install-venv : ## create python3 virtual env, install requirements (define VER for other than python3)
+	@python$(VER) -m venv venv
+	-@ln -s venv/bin/activate activate
+	@source activate                        	; \
+	pip install --upgrade pip setuptools wheel  ; \
+	pip install -r requirements.txt             ;
+
 # Add all constraint labels to the single docker node running in swarm mode on a development machine
 dev-swarm-labels : ## add all constraint labels to single swarm node
 	docker node update --label-add registry=true \
