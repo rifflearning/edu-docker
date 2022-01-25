@@ -10,9 +10,12 @@ COPY ssl/ /etc/ssl/
 
 # point the site ssl key and crt to the self-signed ones if the docker secrets aren't loaded.
 # Remove any existing sample configurations so they don't get loaded
+# Increase the number of worker connections
+# (see https://github.com/nginx-proxy/nginx-proxy/issues/971 and https://github.com/nginx-proxy/nginx-proxy/pull/973
 RUN mkdir -p /run/secrets && \
     ln -s /etc/ssl/private/nginx-selfsigned.key /run/secrets/site.key && \
     ln -s /etc/ssl/certs/nginx-selfsigned.crt /run/secrets/site.crt && \
+    sed -i 's/worker_connections  1024/worker_connections  10240/' /etc/nginx/nginx.conf && \
     rm /etc/nginx/conf.d/*.conf
 
 # Copy the nginx configuration files that set up nginx to reverse proxy the
