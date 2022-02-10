@@ -13,8 +13,11 @@ this relative directory layout.
 ├── edu-docker
 ├── mattermost-webapp
 ├── mattermost-server
-├── riff-server
-└── signalmaster
+├── mattermost-plugin-riff-core
+├── mattermost-plugin-riff-lti
+├── riff-plugin-metrics
+├── riff-plugin-video-chat
+└── riff-server
 ```
 
 ## Initial setup
@@ -34,8 +37,11 @@ cd riff
 git clone https://github.com/rifflearning/edu-docker.git
 git clone https://github.com/rifflearning/mattermost-webapp.git
 git clone https://github.com/rifflearning/mattermost-server.git
+git clone https://github.com/rifflearning/mattermost-plugin-riff-core.git
+git clone https://github.com/rifflearning/mattermost-plugin-riff-lti.git
+git clone https://github.com/rifflearning/riff-plugin-metrics.git
+git clone https://github.com/rifflearning/riff-plugin-video-chat.git
 git clone https://github.com/rifflearning/riff-server.git
-git clone https://github.com/rifflearning/signalmaster.git
 cd edu-docker
 make pull-images
 make init-server
@@ -46,16 +52,16 @@ What is in `config-dev.json` may be fine, and is a good start in any case.
 Either copy `config-dev.json` to `config.json` or make it a symbolic link in
 `mattermost-server/config`.
 
-You may also need a `local-development.yml` file w/ the keys for using twilio
-in signalmaster/config. But you may also be fine w/o using twilio for signaling.
-
 These environment variables may be used to relocate some of the repositories.
 _(although this hasn't been tested)_
 
 - `MM_SERVER_PATH` - default is `../mattermost-server`
 - `MM_WEBAPP_PATH` - default is `../mattermost-webapp`
 - `RIFF_SERVER_PATH` - default is `../riff-server`
-- `SIGNALMASTER_PATH` - default is `../signalmaster`
+- `MM_PLUGIN_CORE_PATH` - default is `../mattermost-plugin-riff-core`
+- `MM_PLUGIN_LTI_PATH` - default is `../mattermost-plugin-riff-lti`
+- `MM_RIFF_METRICS_PATH` - default is `../riff-plugin-metrics`
+- `MM_RIFF_VIDEOCHAT_PATH` - default is `../riff-plugin-video-chat`
 
 ### Create development docker images
 
@@ -81,15 +87,15 @@ the self-signed ssl files used by the `edu-web` image.
 
 ## Working on the code
 
-### riff-server and signalmaster
+### riff-server
 
-These 2 projects use nodejs. You must either have the correct version of nodejs
+This project uses nodejs. You must either have the correct version of nodejs
 installed locally or you may also use a container to run node commands such as
 `npm` to update and install packages.
 
-The Makefile has 3 targets to start an interactive commandline with the correct
-environment, `dev-server` (riff-server), `dev-sm` (signalmaster) and `dev-mm`
-(mattermost server and webapp).
+The Makefile has 2 targets to start an interactive commandline with the correct
+environment, `dev-server` (riff-server) and `dev-mm` (mattermost server, webapp and
+also the plugin components).
 
 ### mattermost-webapp and mattermost-server
 
