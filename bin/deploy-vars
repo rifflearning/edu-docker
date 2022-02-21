@@ -36,7 +36,7 @@ IMAGE_VERS=( [dev.riffmm]="6.1.0-riff.4"
              [demo.riffmm]="6.1.0-riff.4"
              [demo.riffdata]="2.2.0"
              [esme-learning.riffmm]="6.1.0-riff.4"
-             [esme-learning.riffdata]="2.2.0"
+             [esme-learning.riffdata]="2.2.1"
              [gv-mit.riffmm]="5.29.1-riff.1"
              [gv-mit.riffdata]="2.0.0-dev.11"
              [imperial.riffmm]="6.1.0-riff.4"
@@ -56,7 +56,7 @@ IMAGE_VERS=( [dev.riffmm]="6.1.0-riff.4"
              [staging.riffmm]="6.1.0-riff.4"
              [staging.riffdata]="2.2.0"
              [udcbrazil.riffmm]="5.29.1-riff.1"
-             [udcbrazil.riffdata]="2.2.0"
+             [udcbrazil.riffdata]="2.2.1"
            )
 
 ################################################################################

@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: esme-learning.riffedu.com.key.6
+      - source: esme-learning.riffedu.com.key.7
         target: site.key
-      - source: esme-learning.riffedu.com.crt.6
+      - source: esme-learning.riffedu.com.crt.7
         target: site.crt
 
-# Your cert will expire on 2022-03-03 (esme-learning key.6 & crt.6)
+# Your cert will expire on 2022-05-22 (esme-learning key.7 & crt.7)
 secrets:
-  esme-learning.riffedu.com.key.6:
+  esme-learning.riffedu.com.key.7:
     external: true
-  esme-learning.riffedu.com.crt.6:
+  esme-learning.riffedu.com.crt.7:
     external: true
