@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: cambridge.riffedu.com.key.2
+      - source: cambridge.riffedu.com.key.3
         target: site.key
-      - source: cambridge.riffedu.com.crt.2
+      - source: cambridge.riffedu.com.crt.3
         target: site.crt
 
-# Your cert will expire on 2022-03-09 (cambridge key.2 & crt.2)
+# Your cert will expire on 2022-06-02 (cambridge key.3 & crt.3)
 secrets:
-  cambridge.riffedu.com.key.2:
+  cambridge.riffedu.com.key.3:
     external: true
-  cambridge.riffedu.com.crt.2:
+  cambridge.riffedu.com.crt.3:
     external: true
