@@ -11,12 +11,12 @@
 version: '3.7'
 services:
   edu-mm:
-    image: 'docker.pkg.github.com/rifflearning/edu-docker/riffmm:${RIFFMM_TAG-latest}'
+    image: 'ghcr.io/rifflearning/edu-docker/riffmm:${RIFFMM_TAG-latest}'
     depends_on:
       - edu-mm-db
 
   edu-riffdata:
-    image: 'docker.pkg.github.com/rifflearning/riff-server/riffdata:${RIFFDATA_TAG-latest}'
+    image: 'ghcr.io/rifflearning/riff-server/riffdata:${RIFFDATA_TAG-latest}'
     hostname: edu-riffdata
     ports:
       - '3000:3000'
@@ -24,7 +24,7 @@ services:
       - edu-riffdata-db
 
   edu-web:
-    image: 'docker.pkg.github.com/rifflearning/edu-docker/edu-web:latest'
+    image: 'ghcr.io/rifflearning/edu-docker/edu-web:latest'
     ports:
       - '80:80'
       - '443:443'

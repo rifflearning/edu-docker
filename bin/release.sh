@@ -14,7 +14,10 @@
 RIFF_TARGETS=( riffdata riffrtc riffmm edu-web signalmaster )
 
 # Docker image registry to push/pull built images
-IMAGE_REGISTRY=docker.pkg.github.com
+IMAGE_REGISTRY=ghcr.io
+
+# To check login status to ghcr.io you need to also specify the OWNER
+IMAGE_REGISTRY_OWNER=rifflearning
 
 # Standard options supplied to all docker build commands
 STD_BUILD_OPTS="--rm --force-rm"
@@ -258,7 +261,7 @@ if [ -z "${TOKEN}" ] && [ -n "${GITHUB_TOKEN}" ]; then
     TOKEN="${GITHUB_TOKEN}"
 fi
 
-if [ ${ACTION} == "push" ] && ! bin/docker-login-check.sh -q ${IMAGE_REGISTRY}; then
+if [ ${ACTION} == "push" ] && ! bin/docker-login-check.sh -q ${IMAGE_REGISTRY}/${IMAGE_REGISTRY_OWNER}; then
     echo "!!! You do not have valid docker credentials to push to ${IMAGE_REGISTRY}."
     echo "!!! Do a docker login and try again."
     echo
