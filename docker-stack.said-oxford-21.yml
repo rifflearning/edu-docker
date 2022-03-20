@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: said-oxford-21.riffedu.com.key.1
+      - source: said-oxford-21.riffedu.com.key.2
         target: site.key
-      - source: said-oxford-21.riffedu.com.crt.1
+      - source: said-oxford-21.riffedu.com.crt.2
         target: site.crt
 
-# Your cert will expire on 2022-03-22 (said-oxford-21 key.1 & crt.1)
+# Your cert will expire on 2022-06-18 (said-oxford-21 key.2 & crt.2)
 secrets:
-  said-oxford-21.riffedu.com.key.1:
+  said-oxford-21.riffedu.com.key.2:
     external: true
-  said-oxford-21.riffedu.com.crt.1:
+  said-oxford-21.riffedu.com.crt.2:
     external: true
