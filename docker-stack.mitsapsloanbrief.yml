@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the mitsapsloanbrief swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: mitsapsloanbrief.riffedu.com.key.1
+        target: site.key
+      - source: mitsapsloanbrief.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2022-06-29 (mitsapsloanbrief key.1 & crt.1)
+secrets:
+  mitsapsloanbrief.riffedu.com.key.1:
+    external: true
+  mitsapsloanbrief.riffedu.com.crt.1:
+    external: true
