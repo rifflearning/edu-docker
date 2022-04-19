@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: mitsap.riffedu.com.key.4
+      - source: mitsap.riffedu.com.key.5
         target: site.key
-      - source: mitsap.riffedu.com.crt.4
+      - source: mitsap.riffedu.com.crt.5
         target: site.crt
 
-# Your cert will expire on 2022-04-22 (mitsap key.4 & crt.4)
+# Your cert will expire on 2022-07-18 (mitsap key.5 & crt.5)
 secrets:
-  mitsap.riffedu.com.key.4:
+  mitsap.riffedu.com.key.5:
     external: true
-  mitsap.riffedu.com.crt.4:
+  mitsap.riffedu.com.crt.5:
     external: true
