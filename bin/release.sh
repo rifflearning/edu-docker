@@ -127,6 +127,7 @@ BuildImage()
             DOCKERFILE="Dockerfile"
             BUILD_STAGE=build
             BUILD_ARGS=( [NODE_VER]=16
+                         [NPM_GPR_TOKEN]=${TOKEN}
                        )
             ;;
         riffrtc-server)
