@@ -15,6 +15,7 @@ DEPLOY_NAMES=( dev
                esme-learning
                gv-mit
                imperial
+               mitmedialabbrief
                mitsap
                mitsapsloan
                mitsapsloanbrief
@@ -42,6 +43,8 @@ IMAGE_VERS=( [dev.riffmm]="6.3.4-riff.0"
              [gv-mit.riffdata]="2.0.0-dev.11"
              [imperial.riffmm]="6.3.4-riff.0"
              [imperial.riffdata]="2.2.1"
+             [mitmedialabbrief.riffmm]="6.3.4-riff.0"
+             [mitmedialabbrief.riffdata]="2.2.1"
              [mitsap.riffmm]="6.3.4-riff.0"
              [mitsap.riffdata]="2.2.1"
              [mitsapsloan.riffmm]="6.3.4-riff.0"
