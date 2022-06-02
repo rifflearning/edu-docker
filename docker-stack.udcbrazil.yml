@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: udcbrazil.riffedu.com.key.5
+      - source: udcbrazil.riffedu.com.key.6
         target: site.key
-      - source: udcbrazil.riffedu.com.crt.5
+      - source: udcbrazil.riffedu.com.crt.6
         target: site.crt
 
-# Your cert will expire on 2022-05-22 (udcbrazil key.5 & crt.5)
+# Your cert will expire on 2022-08-31 (udcbrazil key.6 & crt.6)
 secrets:
-  udcbrazil.riffedu.com.key.5:
+  udcbrazil.riffedu.com.key.6:
     external: true
-  udcbrazil.riffedu.com.crt.5:
+  udcbrazil.riffedu.com.crt.6:
     external: true
