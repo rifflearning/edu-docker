@@ -1,5 +1,15 @@
-[bugtraq]
+[bugtraq "github-issue"]
 	url = https://github.com/rifflearning/edu-docker/issues/%BUGID%
 	logfilterregex = "[Ii]ssues?:?((?:\\s*(?:,|and)?\\s*#\\d+)+)"
 	loglinkregex = "(#\\d+)"
 	logregex = "(\\d+)"
+
+[bugtraq "github-pr"]
+	url = https://github.com/rifflearning/edu-docker/pull/%BUGID%
+	logfilterregex = "PR[ :]?(\\s*#\\d+)"
+	loglinkregex = "(#\\d+)"
+	logregex = "(\\d+)"
+
+[bugtraq "jira"]
+    url = https://esme-learning.atlassian.net/browse/%BUGID%
+    logregex = (RA-\\d+)
