@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: imperial.riffedu.com.key.3
+      - source: imperial.riffedu.com.key.4
         target: site.key
-      - source: imperial.riffedu.com.crt.3
+      - source: imperial.riffedu.com.crt.4
         target: site.crt
 
-# Your cert will expire on 2022-06-02 (imperial key.3 & crt.3)
+# Your cert will expire on 2022-08-31 (imperial key.4 & crt.4)
 secrets:
-  imperial.riffedu.com.key.3:
+  imperial.riffedu.com.key.4:
     external: true
-  imperial.riffedu.com.crt.3:
+  imperial.riffedu.com.crt.4:
     external: true
