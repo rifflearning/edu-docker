@@ -31,8 +31,8 @@ DEPLOY_NAMES=( dev
 declare -A IMAGE_VERS
 IMAGE_VERS=( [dev.riffmm]="6.3.4-riff.0"
              [dev.riffdata]="2.2.1"
-             [cambridge.riffmm]="6.3.4-riff.0"
-             [cambridge.riffdata]="2.2.1"
+             [cambridge.riffmm]="6.3.8-riff.1"
+             [cambridge.riffdata]="3.0.0"
              [coachdiversity.riffmm]="5.29.1-riff.1"
              [coachdiversity.riffdata]="2.2.1"
              [demo.riffmm]="6.3.4-riff.0"
