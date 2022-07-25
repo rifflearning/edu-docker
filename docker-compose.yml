@@ -32,6 +32,14 @@ services:
       - edu-mm
       - edu-riffdata
 
+  edu-mpns:
+    image: 'mattermost/mattermost-push-proxy:5.23.0'
+    ports:
+      - '8066:8066'
+    volumes:
+      - edu-mpns-config:/mattermost-push-proxy/config
+      - edu-mpns-certs:/mattermost-push-proxy/certs
+
   edu-riffdata-db:
     image: mongo:${MONGO_VER-latest}
     volumes:
@@ -52,3 +60,5 @@ volumes:
   edu-riffdata-db-data:
   edu-riffdata-db-configdb:
   edu-mm-db-data:
+  edu-mpns-config:
+  edu-mpns-certs:

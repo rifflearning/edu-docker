@@ -42,6 +42,18 @@ services:
       placement:
         constraints: [node.labels.web == true]
 
+  edu-mpns:
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+    configs:
+      - source: riffedu.mattermost-push-proxy.json
+        target: /mattermost-push-proxy/config/mattermost-push-proxy.json
+      - source: apple-push-cert.pem
+        target: /mattermost-push-proxy/certs/apple-push-cert.pem
+
   edu-riffdata-db:
     deploy:
       replicas: 1
@@ -62,4 +74,8 @@ services:
 
 configs:
   riffdata.local-production.yml.1:
+    external: true
+  riffedu.mattermost-push-proxy.json:
+    external: true
+  apple-push-cert.pem:
     external: true
