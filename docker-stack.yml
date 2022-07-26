@@ -51,8 +51,9 @@ services:
     configs:
       - source: riffedu.mattermost-push-proxy.json
         target: /mattermost-push-proxy/config/mattermost-push-proxy.json
-      - source: apple-push-cert.pem
-        target: /mattermost-push-proxy/certs/apple-push-cert.pem
+    secrets:
+      - source: riffedu.apple-push-cert.pem
+        target: riffedu.apple-push-cert.pem
 
   edu-riffdata-db:
     deploy:
@@ -77,5 +78,7 @@ configs:
     external: true
   riffedu.mattermost-push-proxy.json:
     external: true
-  apple-push-cert.pem:
+
+secrets:
+  riffedu.apple-push-cert.pem:
     external: true
