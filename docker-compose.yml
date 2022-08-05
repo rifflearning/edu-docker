@@ -12,25 +12,18 @@ version: '3.7'
 services:
   edu-mm:
     image: 'ghcr.io/rifflearning/edu-docker/riffmm:${RIFFMM_TAG-latest}'
-    depends_on:
-      - edu-mm-db
 
   edu-riffdata:
     image: 'ghcr.io/rifflearning/riff-server/riffdata:${RIFFDATA_TAG-latest}'
     hostname: edu-riffdata
     ports:
       - '3000:3000'
-    depends_on:
-      - edu-riffdata-db
 
   edu-web:
     image: 'ghcr.io/rifflearning/edu-docker/edu-web:latest'
     ports:
       - '80:80'
       - '443:443'
-    depends_on:
-      - edu-mm
-      - edu-riffdata
 
   edu-mpns:
     image: 'mattermost/mattermost-push-proxy:5.23.0'

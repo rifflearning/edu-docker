@@ -18,12 +18,14 @@ SSL_DIR := edu-web/ssl
 # for development, production or deployment in a docker swarm
 CONF_BASE   := docker-compose.yml
 CONF_DEV    := $(CONF_BASE) docker-compose.dev.yml
-CONF_PROD   := $(CONF_BASE) docker-compose.prod.yml
+CONF_DEV_UP := $(CONF_DEV) docker-compose.depends.yml
+CONF_PROD   := $(CONF_BASE) docker-compose.depends.yml docker-compose.prod.yml
 CONF_DEPLOY := $(CONF_PROD) docker-stack.yml
 
-COMPOSE_CONF_DEV := $(patsubst %,-f %,$(CONF_DEV))
-COMPOSE_CONF_PROD := $(patsubst %,-f %,$(CONF_PROD))
-STACK_CONF_DEPLOY := $(patsubst %,-c %,$(CONF_DEPLOY))
+COMPOSE_CONF_DEV    := $(patsubst %,-f %,$(CONF_DEV))
+COMPOSE_CONF_DEV_UP := $(patsubst %,-f %,$(CONF_DEV_UP))
+COMPOSE_CONF_PROD   := $(patsubst %,-f %,$(CONF_PROD))
+STACK_CONF_DEPLOY   := $(patsubst %,-c %,$(CONF_DEPLOY))
 
 # The pull-images target is a helper to update the base docker images used
 # by the edu stack services. This is a list of those base images.
@@ -37,8 +39,7 @@ BASE_IMAGES := \
 # The pull-support-images target is a helper to update the support docker images used
 # by the support stack services. This is a list of those images.
 SUPPORT_IMAGES := \
-	registry:2 \
-	dockersamples/visualizer:stable
+	registry:2
 
 
 # These environment variables are used as deploy arguments by the docker-compose
@@ -130,9 +131,18 @@ dev-server : _start-dev
 dev-mm : SERVICE_NAME = edu-mm ## start a dev container for mm webapp & server
 dev-mm : _start-dev
 
-.PHONY : _start-dev
+dev-mm-min : SERVICE_NAME = edu-mm ## start a dev container (build only) for mm webapp, server and plugins
+dev-mm-min : _start-dev-min
+
+.PHONY : _start-dev # start the specified service and its dependencies
 _start-dev :
 	$(call ndef,SERVICE_NAME)
+	-docker-compose $(COMPOSE_CONF_DEV_UP) run --service-ports $(OPTS) $(SERVICE_NAME) bash
+	-docker-compose rm --force -v
+	-docker-compose stop
+
+.PHONY : _start-dev-min
+_start-dev-min : # start only specified service no dependencies
 	-docker-compose $(COMPOSE_CONF_DEV) run --service-ports $(OPTS) $(SERVICE_NAME) bash
 	-docker-compose rm --force -v
 	-docker-compose stop

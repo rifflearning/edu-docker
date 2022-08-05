@@ -1,0 +1,17 @@
+---
+# Add depends_on configuration for services in the base compose configuration
+# This is used by `make up` so that services are started in dependency order.
+version: '3.7'
+services:
+  edu-mm:
+    depends_on:
+      - edu-mm-db
+
+  edu-riffdata:
+    depends_on:
+      - edu-riffdata-db
+
+  edu-web:
+    depends_on:
+      - edu-mm
+      - edu-riffdata
