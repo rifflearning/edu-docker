@@ -4,11 +4,16 @@
 # env variable(s) MM_USER and MM_UID may be set
 #   (use dockerfile ARG) to override the defaults
 
+# packages needed in base
+# curl: needed for the docker container healthcheck
+# ca-certificates: needed for making any https requests from the mm server
+BASE_PKGS=( curl ca-certificates )
+
 # Update the apt repositories
 apt-get update
 
-# Install curl (needed for the docker container healthcheck)
-apt-get install -y --no-install-recommends curl
+# Install base packages
+apt-get install -y --no-install-recommends "${BASE_PKGS[@]}"
 
 # Clean up apt package cache
 rm -rf /var/lib/apt/lists/*
