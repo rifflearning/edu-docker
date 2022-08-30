@@ -170,7 +170,7 @@ cp -RL ${BUILD_WEBAPP_DIR}/dist/* ${DIST_PATH}/client
 
 # Download MMCTL
 echo Downloading mmctl...
-scripts/download_mmctl_release.sh "Linux" ${DIST_PATH}/bin
+scripts/download_mmctl_release.sh "Linux-x86_64" ${DIST_PATH}/bin
 
 # Help files
 echo Copying over the help files...
