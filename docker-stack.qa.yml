@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: qa.riffedu.com.key.3
+      - source: qa.riffedu.com.key.4
         target: site.key
-      - source: qa.riffedu.com.crt.3
+      - source: qa.riffedu.com.crt.4
         target: site.crt
 
-# Your cert will expire on 2022-08-31 (qa key.3 & crt.3)
+# Your cert will expire on 2022-11-28 (qa key.4 & crt.4)
 secrets:
-  qa.riffedu.com.key.3:
+  qa.riffedu.com.key.4:
     external: true
-  qa.riffedu.com.crt.3:
+  qa.riffedu.com.crt.4:
     external: true
