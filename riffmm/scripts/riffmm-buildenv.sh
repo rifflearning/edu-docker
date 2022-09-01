@@ -5,7 +5,7 @@
 
 # packages needed to install
 INSTALL_PKGS=( curl apt-utils gcc g++ make jq wget gnupg2 ca-certificates dh-autoreconf )
-MM_PKGS=( build-essential libjpeg-dev libpng-dev libtiff-dev libgif-dev git )
+MM_PKGS=( build-essential libjpeg-dev libpng-dev libtiff-dev libgif-dev libelf1 git )
 DEV_PKGS=( vim-tiny )
 
 # Setting found in Stack Overflow answer to:
