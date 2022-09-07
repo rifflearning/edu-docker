@@ -11,7 +11,7 @@
 ################################################################################
 
 # Valid rifflearning service build/push targets
-RIFF_TARGETS=( riffdata riffrtc riffmm edu-web signalmaster )
+RIFF_TARGETS=( riffcollector riffdata riffrtc riffmm edu-web signalmaster )
 
 # Docker image registry to push/pull built images
 IMAGE_REGISTRY=ghcr.io
@@ -30,7 +30,7 @@ Help()
     # Display Help
     echo "Build or push a rifflearning release image"
     echo
-    echo "Syntax: $0 [-h] [-t <token>] [-r <git-ref>] <build | push> <riffdata | riffrtc | riffmm | edu-web | signalmaster>"
+    echo "Syntax: $0 [-h] [-t <token>] [-r <git-ref>] <build | push> <riffcollector | riffdata | riffrtc | riffmm | edu-web | signalmaster>"
     echo "options:"
     echo "r     The git reference (tag or branch) of the source to build into an image"
     echo "      or of the image to push. See the * note below for exceptions."
@@ -71,6 +71,9 @@ SetIMAGE()
     local IMAGE_NAME=
 
     case $1 in
+        riffcollector)
+            IMAGE_NAME="rifflearning/riffcollector"
+            ;;
         riffdata)
             IMAGE_NAME="rifflearning/riff-server/riffdata"
             ;;
@@ -115,6 +118,13 @@ BuildImage()
 
     SetIMAGE $1
     case $1 in
+        riffcollector)
+            CONTEXT="https://${TOKEN}:@github.com/rifflearning/riffcollector.git#${REF}"
+            DOCKERFILE="Dockerfile"
+            BUILD_ARGS=( [NODE_VER]=16
+                         [PORT]=3000
+                       )
+            ;;
         riffdata)
             CONTEXT="https://${TOKEN}:@github.com/rifflearning/riff-server.git#${REF}"
             DOCKERFILE="Dockerfile"
@@ -275,7 +285,13 @@ fi
 ################################################################################
 ################################################################################
 
+# TAG is the REF with leading path removed
 TAG=${REF##*/}
+
+# we don't want the 'v' prefix for a TAG where it is just the prefix to a version number
+# simplistic, but should do, remove any leading 'v', so that v1.0.2 -> 1.0.2
+# as we don't expect to have any TAGs starting w/ 'v' that aren't version numbers
+TAG=${TAG#v}
 
 if [ "${ACTION}" == "build" ]; then
     # Because riffrtc-server and riffrtc-web depend on the local riffrtc-prebuild
@@ -284,6 +300,9 @@ if [ "${ACTION}" == "build" ]; then
     make pull-images
 
     case ${TARGET} in
+        riffcollector)
+            BuildImage riffcollector
+            ;;
         riffdata)
             BuildImage riffdata
             ;;
@@ -308,6 +327,9 @@ if [ "${ACTION}" == "build" ]; then
     esac
 elif [ "${ACTION}" == "push" ]; then
     case ${TARGET} in
+        riffcollector)
+            PushImage riffcollector
+            ;;
         riffdata)
             PushImage riffdata
             ;;
