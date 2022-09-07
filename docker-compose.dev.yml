@@ -34,26 +34,26 @@ services:
       - ${MM_RIFF_VIDEOCHAT_PATH-../riff-plugin-video-chat}:/home/mmuser/riff/riff-plugin-video-chat
       - ${MM_RIFF_METRICS_PATH-../riff-plugin-metrics}:/home/mmuser/riff/riff-plugin-metrics
 
-
-  edu-riffdata:
-    image: 'ghcr.io/rifflearning/riff-server/riffdata:${RIFFDATA_TAG-2.2.1}'
+  edu-riffcollector:
+    image: 'ghcr.io/rifflearning/riffcollector:${RIFFCOLLECTOR_TAG-1.0.0}'
     ports:
       - '3000:3000'
 
-#  The following is just in case you need to be doing development on the riffdata server in
+#  The following is just in case you need to be doing development on the riffcollector in
 #  conjunction w/ edu. This would be unusual.
 #  edu-riffdata:
-#    image: 'rifflearning/riffdata:dev'
+#    image: 'rifflearning/riffcollector:dev'
 #    build:
-#      context: ${RIFF_SERVER_PATH-../riff-server}/docker
-#      dockerfile: Dockerfile-dev
+#      context: ${RIFFCOLLECTOR_PATH-../riffcollector}
+#      dockerfile: Dockerfile
+#      target: dev
 #      args:
-#        NODE_VER: 12
+#        NODE_VER: 16
 #        PORT: 3000
 #    ports:
 #      - '3000:3000'
 #    volumes:
-#      - ${RIFF_SERVER_PATH-../riff-server}:/app
+#      - ${RIFFCOLLECTOR_PATH-../riffcollector}:/app
 
   # Although the dev edu-web is the same as the production edu-web built w/ the release script
   # we give it a dev image name and tag. Also the prod edu-web uses config and volumes that dev doesn't
@@ -73,7 +73,7 @@ services:
 #      - edu-web/ffe8-private_key.json:/etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/ffe85d86a55543ea1d026e0cd44f5050/private_key.json:ro
 #      - edu-web/ceea-private_key.json:/etc/letsencrypt/accounts/acme-staging-v02.api.letsencrypt.org/directory/ceea58b40644ba4347b37bb4736eb377/private_key.json:ro
 
-  edu-riffdata-db:
+  edu-riffcollector-db:
     ports:
       - '27017:27017'
 

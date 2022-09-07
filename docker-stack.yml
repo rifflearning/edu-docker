@@ -21,7 +21,7 @@ services:
       placement:
         constraints: [node.labels.mmapp == true]
 
-  edu-riffdata:
+  edu-riffcollector:
     deploy:
       replicas: 1
       update_config:
@@ -30,7 +30,7 @@ services:
       placement:
         constraints: [node.labels.riffapi == true]
     configs:
-      - source: riffdata.local-production.yml.1
+      - source: riffcollector.local-production.yml.1
         target: /app/config/local-production.yml
 
   edu-web:
@@ -60,7 +60,7 @@ services:
       - source: riffedu.apple-push-cert.pem
         target: riffedu.apple-push-cert.pem
 
-  edu-riffdata-db:
+  edu-riffcollector-db:
     deploy:
       replicas: 1
       update_config:
@@ -79,7 +79,7 @@ services:
         constraints: [node.labels.mmdb == true]
 
 configs:
-  riffdata.local-production.yml.1:
+  riffcollector.local-production.yml.1:
     external: true
   riffedu.mattermost-push-proxy.json:
     external: true

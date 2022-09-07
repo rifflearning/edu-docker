@@ -7,11 +7,11 @@ services:
     depends_on:
       - edu-mm-db
 
-  edu-riffdata:
+  edu-riffcollector:
     depends_on:
-      - edu-riffdata-db
+      - edu-riffcollector-db
 
   edu-web:
     depends_on:
       - edu-mm
-      - edu-riffdata
+      - edu-riffcollector

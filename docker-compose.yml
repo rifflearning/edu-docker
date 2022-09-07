@@ -7,20 +7,20 @@
 #   and are defined in docker-compose.dev.yml
 # - use these env vars to specify the tags for the production images to be deployed:
 #     - RIFFMM_TAG
-#     - RIFFDATA_TAG
+#     - RIFFCOLLECTOR_TAG
 version: '3.7'
 services:
   edu-mm:
     image: 'ghcr.io/rifflearning/edu-docker/riffmm:${RIFFMM_TAG-latest}'
 
-  edu-riffdata:
-    image: 'ghcr.io/rifflearning/riff-server/riffdata:${RIFFDATA_TAG-latest}'
-    hostname: edu-riffdata
+  edu-riffcollector:
+    image: 'ghcr.io/rifflearning/riffcollector:${RIFFCOLLECTOR_TAG-latest}'
+    hostname: edu-riffcollector
     ports:
       - '3000:3000'
 
   edu-web:
-    image: 'ghcr.io/rifflearning/edu-docker/edu-web:latest'
+    image: 'ghcr.io/rifflearning/edu-docker/edu-web:collector'
     ports:
       - '80:80'
       - '443:443'
@@ -38,11 +38,11 @@ services:
       - edu-mpns-config:/mattermost-push-proxy/config
       - edu-mpns-certs:/mattermost-push-proxy/certs
 
-  edu-riffdata-db:
+  edu-riffcollector-db:
     image: mongo:${MONGO_VER-latest}
     volumes:
-      - edu-riffdata-db-data:/data/db
-      - edu-riffdata-db-configdb:/data/configdb
+      - edu-riffcollector-db-data:/data/db
+      - edu-riffcollector-db-configdb:/data/configdb
 
   edu-mm-db:
     image: mysql:5.7
@@ -55,8 +55,8 @@ services:
       - edu-mm-db-data:/var/lib/mysql
 
 volumes:
-  edu-riffdata-db-data:
-  edu-riffdata-db-configdb:
+  edu-riffcollector-db-data:
+  edu-riffcollector-db-configdb:
   edu-mm-db-data:
   edu-mpns-config:
   edu-mpns-certs:
