@@ -53,7 +53,7 @@ SUPPORT_IMAGES := \
 # and docker-stack configuration files.
 DEPLOY_ARGS := \
 	RIFFMM_TAG \
-	RIFFDATA_TAG \
+	RIFFCOLLECTOR_TAG \
 	DEPLOY_SWARM \
 
 # Not sure listing the other env vars that are used by the compose files
