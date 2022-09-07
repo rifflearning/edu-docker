@@ -3,7 +3,7 @@
 # mongo-backup.sh                                                              #
 ################################################################################
 #
-# Backup the riffdata database running in a mongodb docker container
+# Backup the riffcollector database running in a mongodb docker container
 #
 
 # Quick test to see if this script is being sourced
@@ -34,17 +34,17 @@ RIFF_APP=edu
 #  Note: It seems that the ancestor image must be local for it to be recognized ???
 #        so I've replaced the ancestor filter: --filter="ancestor=mongo"
 #        with the volume filter: --filter="volume=pfm-stk_pfm-riffdata-db-data"
-VOLUME_FILTER_edu_PROD="volume=edu-stk_edu-riffdata-db-data"
-VOLUME_FILTER_edu_DEV="volume=edu-docker_edu-riffdata-db-data"
-VOLUME_FILTER_pfm_PROD="volume=pfm-stk_pfm-riffdata-db-data"
-VOLUME_FILTER_pfm_DEV="volume=riff-docker_pfm-riffdata-db-data"
+VOLUME_FILTER_edu_PROD="volume=edu-stk_edu-riffcollector-db-data"
+VOLUME_FILTER_edu_DEV="volume=edu-docker_edu-riffcollector-db-data"
+VOLUME_FILTER_pfm_PROD="volume=pfm-stk_pfm-riffcollector-db-data"
+VOLUME_FILTER_pfm_DEV="volume=riff-docker_pfm-riffcollector-db-data"
 VOLUME_FILTER_RR_PROD=$VOLUME_FILTER_pfm_PROD
 VOLUME_FILTER_AD="volume=analyze-data_anl-riffdata-db-data"
 RIFF_APP_VOL_FILTER=VOLUME_FILTER_${RIFF_APP}_PROD
 MONGO_CNTR_FILTER=${!RIFF_APP_VOL_FILTER}
 
 # default riffdata mongo database name
-DB_NAME_DEFAULT="riff-test"
+DB_NAME_DEFAULT="riff-rawdata"
 
 # default path to the directory where the specified archive should be found
 ARCHIVE_PATH_DEFAULT=~/tmp
@@ -78,7 +78,7 @@ ARCHIVE_APP=$RIFF_APP
 Help()
 {
     # Display Help
-    echo "Backup the riffdata database from a mongodb instance running in a docker container"
+    echo "Backup the riffcollector database from a mongodb instance running in a docker container"
     echo
     echo "The backup archive will be named:"
     echo "  mongodb_${YELLOW}DB_NAME${RESET}.${YELLOW}APP${RESET}.${YELLOW}DEPLOY_SWARM${RESET}.backup-${YELLOW}TIMESTAMP${RESET}.gz"
