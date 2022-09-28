@@ -1,0 +1,17 @@
+---
+# override/additions to docker-stack.yml for deploying to the mitmedialab swarm
+version: '3.7'
+services:
+  edu-web:
+    secrets:
+      - source: mitmedialab.riffedu.com.key.1
+        target: site.key
+      - source: mitmedialab.riffedu.com.crt.1
+        target: site.crt
+
+# Your cert will expire on 2022-12-27 (mitmedialab key.1 & crt.1)
+secrets:
+  mitmedialab.riffedu.com.key.1:
+    external: true
+  mitmedialab.riffedu.com.crt.1:
+    external: true
