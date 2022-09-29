@@ -87,6 +87,8 @@ RIFFMM_VERSIONS=( [1.0.0-dev.1.web]="1.0.0-dev.16"
                   [6.3.8-riff.1.server]="v6.3.8-riff.1"
                   [6.3.10-riff.2.web]="v6.3.8-riff.1"
                   [6.3.10-riff.2.server]="v6.3.10-riff.2"
+                  [6.3.10-riff.3.web]="v6.3.8-riff.1"
+                  [6.3.10-riff.3.server]="v6.3.10-riff.3"
                 )
 
 # Note: We will also want more general tags that get moved, e.g. a tag 5.25-riff which
