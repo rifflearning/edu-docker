@@ -9,6 +9,7 @@
 # Valid swarm names (used to index IMAGE_VERS)
 # keep alphabetical after 'riffai'
 DEPLOY_NAMES=( dev
+               af-mitmedialab
                cambridge
                coachdiversity
                coursera-sbs-oxford
@@ -31,6 +32,8 @@ DEPLOY_NAMES=( dev
 declare -A IMAGE_VERS
 IMAGE_VERS=( [dev.riffmm]="6.3.4-riff.0"
              [dev.riffdata]="2.2.1"
+             [af-mitmedialab.riffmm]="6.3.10-riff.4"
+             [af-mitmedialab.riffdata]="3.0.0"
              [cambridge.riffmm]="6.3.8-riff.1"
              [cambridge.riffdata]="3.0.0"
              [coachdiversity.riffmm]="5.29.1-riff.1"
