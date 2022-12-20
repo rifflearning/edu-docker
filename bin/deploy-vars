@@ -14,7 +14,6 @@ DEPLOY_NAMES=( dev
                coachdiversity
                coursera-sbs-oxford
                demo
-               esme-learning
                gv-mit
                imperial
                mitmedialab
@@ -42,8 +41,6 @@ IMAGE_VERS=( [dev.riffmm]="6.3.4-riff.0"
              [coursera-sbs-oxford.riffdata]="3.0.0"
              [demo.riffmm]="6.3.4-riff.0"
              [demo.riffdata]="2.2.1"
-             [esme-learning.riffmm]="6.3.8-riff.1"
-             [esme-learning.riffdata]="3.0.0"
              [gv-mit.riffmm]="5.29.1-riff.1"
              [gv-mit.riffdata]="2.0.0-dev.11"
              [imperial.riffmm]="6.3.8-riff.1"
