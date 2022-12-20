@@ -11,7 +11,6 @@
 DEPLOY_NAMES=( dev
                af-mitmedialab
                cambridge
-               coachdiversity
                coursera-sbs-oxford
                gv-mit
                imperial
@@ -34,8 +33,6 @@ IMAGE_VERS=( [dev.riffmm]="6.3.4-riff.0"
              [af-mitmedialab.riffdata]="3.0.0"
              [cambridge.riffmm]="6.3.8-riff.1"
              [cambridge.riffdata]="3.0.0"
-             [coachdiversity.riffmm]="5.29.1-riff.1"
-             [coachdiversity.riffdata]="2.2.1"
              [coursera-sbs-oxford.riffmm]="6.3.10-riff.4"
              [coursera-sbs-oxford.riffdata]="3.0.0"
              [gv-mit.riffmm]="5.29.1-riff.1"
