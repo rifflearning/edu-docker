@@ -12,7 +12,6 @@ DEPLOY_NAMES=( dev
                af-mitmedialab
                cambridge
                coursera-sbs-oxford
-               gv-mit
                imperial
                mitmedialab
                mitmedialabbrief
@@ -35,8 +34,6 @@ IMAGE_VERS=( [dev.riffmm]="6.3.4-riff.0"
              [cambridge.riffdata]="3.0.0"
              [coursera-sbs-oxford.riffmm]="6.3.10-riff.4"
              [coursera-sbs-oxford.riffdata]="3.0.0"
-             [gv-mit.riffmm]="5.29.1-riff.1"
-             [gv-mit.riffdata]="2.0.0-dev.11"
              [imperial.riffmm]="6.3.8-riff.1"
              [imperial.riffdata]="3.0.0"
              [mitmedialab.riffmm]="6.3.10-riff.4"
