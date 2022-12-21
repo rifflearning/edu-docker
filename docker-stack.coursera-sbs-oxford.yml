@@ -4,14 +4,14 @@ version: '3.7'
 services:
   edu-web:
     secrets:
-      - source: coursera-sbs-oxford.riffedu.com.key.1
+      - source: coursera-sbs-oxford.riffedu.com.key.2
         target: site.key
-      - source: coursera-sbs-oxford.riffedu.com.crt.1
+      - source: coursera-sbs-oxford.riffedu.com.crt.2
         target: site.crt
 
-# Your cert will expire on 2022-12-27 (coursera-sbs-oxford key.1 & crt.1)
+# Your cert will expire on 2023-03-21 (coursera-sbs-oxford key.2 & crt.2)
 secrets:
-  coursera-sbs-oxford.riffedu.com.key.1:
+  coursera-sbs-oxford.riffedu.com.key.2:
     external: true
-  coursera-sbs-oxford.riffedu.com.crt.1:
+  coursera-sbs-oxford.riffedu.com.crt.2:
     external: true
