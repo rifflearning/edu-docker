@@ -17,7 +17,6 @@ DEPLOY_NAMES=( dev
                mitmedialabbrief
                mitsap
                mitsapsloan
-               mitsapsloanbrief
                qa
                questrom-bu
                said-oxford
@@ -44,8 +43,6 @@ IMAGE_VERS=( [dev.riffmm]="6.3.4-riff.0"
              [mitsap.riffdata]="3.0.0"
              [mitsapsloan.riffmm]="6.3.8-riff.1"
              [mitsapsloan.riffdata]="3.0.0"
-             [mitsapsloanbrief.riffmm]="6.3.8-riff.1"
-             [mitsapsloanbrief.riffdata]="3.0.0"
              [qa.riffmm]="6.3.10-riff.4"
              [qa.riffdata]="3.0.0"
              [questrom-bu.riffmm]="6.3.10-riff.4"
