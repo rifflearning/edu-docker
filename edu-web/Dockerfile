@@ -12,6 +12,10 @@ RUN apt-get update && \
 # Copy the letsencrypt Riff account & deploy hook script
 COPY letsencrypt/ /etc/letsencrypt/
 
+# Copy the script to use certbot to get a new/renew ssl cert for a specified domain
+# expected to be run via "docker exec <cntr-id> get-riffedu-cert.sh <riffedu-domain-name>"
+COPY bin/ /usr/local/bin/
+
 # Copy the self-signed ssl files
 COPY ssl/ /etc/ssl/
 
