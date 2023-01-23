@@ -10,9 +10,16 @@ services:
       - edu-mm-plugins:/home/mmuser/riffedu/plugins
       - edu-mm-client-plugins:/home/mmuser/riffedu/client/plugins
 
+  edu-web:
+    volumes:
+      - edu-web-letsencrypt-data:/etc/letsencrypt
+      - edu-web-nginx-snippets:/etc/nginx/snippets
+
 volumes:
   edu-mm-data:
   edu-mm-logs:
   edu-mm-config:
   edu-mm-plugins:
   edu-mm-client-plugins:
+  edu-web-letsencrypt-data:
+  edu-web-nginx-snippets:
