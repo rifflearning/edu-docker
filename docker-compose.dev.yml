@@ -56,7 +56,7 @@ services:
 #      - ${RIFF_SERVER_PATH-../riff-server}:/app
 
   # Although the dev edu-web is the same as the production edu-web built w/ the release script
-  # we give it a dev image name and tag
+  # we give it a dev image name and tag. Also the prod edu-web uses config and volumes that dev doesn't
   edu-web:
     image: 'rifflearning/edu-web:dev'
     build:
@@ -64,6 +64,14 @@ services:
       dockerfile: Dockerfile
       args:
         NGINX_VER: latest
+# If you need to get and use letsencrypt certs on your dev machine you will need some form of
+# these volumes. The ones to preserve the certs and nginx config changes after a container is removed
+# and recreated (as is done for prod), and ones to inject the private key for the letsencrypt riff accounts.
+#    volumes:
+#      - letsencrypt-data:/etc/letsencrypt
+#      - nginx-snippets:/etc/nginx/snippets
+#      - edu-web/ffe8-private_key.json:/etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/ffe85d86a55543ea1d026e0cd44f5050/private_key.json:ro
+#      - edu-web/ceea-private_key.json:/etc/letsencrypt/accounts/acme-staging-v02.api.letsencrypt.org/directory/ceea58b40644ba4347b37bb4736eb377/private_key.json:ro
 
   edu-riffdata-db:
     ports:

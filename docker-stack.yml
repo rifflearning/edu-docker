@@ -41,6 +41,11 @@ services:
         delay: 10s
       placement:
         constraints: [node.labels.web == true]
+    configs:
+      - source: letsencrypt-riff-acct.ffe85.private_key.json
+        target: /etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/ffe85d86a55543ea1d026e0cd44f5050/private_key.json
+      - source: letsencrypt-riff-test-acct.ceea5.private_key.json
+        target: /etc/letsencrypt/accounts/acme-staging-v02.api.letsencrypt.org/directory/ceea58b40644ba4347b37bb4736eb377/private_key.json
 
   edu-mpns:
     deploy:
@@ -77,6 +82,10 @@ configs:
   riffdata.local-production.yml.1:
     external: true
   riffedu.mattermost-push-proxy.json:
+    external: true
+  letsencrypt-riff-acct.ffe85.private_key.json:
+    external: true
+  letsencrypt-riff-test-acct.ceea5.private_key.json:
     external: true
 
 secrets:
