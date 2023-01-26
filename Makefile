@@ -20,7 +20,14 @@ CONF_BASE   := docker-compose.yml
 CONF_DEV    := $(CONF_BASE) docker-compose.dev.yml
 CONF_DEV_UP := $(CONF_DEV) docker-compose.depends.yml
 CONF_PROD   := $(CONF_BASE) docker-compose.depends.yml docker-compose.prod.yml
-CONF_DEPLOY := $(CONF_PROD) docker-stack.yml
+
+# check for a DEPLOY_SWARM specific config file so we can add it to CONF_DEPLOY only if it exists
+CONF_DEPLOY_SWARM := docker-stack.$(DEPLOY_SWARM).yml
+ifeq ($(wildcard $(CONF_DEPLOY_SWARM)),)
+	CONF_DEPLOY_SWARM :=
+endif
+
+CONF_DEPLOY := $(CONF_PROD) docker-stack.yml $(CONF_DEPLOY_SWARM)
 
 COMPOSE_CONF_DEV    := $(patsubst %,-f %,$(CONF_DEV))
 COMPOSE_CONF_DEV_UP := $(patsubst %,-f %,$(CONF_DEV_UP))
@@ -119,7 +126,7 @@ build-dev : $(SSL_FILES) ## (re)build the dev images pulling the latest base ima
 deploy-stack : ## deploy the edu-stk stack defined by compose/stack config and env var tags
 # require that the DEPLOY_SWARM be explicitly defined.
 	$(call ndef,DEPLOY_SWARM)
-	docker stack deploy $(STACK_CONF_DEPLOY) -c docker-stack.$(DEPLOY_SWARM).yml --with-registry-auth edu-stk
+	docker stack deploy $(STACK_CONF_DEPLOY) --with-registry-auth edu-stk
 
 pull-images : ## Update base docker images
 	echo $(BASE_IMAGES) | xargs -n 1 docker pull
