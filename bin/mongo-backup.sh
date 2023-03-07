@@ -164,5 +164,5 @@ read -rsp $'Press any key to continue or Ctrl-C to abort\n' -n1 key
 echo
 docker exec -t ${MONGO_CONTAINER} mongodump --db=${DATABASE_NAME} --gzip --archive=/data/${ARCHIVE_NAME}
 docker exec -t ${MONGO_CONTAINER} ls -lrt /data
-docker cp ${MONGO_CONTAINER}:/data/${ARCHIVE_NAME} ${ARCHIVE_PATH}
+docker cp --quiet ${MONGO_CONTAINER}:/data/${ARCHIVE_NAME} ${ARCHIVE_PATH}
 docker exec -t ${MONGO_CONTAINER} rm /data/${ARCHIVE_NAME}
