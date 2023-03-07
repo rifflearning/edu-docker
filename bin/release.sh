@@ -121,7 +121,7 @@ BuildImage()
         riffcollector)
             CONTEXT="https://${TOKEN}:@github.com/rifflearning/riffcollector.git#${REF}"
             DOCKERFILE="Dockerfile"
-            BUILD_ARGS=( [NODE_VER]=16
+            BUILD_ARGS=( [NODE_VER]=18
                          [PORT]=3000
                        )
             ;;
