@@ -8,6 +8,8 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+export HISTCONTROL=ignoreboth
+
 servicename=mm-dev
 PS1='\[\033[00;33m\]('${servicename}') \[\033[01;33m\]\u\[\033[00;37m\] \w \[\033[01;36m\]\$\[\033[00m\] '
 unset servicename
