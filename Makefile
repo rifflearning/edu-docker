@@ -144,15 +144,12 @@ dev-mm-min : _start-dev-min
 .PHONY : _start-dev # start the specified service and its dependencies
 _start-dev :
 	$(call ndef,SERVICE_NAME)
-	-docker-compose $(COMPOSE_CONF_DEV_UP) run --service-ports $(OPTS) $(SERVICE_NAME) bash
-	-docker-compose rm --force -v
+	-docker-compose $(COMPOSE_CONF_DEV_UP) run --rm --service-ports $(OPTS) $(SERVICE_NAME) bash
 	-docker-compose stop
 
 .PHONY : _start-dev-min
 _start-dev-min : # start only specified service no dependencies
-	-docker-compose $(COMPOSE_CONF_DEV) run --service-ports $(OPTS) $(SERVICE_NAME) bash
-	-docker-compose rm --force -v
-	-docker-compose stop
+	-docker-compose $(COMPOSE_CONF_DEV) run --rm --service-ports $(OPTS) $(SERVICE_NAME) bash
 
 # The build-init-image is a node based docker image used by the init-* targets
 # which are for initializing dev images for building edu components (such as
